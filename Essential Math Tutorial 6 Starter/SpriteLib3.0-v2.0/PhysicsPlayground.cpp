@@ -117,7 +117,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	smallOctogonRoom(0, 0, true, false, true, true);
 	largeOctogonRoom(300,0, true, false, true, false);
+	smallOctogonRoom(580, 0, true, true, true, false);
 	smallCorridor(105, 0, 0);
+	smallCorridor(460, 0, 0);
 
 	//Setup trigger
 	{
@@ -213,8 +215,8 @@ void PhysicsPlayground::largeOctogonRoom(int xPos, int yPos, bool north, bool ea
 		makeBox(160, 10, xPos + 0, yPos + 140, 0);
 	}
 	else {
-		makeBox(40, 10, xPos + 60, yPos + 140, 0);
-		makeBox(40, 10, xPos + -60, yPos + 140, 0);
+		makeBox(60, 10, xPos + 60, yPos + 140, 0);
+		makeBox(60, 10, xPos + -60, yPos + 140, 0);
 
 		makeBox(50, 10, xPos + 30, yPos + 160, 90);
 		makeBox(50, 10, xPos - 30, yPos + 160, 90);
@@ -223,8 +225,8 @@ void PhysicsPlayground::largeOctogonRoom(int xPos, int yPos, bool north, bool ea
 		makeBox(160, 10, xPos + 140, yPos + 0, 90);
 	}
 	else {
-		makeBox(40, 10, xPos + 140, yPos  + 60, 90);
-		makeBox(40, 10, xPos + 140, yPos + -60 , 90);
+		makeBox(60, 10, xPos + 140, yPos  + 60, 90);
+		makeBox(60, 10, xPos + 140, yPos + -60 , 90);
 
 		makeBox(50, 10, xPos + 160, yPos + 30, 0);
 		makeBox(50, 10, xPos + 160, yPos - 30, 0);
@@ -233,8 +235,8 @@ void PhysicsPlayground::largeOctogonRoom(int xPos, int yPos, bool north, bool ea
 		makeBox(160, 10, xPos + 0, yPos + -140, 0);
 	}
 	else {
-		makeBox(40, 10, xPos + 60, yPos + -140, 0);
-		makeBox(40, 10, xPos + -60, yPos + -140, 0);
+		makeBox(60, 10, xPos + 60, yPos + -140, 0);
+		makeBox(60, 10, xPos + -60, yPos + -140, 0);
 
 		makeBox(50, 10, xPos + 30, yPos + -160, 90);
 		makeBox(50, 10, xPos - 30, yPos + -160, 90);
@@ -243,16 +245,16 @@ void PhysicsPlayground::largeOctogonRoom(int xPos, int yPos, bool north, bool ea
 		makeBox(160, 10, xPos + -140, yPos + 0, 90);
 	}
 	else {
-		makeBox(40, 10, xPos + -140, yPos + 60, 90);
-		makeBox(40, 10, xPos + -140, yPos + -60, 90);
+		makeBox(60, 10, xPos + -140, yPos + 60, 90);
+		makeBox(60, 10, xPos + -140, yPos + -60, 90);
 
 		makeBox(50, 10, xPos + -160, yPos + 30, 0);
 		makeBox(50, 10, xPos + -160, yPos + -30, 0);
 	}
-	makeBox(140, 10, xPos + 120, yPos + 120, -45);
-	makeBox(140, 10, xPos + -120, yPos + 120, 45);
-	makeBox(140, 10, xPos + -120, yPos + -120, -45);
-	makeBox(140, 10, xPos + 120, yPos + -120, 45);
+	makeBox(100, 10, xPos + 110, yPos + 110, -45);
+	makeBox(100, 10, xPos + -110, yPos + 110, 45);
+	makeBox(100, 10, xPos + -110, yPos + -110, -45);
+	makeBox(100, 10, xPos + 110, yPos + -110, 45);
 }
 
 void PhysicsPlayground::smallCorridor(int xPos, int yPos, float rotation) {
@@ -269,41 +271,50 @@ void PhysicsPlayground::Update()
 void PhysicsPlayground::KeyboardHold()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
-
-	float speed = 1.f;
+	float speed = 75.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
-
+	std::cout << "\n" << player.GetBody()->GetLinearVelocity().x << ",\t" << player.GetBody()->GetLinearVelocity().y << "\t";
 	if (Input::GetKey(Key::Shift))
 	{
-		speed *= 5.f;
+		speed *= 2.f;
 	}
+
 	if (Input::GetKey(Key::W))
 	{
-		player.GetBody()->ApplyForceToCenter(b2Vec2(0.f, 400000.f * speed), true);
+		vel.y += Timer::deltaTime;
+		//vel += b2Vec2(0.f, 8.f * Timer::deltaTime);
 	}
 	if (Input::GetKey(Key::S))
 	{
-		player.GetBody()->ApplyForceToCenter(b2Vec2(0.f, -400000.f * speed), true);
+		vel.y += -Timer::deltaTime;
+		//vel += b2Vec2(0.f, -8.f * Timer::deltaTime);
 	}
+
 	if (Input::GetKey(Key::A))
 	{
-		player.GetBody()->ApplyForceToCenter(b2Vec2(-400000.f * speed, 0.f), true);
+		vel.x += -Timer::deltaTime;
+		//vel += b2Vec2(-8.f * Timer::deltaTime, 0.f);
 	}
 	if (Input::GetKey(Key::D))
 	{
-		player.GetBody()->ApplyForceToCenter(b2Vec2(400000.f * speed, 0.f), true);
+		vel.x += Timer::deltaTime;
+		//vel += b2Vec2(8.f * Timer::deltaTime, 0.f);
 	}
+
+	player.GetBody()->SetLinearVelocity(speed * vel + b2Vec2(player.GetBody()->GetLinearVelocity().x * 0.98f, player.GetBody()->GetLinearVelocity().y * 0.98f));
+	//player.GetBody()->SetLinearVelocity(speed * vel);
 
 	//Change physics body size for circle
 	if (Input::GetKey(Key::O))
 	{
-		player.ScaleBody(1.3 * Timer::deltaTime, 0);
+		player.ScaleBody(1.3f * Timer::deltaTime, 0);
 	}
 	else if (Input::GetKey(Key::I))
 	{
-		player.ScaleBody(-1.3 * Timer::deltaTime, 0);
+		player.ScaleBody(-1.3f * Timer::deltaTime, 0);
 	}
 }
+
 
 void PhysicsPlayground::KeyboardDown()
 {
