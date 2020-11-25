@@ -115,11 +115,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetGravityScale(0.f);
 	}
 
-	smallOctogonRoom(0, 0, true, false, true, true);
-	largeOctogonRoom(300,0, true, false, true, false);
-	smallOctogonRoom(580, 0, true, true, true, false);
-	smallCorridor(105, 0, 0);
-	smallCorridor(460, 0, 0);
+	makePolygon(0,0,0);
 
 	//Setup trigger
 	{
@@ -191,82 +187,10 @@ void PhysicsPlayground::makeBox(int xSize, int ySize, float xPos, float yPos, fl
 	tempPhsBody.SetRotationAngleDeg(rotation);
 }
 
-void PhysicsPlayground::smallOctogonRoom(int xPos, int yPos, bool north, bool east, bool south, bool west) {
-	if (north == true) {
-		makeBox(80, 10, xPos + 0, yPos + 80, 0);
-	}
-	if (east == true) {
-		makeBox(80, 10, xPos + 80, yPos + 0, 90);
-	}
-	if (south == true) {
-		makeBox(80, 10, xPos + 0, yPos + -80, 0);
-	}
-	if (west == true) {
-		makeBox(80, 10, xPos + -80, yPos + 0, 90);
-	}
-	makeBox(80, 10, xPos + 60, yPos + 60, -45);
-	makeBox(80, 10, xPos + -60, yPos + 60, 45);
-	makeBox(80, 10, xPos + -60, yPos + -60, -45);
-	makeBox(80, 10, xPos + 60, yPos + -60, 45);
-}
-
-void PhysicsPlayground::largeOctogonRoom(int xPos, int yPos, bool north, bool east, bool south, bool west) {
-	if (north == true) {
-		makeBox(160, 10, xPos + 0, yPos + 140, 0);
-	}
-	else {
-		makeBox(60, 10, xPos + 60, yPos + 140, 0);
-		makeBox(60, 10, xPos + -60, yPos + 140, 0);
-
-		makeBox(50, 10, xPos + 30, yPos + 160, 90);
-		makeBox(50, 10, xPos - 30, yPos + 160, 90);
-	}
-	if (east == true) {
-		makeBox(160, 10, xPos + 140, yPos + 0, 90);
-	}
-	else {
-		makeBox(60, 10, xPos + 140, yPos  + 60, 90);
-		makeBox(60, 10, xPos + 140, yPos + -60 , 90);
-
-		makeBox(50, 10, xPos + 160, yPos + 30, 0);
-		makeBox(50, 10, xPos + 160, yPos - 30, 0);
-	}
-	if (south == true) {
-		makeBox(160, 10, xPos + 0, yPos + -140, 0);
-	}
-	else {
-		makeBox(60, 10, xPos + 60, yPos + -140, 0);
-		makeBox(60, 10, xPos + -60, yPos + -140, 0);
-
-		makeBox(50, 10, xPos + 30, yPos + -160, 90);
-		makeBox(50, 10, xPos - 30, yPos + -160, 90);
-	}
-	if (west == true) {
-		makeBox(160, 10, xPos + -140, yPos + 0, 90);
-	}
-	else {
-		makeBox(60, 10, xPos + -140, yPos + 60, 90);
-		makeBox(60, 10, xPos + -140, yPos + -60, 90);
-
-		makeBox(50, 10, xPos + -160, yPos + 30, 0);
-		makeBox(50, 10, xPos + -160, yPos + -30, 0);
-	}
-	makeBox(100, 10, xPos + 110, yPos + 110, -45);
-	makeBox(100, 10, xPos + -110, yPos + 110, 45);
-	makeBox(100, 10, xPos + -110, yPos + -110, -45);
-	makeBox(100, 10, xPos + 110, yPos + -110, 45);
-}
-
-void PhysicsPlayground::smallCorridor(int xPos, int yPos, float rotation) {
-	makeBox(50, 10, xPos + 10, yPos + 30, rotation);
-	makeBox(50, 10, xPos + 10, yPos + -30, rotation);
-}
-
 void PhysicsPlayground::Update()
 {
 	
 }
-
 
 void PhysicsPlayground::KeyboardHold()
 {
