@@ -29,4 +29,5 @@ protected:
 	PhysicsPlaygroundListener listener;
 
 	int ball = 0;
+	int alien;
 };
