@@ -1,5 +1,7 @@
 #include "PhysicsPlayground.h"
 #include "Utilities.h"
+#include "RayCastCallback.h"
+#include <Box2d/Dynamics/b2Fixture.h>
 using namespace std;
 #include <random>
 
@@ -65,6 +67,40 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Sprite>(entity).SetTransparency(0.5f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
 	}
+
+	//Setup raycast marker
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		rayMarker = entity;
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "BeachBall.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 5, 5);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
+	}
+
+	//Setup Alien Sprite
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		alienSpr = entity;
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "XenomorphRoughDraft.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 30);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
+	}
 	
 	//Player entity
 	{
@@ -81,7 +117,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		//Sets up the components
 		std::string fileName = "astronautsprite.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 30);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 25);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
 
@@ -89,7 +125,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
 		float shrinkX = 0.f;
-		float shrinkY = 0.f;
+		float shrinkY = 5.f;
 
 		b2Body* tempBody;
 		b2BodyDef tempDef;
@@ -105,6 +141,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(0.f);
+		
 	}
 
 
@@ -115,7 +152,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		auto entity = ECS::CreateEntity();
 		alien = entity;
-
+		
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
@@ -124,10 +161,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		//Sets up the components
 		std::string fileName = "XenomorphRoughDraft.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 30);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
-
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 0.f));
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
@@ -138,12 +174,12 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
 		tempDef.position.Set(float32(0.f), float32(70.f));
-
+		
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		//Sphere body
-		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY) / 2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
-
+		//Box body
+		std::vector<b2Vec2> points = { b2Vec2(-tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f),b2Vec2(tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 2.f), b2Vec2(tempSpr.GetWidth() / 2.f, tempSpr.GetHeight() / 2.f),b2Vec2(-tempSpr.GetWidth() / 2.f,tempSpr.GetHeight() / 2.f) };
+		tempPhsBody = PhysicsBody(entity, BodyType::BOX, tempBody, points, vec2(0.f, 0.f), false, OBJECTS, ENEMY | PLAYER | PICKUP | TRIGGER, 0.5f, 3.f);
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
@@ -377,10 +413,10 @@ void MoveTo(int alien,float sX,float sY)
 	direction = b2Vec2(direction.x / distance, direction.y / distance);
 
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
-	ali.GetBody()->SetLinearVelocity(b2Vec2(direction.x * Timer::deltaTime *4000, direction.y * Timer::deltaTime * 4000));
+	ali.GetBody()->SetLinearVelocity(b2Vec2(direction.x * Timer::deltaTime *6000, direction.y * Timer::deltaTime * 6000));
 
 	
-	std::cout << "\n" << direction.x << ",\t" <<direction.y << "\t";
+	//std::cout << "\n" << direction.x << ",\t" <<direction.y << "\t";
 
 
 }
@@ -414,49 +450,180 @@ void FindNextPosition(int alien)
 		}
 
 }
-
-void Chase(int alien)
+int aCounter = 0;
+void Chase(int alien,b2World* m_physicsWorld)
 {
+	aCounter = 0;
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	float dodgeX = 1;
+	float dodgeY = 1;
+	RayCastCallback dodgeRay;
+	int maxRayIndex = 0;
+	b2Vec2 newDirections[16] = { b2Vec2(0,-1),b2Vec2(0,1),b2Vec2(-1,0),b2Vec2(1,0),b2Vec2(1,1),b2Vec2(1,-1),b2Vec2(-1,-1),b2Vec2(-1,1),b2Vec2(0.5f,-1),b2Vec2(0.5f,1),b2Vec2(-1,0.5f),b2Vec2(1,0.5f),b2Vec2(0.5f,0.5f),b2Vec2(0.5f,-0.5f),b2Vec2(-0.5f,-0.5f),b2Vec2(-0.5f,0.5f) };
+
+	for (int i = 0; i < 16; i++)
+	{
+		m_physicsWorld->RayCast(&dodgeRay, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), ali.GetBody()->GetWorldPoint(b2Vec2(newDirections[i].x * 10000, newDirections[i].y * 10000)));
+		b2Vec2 direction = (b2Vec2(dodgeRay.m_point.x, dodgeRay.m_point.y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
+		float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
+		if (dodgeRay.m_fixture->GetBody() != player.GetBody())
+		{
+			if (distance < 25)
+			{
+				dodgeX = -1;
+				dodgeY = -1;
+
+
+			}
+			
+
+
+		}
+	}
+	RayCastCallback toPlayer;
+	m_physicsWorld->RayCast(&toPlayer, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
+
 	startPosX = ali.GetBody()->GetPosition().x;
 	startPosY = ali.GetBody()->GetPosition().y;
-	tarX = player.GetBody()->GetPosition().x;
-	tarY = player.GetBody()->GetPosition().y;
+	tarX = player.GetBody()->GetPosition().x ;
+	tarY = player.GetBody()->GetPosition().y ;
 
-	//if ((int)ali.GetBody()->GetPosition().x == (int)tarX && (int)ali.GetBody()->GetPosition().y == (int)tarY)
-	//{
-	//	startPosX = ali.GetBody()->GetPosition().x;
-	//	startPosY = ali.GetBody()->GetPosition().y;
-
-
-
-	//}
-
-	//if ((int)ali.GetBody()->GetLinearVelocity().x < 2 && (int)ali.GetBody()->GetLinearVelocity().y < 2)
-	//{
-	//	startPosX = ali.GetBody()->GetPosition().x;
-	//	startPosY = ali.GetBody()->GetPosition().y;
-
-
-	//}
 
 }
 
+void Dodge(int alien,b2World* m_physicsWorld)
+{
+	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
+	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	RayCastCallback dodgeRay;
+	int maxRayIndex = 0;
+	float dodgeX = 1;
+	float dodgeY = 1;
+	float adjustX = 0;
+	float adjustY = 0;
+
+	float maxDist = -10000;
+	//int ranDir = rand() % 16;
+	b2Vec2 newDirections[16] = {b2Vec2(0,-1),b2Vec2(0,1),b2Vec2(-1,0),b2Vec2(1,0),b2Vec2(1,1),b2Vec2(1,-1),b2Vec2(-1,-1),b2Vec2(-1,1),b2Vec2(0.5f,-1),b2Vec2(0.5f,1),b2Vec2(-1,0.5f),b2Vec2(1,0.5f),b2Vec2(0.5f,0.5f),b2Vec2(0.5f,-0.5f),b2Vec2(-0.5f,-0.5f),b2Vec2(-0.5f,0.5f) };
+	RayCastCallback targetRay;
+
+
+		for (int i = 0; i < 16; i++)
+		{
+			m_physicsWorld->RayCast(&dodgeRay, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), ali.GetBody()->GetWorldPoint(b2Vec2(newDirections[i].x * 10000, newDirections[i].y * 10000)));
+			b2Vec2 direction = (b2Vec2(dodgeRay.m_point.x, dodgeRay.m_point.y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
+			float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
+
+			b2Vec2 direction2 = (b2Vec2(player.GetBody()->GetPosition().x, player.GetBody()->GetPosition().y) - b2Vec2(dodgeRay.m_point.x, dodgeRay.m_point.y));
+			float distance2 = sqrt(direction2.x * direction2.x + direction2.y * direction2.y);
+
+			float distance3 = distance - distance2;
+			if (distance > maxDist)
+			{
+				maxDist = distance;
+				maxRayIndex = i;
+			}
+
+
+
+			if (dodgeRay.m_fixture->GetBody() != player.GetBody())
+			{
+				if (distance < 25)
+				{
+					dodgeX = -1;
+					dodgeY = -1;
+				}
+			}
+
+		}
+
+
+			
+
+		RayCastCallback toPlayer;
+		m_physicsWorld->RayCast(&targetRay, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), ali.GetBody()->GetWorldPoint(b2Vec2(newDirections[maxRayIndex].x * 10000, newDirections[maxRayIndex].y * 10000)));
+		m_physicsWorld->RayCast(&toPlayer, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
+
+		b2Vec2 direction4 = (b2Vec2(toPlayer.m_point.x, toPlayer.m_point.y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
+		float distance4 = sqrt(direction4.x * direction4.x + direction4.y * direction4.y);
+
+		startPosX = ali.GetBody()->GetPosition().x;
+		startPosY = ali.GetBody()->GetPosition().y;
+		tarX = player.GetBody()->GetPosition().x + targetRay.m_point.x + (toPlayer.m_normal.y * -5000);
+		tarY = player.GetBody()->GetPosition().y + targetRay.m_point.y + (toPlayer.m_normal.x * 5000);
+
+
+
+
+
+}
+
+
 void PhysicsPlayground::Update()
 {
+	RayCastCallback cb;
+	auto& rayM = ECS::GetComponent<Transform>(rayMarker);
+	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
+	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+
+	
+	ali.GetBody()->SetAngularVelocity(300.f * Timer::deltaTime);
+
+	m_physicsWorld->RayCast(&cb, ali.GetBody()->GetWorldPoint(b2Vec2(0,0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
+
+	//Raycast Visualization
+	rayM.SetPosition(cb.m_point.x, cb.m_point.y, 5);
 
 	//FindNextPosition(alien);
-	Chase(alien);
+
+	
+
+//If player and alien are on the same tile:
+	if (cb.m_fixture->GetBody() == player.GetBody())
+	{
+		if (aCounter >= 1)
+		{
+			Dodge(alien, m_physicsWorld);
+			aCounter -= 1 *Timer::deltaTime;
+		}
+		else
+		{
+			Chase(alien, m_physicsWorld);
+			cout << "\nAlien Sees Player";
+
+		}
+
+	}
+
+	else
+	{
+
+		cout << "\n";
+
+		aCounter = 150;
+
+
+		
+		Dodge(alien, m_physicsWorld);
+
+
+	}
+
+
 	MoveTo(alien,startPosX,startPosY);
 }
 
 void PhysicsPlayground::KeyboardHold()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
+	auto& aliSpr = ECS::GetComponent<Transform>(alienSpr);
 	float speed = 75.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
-	//std::cout << "\n" << player.GetBody()->GetLinearVelocity().x << ",\t" << player.GetBody()->GetLinearVelocity().y << "\t";
+	
+	aliSpr.SetPosition(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y, 2.f);
+
 	if (Input::GetKey(Key::Shift))
 	{
 		speed *= 2.f;
@@ -490,11 +657,11 @@ void PhysicsPlayground::KeyboardHold()
 	//Change physics body size for circle
 	if (Input::GetKey(Key::O))
 	{
-		player.ScaleBody(1.3f * Timer::deltaTime, 0);
+		ali.ScaleBody(1.3f * Timer::deltaTime, 0);
 	}
 	else if (Input::GetKey(Key::I))
 	{
-		player.ScaleBody(-1.3f * Timer::deltaTime, 0);
+		ali.ScaleBody(-1.3f * Timer::deltaTime, 0);
 	}
 }
 

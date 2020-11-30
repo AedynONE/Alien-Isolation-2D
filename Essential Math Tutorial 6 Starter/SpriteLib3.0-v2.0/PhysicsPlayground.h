@@ -30,4 +30,6 @@ protected:
 
 	int ball = 0;
 	int alien;
+	int rayMarker;
+	int alienSpr;
 };
