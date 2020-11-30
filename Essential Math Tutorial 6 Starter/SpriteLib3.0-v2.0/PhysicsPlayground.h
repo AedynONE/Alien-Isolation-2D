@@ -10,7 +10,7 @@ public:
 
 	void InitScene(float windowWidth, float windowHeight) override;
 	void makeBox(int xSize, int ySize, float xPos, float yPos, float rotation);
-
+	void thickCorner(int xPos, int yPos, float rotation);
 	void smallOctogonRoom(int xPos, int yPos);
 	void smallOctogonCorner(int xPos, int yPos, float rotation);
 	void largeOctogonRoom(int xPos, int yPos, bool north, bool east, bool south, bool west);

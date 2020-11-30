@@ -186,8 +186,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetGravityScale(0.f);
 	}
 	
-	largeOctogonRoom(0, 0, true, true, true, true);
-	smallOctogonRoom(0, 0);
+	//largeOctogonRoom(0, 0, true, true, true, true);
+	//smallOctogonRoom(0, 0);
+	thickCorner(100, 100, 0);
 
 	/*
 	//Setup trigger
@@ -273,7 +274,48 @@ void PhysicsPlayground::smallOctogonRoom(int xPos, int yPos) {
 	smallOctogonCorner(xPos + -32, yPos + 32, 90);
 	smallOctogonCorner(xPos + -32, yPos + -32, 180);
 }
+void PhysicsPlayground::thickCorner(int xPos, int yPos, float rotation) {
+	//Creates entity
+	auto entity = ECS::CreateEntity();
 
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+
+	//Sets up components
+	std::string fileName = "Isolation 2D/thickish corner bottom left.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 128, 128);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(xPos, yPos, 2.f));
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.position.Set(float32(xPos), float32(yPos));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	//Custom body
+	// The program detects these points clockwise, so top of the triangle, bottom right, bottom left. box 2d is counter clockwise
+	std::vector<b2Vec2> points = {
+		b2Vec2(-tempSpr.GetWidth() / 2.f,tempSpr.GetHeight() / 2),
+		b2Vec2(-tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 2),
+		b2Vec2(tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 2),
+		b2Vec2(tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 4),
+		b2Vec2(tempSpr.GetWidth() / 4.f,-tempSpr.GetHeight() / 4),
+		b2Vec2(0,0),
+		b2Vec2(-tempSpr.GetWidth() / 4.f,tempSpr.GetHeight() / 4),
+		b2Vec2(-tempSpr.GetWidth() / 4.f,tempSpr.GetHeight() / 2)
+	};
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+
+	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	tempPhsBody.SetRotationAngleDeg(rotation);
+}
 void PhysicsPlayground::thickDiagonalOctogon(int xPos, int yPos, float rotation) {
 	//Creates entity
 	auto entity = ECS::CreateEntity();
@@ -467,19 +509,22 @@ void Chase(int alien,b2World* m_physicsWorld)
 		m_physicsWorld->RayCast(&dodgeRay, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), ali.GetBody()->GetWorldPoint(b2Vec2(newDirections[i].x * 10000, newDirections[i].y * 10000)));
 		b2Vec2 direction = (b2Vec2(dodgeRay.m_point.x, dodgeRay.m_point.y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
 		float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
-		if (dodgeRay.m_fixture->GetBody() != player.GetBody())
-		{
-			if (distance < 25)
-			{
-				dodgeX = -1;
-				dodgeY = -1;
+		if (dodgeRay.m_fixture) {
+			if (dodgeRay.m_fixture->GetBody() != player.GetBody())
+				{
+					if (distance < 25)
+					{
+						dodgeX = -1;
+						dodgeY = -1;
 
 
-			}
+					}
 			
 
 
+			}
 		}
+		
 	}
 	RayCastCallback toPlayer;
 	m_physicsWorld->RayCast(&toPlayer, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
