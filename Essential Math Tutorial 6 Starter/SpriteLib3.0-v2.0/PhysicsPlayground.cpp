@@ -188,7 +188,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	
 	//largeOctogonRoom(0, 0, true, true, true, true);
 	//smallOctogonRoom(0, 0);
-	thickCorner(100, 100, 0);
+	thickCorner(0, 0, 270);
 
 	/*
 	//Setup trigger
@@ -274,7 +274,7 @@ void PhysicsPlayground::smallOctogonRoom(int xPos, int yPos) {
 	smallOctogonCorner(xPos + -32, yPos + 32, 90);
 	smallOctogonCorner(xPos + -32, yPos + -32, 180);
 }
-void PhysicsPlayground::thickCorner(int xPos, int yPos, float rotation) {
+void PhysicsPlayground::thickCorner1(int xPos, int yPos, float rotation) {
 	//Creates entity
 	auto entity = ECS::CreateEntity();
 
@@ -305,16 +305,33 @@ void PhysicsPlayground::thickCorner(int xPos, int yPos, float rotation) {
 		b2Vec2(-tempSpr.GetWidth() / 2.f,tempSpr.GetHeight() / 2),
 		b2Vec2(-tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 2),
 		b2Vec2(tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 2),
-		b2Vec2(tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 4),
-		b2Vec2(tempSpr.GetWidth() / 4.f,-tempSpr.GetHeight() / 4),
-		b2Vec2(0,0),
-		b2Vec2(-tempSpr.GetWidth() / 4.f,tempSpr.GetHeight() / 4),
-		b2Vec2(-tempSpr.GetWidth() / 4.f,tempSpr.GetHeight() / 2)
 	};
 	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
+}
+void PhysicsPlayground::thickCorner(int xPos, int yPos, float rotation) {
+	if (rotation == 0) {
+		thickCorner1(xPos, yPos, rotation);
+		makeBox(32, 32, xPos - 48, yPos + 48, 0);
+		makeBox(32, 32, xPos + 48, yPos - 48, 0);
+	}
+	if (rotation == 90) {
+		thickCorner1(xPos, yPos, rotation);
+		makeBox(32, 32, xPos + 48, yPos + 48, 0);
+		makeBox(32, 32, xPos - 48, yPos - 48, 0);
+	}
+	if (rotation == 180) {
+		thickCorner1(xPos, yPos, rotation);
+		makeBox(32, 32, xPos - 48, yPos + 48, 0);
+		makeBox(32, 32, xPos + 48, yPos - 48, 0);
+	}
+	if (rotation == 270) {
+		thickCorner1(xPos, yPos, rotation);
+		makeBox(32, 32, xPos + 48, yPos + 48, 0);
+		makeBox(32, 32, xPos - 48, yPos - 48, 0);
+	}
 }
 void PhysicsPlayground::thickDiagonalOctogon(int xPos, int yPos, float rotation) {
 	//Creates entity
@@ -455,7 +472,7 @@ void MoveTo(int alien,float sX,float sY)
 	direction = b2Vec2(direction.x / distance, direction.y / distance);
 
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
-	ali.GetBody()->SetLinearVelocity(b2Vec2(direction.x * Timer::deltaTime *6000, direction.y * Timer::deltaTime * 6000));
+	ali.GetBody()->SetLinearVelocity(b2Vec2(direction.x * Timer::deltaTime *60, direction.y * Timer::deltaTime * 60));
 
 	
 	//std::cout << "\n" << direction.x << ",\t" <<direction.y << "\t";
@@ -518,10 +535,7 @@ void Chase(int alien,b2World* m_physicsWorld)
 						dodgeY = -1;
 
 
-					}
-			
-
-
+					}		
 			}
 		}
 		
@@ -533,8 +547,6 @@ void Chase(int alien,b2World* m_physicsWorld)
 	startPosY = ali.GetBody()->GetPosition().y;
 	tarX = player.GetBody()->GetPosition().x ;
 	tarY = player.GetBody()->GetPosition().y ;
-
-
 }
 
 void Dodge(int alien,b2World* m_physicsWorld)
@@ -571,16 +583,16 @@ void Dodge(int alien,b2World* m_physicsWorld)
 			}
 
 
-
-			if (dodgeRay.m_fixture->GetBody() != player.GetBody())
-			{
-				if (distance < 25)
+			if (dodgeRay.m_fixture) {
+				if (dodgeRay.m_fixture->GetBody() != player.GetBody())
 				{
-					dodgeX = -1;
-					dodgeY = -1;
+					if (distance < 25)
+					{
+						dodgeX = -1;
+						dodgeY = -1;
+					}
 				}
 			}
-
 		}
 
 
