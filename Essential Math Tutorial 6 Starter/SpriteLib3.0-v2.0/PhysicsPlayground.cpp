@@ -70,6 +70,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	}
 
 
+
+
 	//Setup Radar
 	{
 
@@ -192,8 +194,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	largeOctogonRoom(0, 0, true, true, true, true);
 	smallOctogonRoom(0, 0);
 
-	/*
-	//Setup trigger
+	
+	//Setup vision cone trigger
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
@@ -210,7 +212,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-30.f, -20.f, 80.f));
 		ECS::GetComponent<Trigger*>(entity) = new DestroyTrigger();
 		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
-		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(ball);
+		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(alien);
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -227,7 +229,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
-	*/
+	
 	
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
@@ -404,10 +406,35 @@ void PhysicsPlayground::makeBox(int xSize, int ySize, float xPos, float yPos, fl
 	tempPhsBody.SetRotationAngleDeg(rotation);
 }
 
+
+void UI(int radar, int alien)
+{
+	//This function is used to display and position the game's UI.
+	auto& cam = ECS::GetComponent<Camera>(MainEntities::MainCamera());
+	auto& rad = ECS::GetComponent<Transform>(radar);
+	auto& radSpr = ECS::GetComponent<Sprite>(radar);
+	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
+
+
+	//Displays the Radar UI.
+	rad.SetPosition(cam.GetPosition().x, cam.GetPosition().y - 60, 5);
+
+	//Calculations For Radar Transparency 
+	b2Vec2 direction = (b2Vec2(player.GetBody()->GetPosition().x, player.GetBody()->GetPosition().y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
+	float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
+	radSpr.SetTransparency(1 / (distance / 50));
+
+
+}
+
+
+
 float tarX , tarY ;
 
 void MoveTo(int alien)
 {	
+	//This function is always called every frame, and moves the alien in the direction of the target set by other functions
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
 	b2Vec2 direction = (b2Vec2(tarX, tarY) - ali.GetBody()->GetPosition());
 	float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
@@ -424,32 +451,66 @@ void FindNextPosition(int alien)
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 
-
 		if ((int)ali.GetBody()->GetPosition().x == (int)tarX && (int)ali.GetBody()->GetPosition().y == (int)tarY)
 		{
-
 			tarX = player.GetBody()->GetPosition().x;
 			tarY = player.GetBody()->GetPosition().y;
-			
-
 		}
 
 		if ((int)ali.GetBody()->GetLinearVelocity().x == 0 && (int)ali.GetBody()->GetLinearVelocity().y == 0)
 		{
-
 			tarX = player.GetBody()->GetPosition().x;
 			tarY = player.GetBody()->GetPosition().y;
-
-
 		}
-
 }
+
 int aCounter = 0;
 int nCounter = 0;
 float stuckCounter = 0;
+float alienRetentionTimer = 0;
 int newWay = 0;
+bool found = false;
+bool Search(int alien,int rayMarker, b2World* m_physicsWorld)
+{
+
+	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
+	auto& rayM = ECS::GetComponent<Transform>(rayMarker);
+
+
+	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+
+	b2Vec2 direction = (b2Vec2(tarX, tarY) - ali.GetBody()->GetPosition());
+	float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
+	direction = b2Vec2(direction.x / distance, direction.y / distance);
+
+	RayCastCallback vCone, vCone2, vCone3;
+	m_physicsWorld->RayCast(&vCone,b2Vec2(direction.x * 100,direction.y * 100 ), ali.GetBody()->GetWorldPoint(b2Vec2(0, 0))); //Middle
+
+
+
+	rayM.SetPosition(vCone.m_point.x, vCone.m_point.y, 5);
+
+
+
+
+	if (vCone.m_fixture->GetBody() == player.GetBody())
+	{
+
+		return true;
+
+	}
+	else
+	{
+		return false;
+
+	}
+	
+}
+
+
 void Chase(int alien,b2World* m_physicsWorld)
 {
+	//This Function is simply used make the alien move in the direction of the player
 	newWay = rand() % 2;
 	stuckCounter = 0;
 	aCounter = 0;
@@ -469,12 +530,11 @@ void Chase(int alien,b2World* m_physicsWorld)
 
 void Dodge(int alien,b2World* m_physicsWorld)
 {
+	//This Function is used to dodge obstacles between the alien and player
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 	RayCastCallback dodgeRay;
 	int maxRayIndex = 0;
-	float dodgeX = 1;
-	float dodgeY = 1;
 	float adjustX = 1;
 	float adjustY = 1;
 
@@ -483,17 +543,16 @@ void Dodge(int alien,b2World* m_physicsWorld)
 	b2Vec2 newDirections[16] = {b2Vec2(0,-1),b2Vec2(0,1),b2Vec2(-1,0),b2Vec2(1,0),b2Vec2(1,1),b2Vec2(1,-1),b2Vec2(-1,-1),b2Vec2(-1,1),b2Vec2(0.5f,-1),b2Vec2(0.5f,1),b2Vec2(-1,0.5f),b2Vec2(1,0.5f),b2Vec2(0.5f,0.5f),b2Vec2(0.5f,-0.5f),b2Vec2(-0.5f,-0.5f),b2Vec2(-0.5f,0.5f) };
 	RayCastCallback targetRay;
 
-
-		for (int i = 0; i < 16; i++)
+		//Shoots Rays in 16 directions away from the alien and finds the longest ray.
+		for (int i = 0; i < 16; i++) 
 		{
 			m_physicsWorld->RayCast(&dodgeRay, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), ali.GetBody()->GetWorldPoint(b2Vec2(newDirections[i].x * 10000, newDirections[i].y * 10000)));
 			b2Vec2 direction = (b2Vec2(dodgeRay.m_point.x, dodgeRay.m_point.y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
 			float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
 
-			b2Vec2 direction2 = (b2Vec2(player.GetBody()->GetPosition().x, player.GetBody()->GetPosition().y) - b2Vec2(dodgeRay.m_point.x, dodgeRay.m_point.y));
-			float distance2 = sqrt(direction2.x * direction2.x + direction2.y * direction2.y);
-
-			float distance3 = distance - distance2;
+			//b2Vec2 direction2 = (b2Vec2(player.GetBody()->GetPosition().x, player.GetBody()->GetPosition().y) - b2Vec2(dodgeRay.m_point.x, dodgeRay.m_point.y));
+			//float distance2 = sqrt(direction2.x * direction2.x + direction2.y * direction2.y);
+			//float distance3 = distance - distance2;
 			if (distance > maxDist)
 			{
 				maxDist = distance;
@@ -503,13 +562,13 @@ void Dodge(int alien,b2World* m_physicsWorld)
 
 		}
 
+		//This keeps track of how long the alien is stuck in place. (IS CURRENTLY UN-USED)
 		if (ali.GetBody()->GetLinearVelocity().x < 5 && ali.GetBody()->GetLinearVelocity().y < 5)
 		{
-			cout << "\nSTUCK!!";
+			//cout << "\nSTUCK!!";
 			adjustX = 1;
 			adjustY = 1;
 			stuckCounter += 1 * Timer::deltaTime;
-			//cout << "\n" << stuckCounter;
 			if (stuckCounter > 0.5)
 			{
 				//nCounter = 500;
@@ -523,10 +582,10 @@ void Dodge(int alien,b2World* m_physicsWorld)
 			//adjustY = 0;
 		}
 		
-
+		//This code gets set off if the alien is stuck in place for too long (CURRENTLY UN-USED)
 		if (nCounter >= 1)
 		{
-			cout << "Correcting.";
+			//cout << "Correcting.";
 			Chase(alien, m_physicsWorld);
 			nCounter -= 1 * Timer::deltaTime;
 		}
@@ -545,16 +604,14 @@ void Dodge(int alien,b2World* m_physicsWorld)
 			{
 				if (newWay == 0)
 				{
-					//Clockwise
-					//cout << "\nClockWise";
+					//Clockwise Dodging
 					ali.GetBody()->SetAngularVelocity(-200.f * Timer::deltaTime * adjustX);
 					tarX = player.GetBody()->GetPosition().x + targetRay.m_point.x + (toPlayer.m_normal.y * 5000);
 					tarY = player.GetBody()->GetPosition().y + targetRay.m_point.y + (toPlayer.m_normal.x * -5000);
 				}
 				else
 				{
-					//Counter Clockwise
-					//cout << "\nCounter ClockWise";
+					//Counter Clockwise Dodging
 					ali.GetBody()->SetAngularVelocity(200.f * Timer::deltaTime * adjustY);
 					tarX = player.GetBody()->GetPosition().x + targetRay.m_point.x + (toPlayer.m_normal.y * -5000);
 					tarY = player.GetBody()->GetPosition().y + targetRay.m_point.y + (toPlayer.m_normal.x * 5000);
@@ -571,66 +628,85 @@ void Dodge(int alien,b2World* m_physicsWorld)
 }
 
 
+
+
 void PhysicsPlayground::Update()
 {
-	RayCastCallback cb;
+	//cout << "\n"<<alienRetentionTimer;
 	auto& rayM = ECS::GetComponent<Transform>(rayMarker);
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 	auto& rad = ECS::GetComponent<Transform>(radar);
 	auto& radSpr = ECS::GetComponent<Sprite>(radar);
 
-	auto& cam = ECS::GetComponent<Camera>(MainEntities::MainCamera());
-
-	
-	
-
+	//Raycast Pointing Towards Player
+	RayCastCallback cb;
 	m_physicsWorld->RayCast(&cb, ali.GetBody()->GetWorldPoint(b2Vec2(0,0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
 
 	//Raycast Visualization
 	//rayM.SetPosition(cb.m_point.x, cb.m_point.y, 5);
 
-	rad.SetPosition(cam.GetPosition().x, cam.GetPosition().y - 60, 5);
-
-	b2Vec2 direction = (b2Vec2(player.GetBody()->GetPosition().x, player.GetBody()->GetPosition().y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
-	float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
-	radSpr.SetTransparency(1 / (distance / 50));
+	//UI Function
+	UI(radar, alien);
 
 	
-	//FindNextPosition(alien);
-
-	
-
 //If player and alien are on the same tile:
-	if (cb.m_fixture->GetBody() == player.GetBody())
+	if (found == false)
 	{
-		std::string fileName = "CircleMask.png";
-		radSpr.LoadSprite(fileName, 5, 5);
-		if (aCounter >= 1)
+		if (Search(alien, rayMarker, m_physicsWorld) == true)
 		{
-			Dodge(alien, m_physicsWorld);
-			aCounter -= 1 *Timer::deltaTime;
+			found = true;
 		}
+
+		
+		//Patrol()
+	}
+	if (found == true)
+	{
+		if (cb.m_fixture->GetBody() == player.GetBody())
+		{
+			//Changes Radar Colour
+			std::string fileName = "CircleMask.png";
+			radSpr.LoadSprite(fileName, 5, 5);
+
+			alienRetentionTimer = 1.f;
+
+			//aCounter ensures that the alien stays in dodge mode for a little bit longer after the alien sees the player again
+			if (aCounter >= 1)
+			{
+				Dodge(alien, m_physicsWorld);
+				aCounter -= 1 * Timer::deltaTime;
+			}
+			else
+			{
+				Chase(alien, m_physicsWorld);
+				cout << "\nAlien Sees Player";
+
+			}
+
+		}
+
 		else
 		{
-			Chase(alien, m_physicsWorld);
-			cout << "\nAlien Sees Player";
+			//Changes the colour of the radar
+			std::string fileName = "radar.png";
+			radSpr.LoadSprite(fileName, 5, 5);
+			alienRetentionTimer -= 1 * Timer::deltaTime;
+
+			cout << "\n";
+			aCounter = 150;
+
+			Dodge(alien, m_physicsWorld);
 
 		}
 
+		if (alienRetentionTimer <= 0)
+		{
+			alienRetentionTimer = 0;
+			found = false;
+			
+		}
 	}
-
-	else
-	{
-		std::string fileName = "radar.png";
-		radSpr.LoadSprite(fileName, 5, 5);
-		cout << "\n";
-		aCounter = 150;
-
-		Dodge(alien, m_physicsWorld);
-
-	}
-
 	MoveTo(alien);
 }
 

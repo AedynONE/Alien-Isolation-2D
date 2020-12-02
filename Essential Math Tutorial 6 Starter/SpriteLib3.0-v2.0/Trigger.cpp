@@ -11,6 +11,7 @@ void Trigger::OnTrigger()
 void Trigger::OnEnter()
 {	//Tests the trigger working and displays using T
 	ECS::GetComponent<PhysicsBody>(m_triggerEntity).SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	std::cout << "TRIGGER ENTERED";
 }
 
 void Trigger::OnExit()

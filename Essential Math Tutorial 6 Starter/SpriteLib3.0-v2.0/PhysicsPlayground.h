@@ -33,4 +33,5 @@ protected:
 	int rayMarker;
 	int alienSpr;
 	int radar;
+	int visionCone;
 };
