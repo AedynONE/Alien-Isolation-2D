@@ -24,7 +24,7 @@ public:
 	void KeyboardHold() override;
 	void KeyboardDown() override;
 	void KeyboardUp() override;
-
+	void MouseMotion(SDL_MouseMotionEvent evnt) override;
 protected:
 	PhysicsPlaygroundListener listener;
 

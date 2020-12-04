@@ -86,6 +86,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 800, 800);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+		
 	}
 
 
@@ -727,7 +728,7 @@ void PhysicsPlayground::Update()
 			else
 			{
 				Chase(alien, m_physicsWorld);
-				cout << "\nAlien Sees Player";
+				//cout << "\nAlien Sees Player";
 
 			}
 
@@ -844,10 +845,10 @@ void PhysicsPlayground::KeyboardUp()
 
 }
 
-//void PhysicsPlayground::MouseMotion()
-//{
-//
-//
-//
-//
-//}
+void PhysicsPlayground::MouseMotion(SDL_MouseMotionEvent evnt)
+{
+
+	cout << "\n" << evnt.x << " "<< evnt.y;
+
+
+}
