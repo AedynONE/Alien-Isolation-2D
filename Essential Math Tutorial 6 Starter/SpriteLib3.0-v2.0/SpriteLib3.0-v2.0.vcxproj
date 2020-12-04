@@ -171,6 +171,7 @@
     <ClInclude Include="PixelateEffect.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PostEffect.h" />
+    <ClInclude Include="RayCastCallback.h" />
     <ClInclude Include="RenderingSystem.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scenes.h" />

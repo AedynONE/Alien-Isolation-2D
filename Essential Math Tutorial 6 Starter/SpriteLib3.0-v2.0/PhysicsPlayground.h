@@ -10,14 +10,30 @@ public:
 
 	void InitScene(float windowWidth, float windowHeight) override;
 	void makeBox(int xSize, int ySize, float xPos, float yPos, float rotation);
-
+	void thickCorner1(int xPos, int yPos, float rotation);
+	void thickCorner(int xPos, int yPos, float rotation);
+	void curvedCorner1(int xPos, int yPos, float rotation);
+	void curvedCorner(int xPos, int yPos, float rotation);
 	void smallOctogonRoom(int xPos, int yPos);
 	void smallOctogonCorner(int xPos, int yPos, float rotation);
 	void largeOctogonRoom(int xPos, int yPos, bool north, bool east, bool south, bool west);
 	void thickDiagonalOctogon(int xPos, int yPos, float rotation);
 	void thickStraightOctogon(int xPos, int yPos, float rotation);
-	
-
+	void thickishWall(int xPos, int yPos, float roation);
+	void wall(int xPos, int yPos, float roation);
+	void corridoor(int xPos, int yPos, float roation);
+	void thickishDoor(int xPos, int yPos, float roation);
+	void thickishDoorEdge(int xPos, int yPos, float roation);
+	void thickDoor(int xPos, int yPos, float rotation);
+	void thickDoorLeft(int xPos, int yPos, float rotation);
+	void thickDoorRight(int xPos, int yPos, float rotation);
+	void narrowCorridor(int xPos, int yPos, float rotation);
+	void junction(int xPos, int yPos, float rotation);
+	void corner(int xPos, int yPos, float rotation);
+	void thickJunction(int xPos, int yPos, float rotation);
+	void locker(int xPos, int yPos, float rotation);
+	void lockerPolygon1(int xPos, int yPos, float rotation);
+	void lockerPolygon2(int xPos, int yPos, float rotation);
 	void Update() override;
 
 	//Input overrides
@@ -29,4 +45,7 @@ protected:
 	PhysicsPlaygroundListener listener;
 
 	int ball = 0;
+	int alien;
+	int rayMarker;
+	int alienSpr;
 };
