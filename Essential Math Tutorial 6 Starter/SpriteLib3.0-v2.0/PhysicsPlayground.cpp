@@ -11,7 +11,7 @@ PhysicsPlayground::PhysicsPlayground(std::string name)
 	//No gravity this is a top down scene
 	m_gravity = b2Vec2(0.f, -98.f);
 	m_physicsWorld->SetGravity(m_gravity);
-
+	
 	m_physicsWorld->SetContactListener(&listener);
 }
 
@@ -20,7 +20,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Dynamically allocates the register
 	m_sceneReg = new entt::registry;
 	m_physicsWorld = new b2World(m_gravity);
-
+	
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
 
@@ -65,10 +65,28 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Set up the components
 		std::string fileName = "BeachBall.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 5, 5);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
 	}
 
+
+	//Setup Vcone
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		visionCone = entity;
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "Cone.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 800, 800);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+	}
 
 
 	//Setup background
@@ -80,6 +98,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
+		
 
 		//Set up the components
 		std::string fileName = "layer1.png";
@@ -99,11 +118,29 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-		std::string fileName = "layer2.png";
+		std::string fileName = "Map_Mask.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1271 * 2.2f, 1195 * 2.2f);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0.75f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(130.f, -287.f, 20.f));
 	}
+
+	////Setup background3
+	//{
+
+	//	//Creates entity
+	//	auto entity = ECS::CreateEntity();
+
+	//	//Add components
+	//	ECS::AttachComponent<Sprite>(entity);
+	//	ECS::AttachComponent<Transform>(entity);
+
+	//	//Set up the components
+	//	std::string fileName = "layer3.png";
+	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1271 * 2.2f, 1195 * 2.2f);
+	//	ECS::GetComponent<Sprite>(entity).SetTransparency(0.3f);
+	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(130.f, -287.f, 21.f));
+	//}
+
 	//Setup Radar
 	{
 
@@ -152,7 +189,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<CanJump>(entity);
 
 		//Sets up the components
-		std::string fileName = "astronautsprite.png";
+		std::string fileName = "left.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 25);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
@@ -420,7 +457,7 @@ void UI(int radar, int alien)
 
 
 	//Displays the Radar UI.
-	rad.SetPosition(cam.GetPosition().x, cam.GetPosition().y - 60, 5);
+	rad.SetPosition(cam.GetPosition().x, cam.GetPosition().y - 60, 100);
 
 	//Calculations For Radar Transparency 
 	b2Vec2 direction = (b2Vec2(player.GetBody()->GetPosition().x, player.GetBody()->GetPosition().y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
@@ -605,7 +642,7 @@ void Dodge(int alien,b2World* m_physicsWorld)
 			b2Vec2 direction4 = (b2Vec2(toPlayer.m_point.x, toPlayer.m_point.y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
 			float distance4 = sqrt(direction4.x * direction4.x + direction4.y * direction4.y);
 
-			if (distance4 < 40)
+			if (distance4 < 25)
 			{
 				if (newWay == 0)
 				{
@@ -640,13 +677,18 @@ void PhysicsPlayground::Update()
 	//cout << "\n"<<alienRetentionTimer;
 	auto& rayM = ECS::GetComponent<Transform>(rayMarker);
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
+	auto& playerT = ECS::GetComponent<Transform>(MainEntities::MainPlayer());
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 	auto& rad = ECS::GetComponent<Transform>(radar);
 	auto& radSpr = ECS::GetComponent<Sprite>(radar);
+	auto& vCone = ECS::GetComponent<Transform>(visionCone);
+
+	vCone.SetPosition(playerT.GetPosition().x, playerT.GetPosition().y +10.f, 100.f);
 
 	//Raycast Pointing Towards Player
 	RayCastCallback cb;
 	m_physicsWorld->RayCast(&cb, ali.GetBody()->GetWorldPoint(b2Vec2(0,0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
+	
 
 	//Raycast Visualization
 	//rayM.SetPosition(cb.m_point.x, cb.m_point.y, 5);
@@ -674,7 +716,7 @@ void PhysicsPlayground::Update()
 			std::string fileName = "CircleMask.png";
 			radSpr.LoadSprite(fileName, 5, 5);
 
-			alienRetentionTimer = 1.f;
+			alienRetentionTimer = 3.f;
 
 			//aCounter ensures that the alien stays in dodge mode for a little bit longer after the alien sees the player again
 			if (aCounter >= 1)
@@ -718,6 +760,8 @@ void PhysicsPlayground::Update()
 void PhysicsPlayground::KeyboardHold()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	auto& playerT = ECS::GetComponent<Transform>(MainEntities::MainPlayer());
+	auto& playerSpr = ECS::GetComponent<Sprite>(MainEntities::MainPlayer());
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
 	auto& aliSpr = ECS::GetComponent<Transform>(alienSpr);
 	float speed = 75.f;
@@ -744,14 +788,22 @@ void PhysicsPlayground::KeyboardHold()
 	if (Input::GetKey(Key::A))
 	{
 		vel.x += -Timer::deltaTime;
+		std::string fileName = "left.png";
+		playerSpr.LoadSprite(fileName, 20, 20);
 		//vel += b2Vec2(-8.f * Timer::deltaTime, 0.f);
 	}
 	if (Input::GetKey(Key::D))
 	{
 		vel.x += Timer::deltaTime;
+		std::string fileName = "right.png";
+		playerSpr.LoadSprite(fileName, 20, 20);
 		//vel += b2Vec2(8.f * Timer::deltaTime, 0.f);
 	}
+	if (Input::GetKeyDown(Key::E))
+	{
+		player.SetPosition(b2Vec2(0.f, 30.f));
 
+	}
 	player.GetBody()->SetLinearVelocity(speed * vel + b2Vec2(player.GetBody()->GetLinearVelocity().x * 0.98f, player.GetBody()->GetLinearVelocity().y * 0.98f));
 	//player.GetBody()->SetLinearVelocity(speed * vel);
 
@@ -791,3 +843,11 @@ void PhysicsPlayground::KeyboardUp()
 	
 
 }
+
+//void PhysicsPlayground::MouseMotion()
+//{
+//
+//
+//
+//
+//}

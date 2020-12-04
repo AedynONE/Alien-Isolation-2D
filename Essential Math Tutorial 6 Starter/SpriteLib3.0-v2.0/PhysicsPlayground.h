@@ -34,4 +34,5 @@ protected:
 	int alienSpr;
 	int radar;
 	int visionCone;
+	
 };
