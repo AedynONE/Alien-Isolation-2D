@@ -141,7 +141,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(0.f);
-		
+
 	}
 
 	//Alien entity
@@ -183,20 +183,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(0.f);
 	}
-	
-	//largeOctogonRoom(0, 0, true, true, true, true);
-	//smallOctogonRoom(0, 0);
-	//thickCorner(0, 0, 0);
-	//curvedCorner(0, 0, 0);
-	//thickishWall(0, 0, 0);
-	//makeBox(128, 128, 0, 0, 0);
-	//wall(0,0,180);
-	//corridoor(0,0,0);
-	//thickishDoor(0, 0, 90);
-	//narrowCorridor(0, 0, 90);
-	//thickDoor(0, 0, 90);
-	//junction(0, 0, 0);
-	//locker(0, 0, 0);
 
 	/*
 	//Setup trigger
@@ -235,6 +221,23 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	}
 	*/
 	
+	//largeOctogonRoom(0, 0, true, true, true, true);
+	//smallOctogonRoom(0, 0);
+	//thickCorner(0, 0, 0);
+	//curvedCorner(0, 0, 0);
+	//thickishWall(0, 0, 0);
+	makeBox(128, 128, 128, -128, 0);
+	//wall(0,0,180);
+	//corridoor(0,0,0);
+	//thickishDoor(0, 0, 90);
+	//narrowCorridor(0, 0, 90);
+	//thickDoor(0, 0, 90);
+	//junction(0, 0, 0);
+	//locker(0, 0, 0);
+	//thinThickCorridor(0, 0, 0);
+	//corridoorThinOpening(0, 0, 0);
+	sharpCorner(0, 0, 270);
+
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
@@ -876,7 +879,196 @@ void PhysicsPlayground::lockerPolygon2(int xPos, int yPos, float rotation) {
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
 }
+void PhysicsPlayground::thinThickCorridor(int xPos, int yPos, float rotation) {
+	if (rotation == 0) {
+		thinThickCorridor1(xPos - 32, yPos + 32, rotation);
+		thinThickCorridor1(xPos - 32, yPos - 32, rotation + 90);
+		makeBox(128, 11, xPos, yPos - 58.5, 0);
+		makeBox(128, 11, xPos, yPos + 58.5, 0);
+	}
+	if (rotation == 90) {
+		thinThickCorridor1(xPos - 32, yPos - 32, rotation);
+		thinThickCorridor1(xPos + 32, yPos - 32, rotation + 90);
+		makeBox(11, 128, xPos - 58.5, yPos, 0);
+		makeBox(11, 128, xPos + 58.5, yPos, 0);
+	}
+	if (rotation == 180) {
+		thinThickCorridor1(xPos + 32, yPos - 32, rotation);
+		thinThickCorridor1(xPos + 32, yPos + 32, rotation + 90);
+		makeBox(128, 11, xPos, yPos - 58.5, 0);
+		makeBox(128, 11, xPos, yPos + 58.5, 0);
+	}
+	if (rotation == 270) {
+		thinThickCorridor1(xPos + 32, yPos + 32, rotation);
+		thinThickCorridor1(xPos - 32, yPos + 32, rotation + 90);
+		makeBox(11, 128, xPos + 58.5, yPos, 0);
+		makeBox(11, 128, xPos - 58.5, yPos, 0);
+	}
+}
+void PhysicsPlayground::thinThickCorridor1(int xPos, int yPos, float rotation) {
+	//Creates entity
+	auto entity = ECS::CreateEntity();
 
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+
+	//Sets up components
+	std::string fileName = "Isolation 2D/Random triangle.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(xPos, yPos, 2.f));
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.position.Set(float32(xPos), float32(yPos));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	//Custom body
+	// The program detects these points clockwise, so top of the triangle, bottom right, bottom left. box 2d is counter clockwise
+	std::vector<b2Vec2> points = {
+		b2Vec2(-tempSpr.GetWidth() / 2.f, tempSpr.GetWidth() / 2),
+		b2Vec2(-tempSpr.GetWidth() / 2.f,tempSpr.GetHeight() / 4),
+		b2Vec2(-tempSpr.GetWidth() / 4.f,tempSpr.GetHeight() / 2),
+	};
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+
+	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	tempPhsBody.SetRotationAngleDeg(rotation);
+}
+void PhysicsPlayground::corridoorThinOpening(int xPos, int yPos, float rotation) {
+	if (rotation == 0) {
+		corridoorThinOpening1(xPos, yPos, rotation);
+		corridoorThinOpening2(xPos, yPos, rotation);
+		makeBox(128, 11, xPos, yPos - 58.5, 0);
+		makeBox(128, 11, xPos, yPos + 58.5, 0);
+	}
+	if (rotation == 90) {
+		corridoorThinOpening1(xPos, yPos, rotation);
+		corridoorThinOpening2(xPos, yPos, rotation);
+		makeBox(11, 128, xPos - 58.5, yPos, 0);
+		makeBox(11, 128, xPos + 58.5, yPos, 0);
+	}
+	if (rotation == 180) {
+		corridoorThinOpening1(xPos, yPos, rotation);
+		corridoorThinOpening2(xPos, yPos, rotation);
+		makeBox(128, 11, xPos, yPos - 58.5, 0);
+		makeBox(128, 11, xPos, yPos + 58.5, 0);
+	}
+	if (rotation == 270) {
+		corridoorThinOpening1(xPos, yPos, rotation);
+		corridoorThinOpening2(xPos, yPos, rotation);
+		makeBox(11, 128, xPos + 58.5, yPos, 0);
+		makeBox(11, 128, xPos - 58.5, yPos, 0);
+	}
+}
+void PhysicsPlayground::corridoorThinOpening1(int xPos, int yPos, float rotation) {
+	//Creates entity
+	auto entity = ECS::CreateEntity();
+
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+
+	//Sets up components
+	std::string fileName = "Isolation 2D/corridoor left.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 128, 128);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(xPos, yPos, 2.f));
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.position.Set(float32(xPos), float32(yPos));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	//Custom body
+	// The program detects these points clockwise, so top of the triangle, bottom right, bottom left. box 2d is counter clockwise
+	std::vector<b2Vec2> points = {
+		b2Vec2(-tempSpr.GetWidth() / 2.f, tempSpr.GetWidth() / 2),
+		b2Vec2(-tempSpr.GetWidth() / 2.f,tempSpr.GetHeight() / 4),
+		b2Vec2(-tempSpr.GetWidth() / 2.2,tempSpr.GetHeight() / 4),
+		b2Vec2(-tempSpr.GetWidth() / 2.5,tempSpr.GetHeight() / 3.5),
+		b2Vec2(-tempSpr.GetWidth() / 2.5,tempSpr.GetHeight() / 2),
+	};
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+
+	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	tempPhsBody.SetRotationAngleDeg(rotation);
+}
+void PhysicsPlayground::corridoorThinOpening2(int xPos, int yPos, float rotation) {
+	//Creates entity
+	auto entity = ECS::CreateEntity();
+
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+
+	//Sets up components
+	std::string fileName = "Isolation 2D/corridoor left.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 128, 128);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(xPos, yPos, 2.f));
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.position.Set(float32(xPos), float32(yPos));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	//Custom body
+	// The program detects these points clockwise, so top of the triangle, bottom right, bottom left. box 2d is counter clockwise
+	std::vector<b2Vec2> points = {
+		b2Vec2(-tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 2),
+		b2Vec2(-tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 4),
+		b2Vec2(-tempSpr.GetWidth() / 2.2,-tempSpr.GetHeight() / 4),
+		b2Vec2(-tempSpr.GetWidth() / 2.5,-tempSpr.GetHeight() / 3.5),
+		b2Vec2(-tempSpr.GetWidth() / 2.5,-tempSpr.GetHeight() / 2),
+	};
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+
+	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	tempPhsBody.SetRotationAngleDeg(rotation);
+}
+void PhysicsPlayground::sharpCorner(int xPos, int yPos, float rotation) {
+	if (rotation == 0) {
+		makeBox(12, 12, xPos - 58.5, yPos - 58.5, 0);
+		makeBox(128, 8, xPos, yPos + 60, 0);
+		makeBox(8, 128, xPos + 60, yPos, 0);
+	}
+	else if (rotation == 90) {
+		makeBox(8, 8, xPos - 58.5, yPos + 58.5, 0);
+		makeBox(128, 8, xPos, yPos - 60, 0);
+		makeBox(8, 128, xPos + 60, yPos, 0);
+	}
+	else if (rotation == 180) {
+		makeBox(8, 8, xPos + 58.5, yPos + 58.5, 0);
+		makeBox(128, 8, xPos, yPos - 60, 0);
+		makeBox(8, 128, xPos - 60, yPos, 0);
+	}
+	else if (rotation == 270) {
+		makeBox(8, 8, xPos + 59, yPos - 59, 0);
+		makeBox(128, 8, xPos, yPos + 60, 0);
+		makeBox(8, 128, xPos - 60, yPos, 0);
+	}
+
+}
 float tarX , tarY ;
 
 void MoveTo(int alien,float sX,float sY)

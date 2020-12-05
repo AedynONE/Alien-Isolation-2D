@@ -34,6 +34,12 @@ public:
 	void locker(int xPos, int yPos, float rotation);
 	void lockerPolygon1(int xPos, int yPos, float rotation);
 	void lockerPolygon2(int xPos, int yPos, float rotation);
+	void thinThickCorridor(int xPos, int yPos, float rotation);
+	void thinThickCorridor1(int xPos, int yPos, float rotation);
+	void corridoorThinOpening(int xPos, int yPos, float rotation);
+	void corridoorThinOpening1(int xPos, int yPos, float rotation);
+	void corridoorThinOpening2(int xPos, int yPos, float rotation);
+	void sharpCorner(int xPos, int yPos, float rotation);
 	void Update() override;
 
 	//Input overrides
