@@ -242,11 +242,11 @@ void Game::MouseMotion(SDL_MouseMotionEvent evnt)
 	//Active scene now captures this input and can use it
 	//Look at base Scene class for more info.
 	m_activeScene->MouseMotion(evnt);
-
+	//std::cout << "\t" << evnt.x << ", " << evnt.y;
+	//PhysicsPlayground::mousePosition = b2Vec2(float(evnt.x), float(evnt.y));
 	if (m_guiActive)
 	{
 		ImGui::GetIO().MousePos = ImVec2(float(evnt.x), float(evnt.y));
-
 		if (!ImGui::GetIO().WantCaptureMouse)
 		{
 
