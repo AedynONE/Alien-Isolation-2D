@@ -103,7 +103,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		//Set up the components
 		std::string fileName = "layer1.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1271 * 2.2f, 1195 * 2.2f);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(130.f, -287.f, 0.f));
 	}
@@ -120,7 +120,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		//Set up the components
 		std::string fileName = "Map_Mask.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1271 * 2.2f, 1195 * 2.2f);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(0.75f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(130.f, -287.f, 20.f));
 	}
@@ -261,8 +261,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		
 	}
 	
-	largeOctogonRoom(0, 0, true, true, true, true);
-	smallOctogonRoom(0, 0);
+	//largeOctogonRoom(0, 0, true, true, true, true);
+	//smallOctogonRoom(0, 0);
 
 
 
@@ -671,7 +671,8 @@ void Dodge(int alien,b2World* m_physicsWorld)
 }
 
 
-
+int mousePosX = 0;
+int mousePosY = 0;
 
 void PhysicsPlayground::Update()
 {
@@ -684,7 +685,16 @@ void PhysicsPlayground::Update()
 	auto& radSpr = ECS::GetComponent<Sprite>(radar);
 	auto& vCone = ECS::GetComponent<Transform>(visionCone);
 
-	vCone.SetPosition(playerT.GetPosition().x, playerT.GetPosition().y +10.f, 100.f);
+	//vCone.SetPosition(playerT.GetPosition().x, playerT.GetPosition().y +10.f, 100.f);
+
+	b2Vec2 direction = (b2Vec2(mousePosX, mousePosY) - player.GetPosition());
+	float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
+	direction = b2Vec2(direction.x / distance, direction.y / distance);
+	
+
+	vCone.SetPosition(direction.x + player.GetPosition().x, direction.y + player.GetPosition().y, 100.f);
+	cout << "\n" << vCone.GetPosition().x << " " << vCone.GetPosition().y;
+
 
 	//Raycast Pointing Towards Player
 	RayCastCallback cb;
@@ -848,7 +858,12 @@ void PhysicsPlayground::KeyboardUp()
 void PhysicsPlayground::MouseMotion(SDL_MouseMotionEvent evnt)
 {
 
-	cout << "\n" << evnt.x << " "<< evnt.y;
+	//cout << "\n" << evnt.x << " "<< evnt.y;
+
+	
+	mousePosX = evnt.x;
+	mousePosY = -evnt.y;
+
 
 
 }
