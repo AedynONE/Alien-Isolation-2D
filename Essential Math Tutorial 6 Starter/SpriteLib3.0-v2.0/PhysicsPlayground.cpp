@@ -6,15 +6,13 @@
 using namespace std;
 #include <random>
 
-int triggerPlacer = 2;
-
 PhysicsPlayground::PhysicsPlayground(std::string name)
 	: Scene(name)
 {
 	//No gravity this is a top down scene
 	m_gravity = b2Vec2(0.f, -98.f);
 	m_physicsWorld->SetGravity(m_gravity);
-	
+
 	m_physicsWorld->SetContactListener(&listener);
 }
 
@@ -25,7 +23,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Dynamically allocates the register
 	m_sceneReg = new entt::registry;
 	m_physicsWorld = new b2World(m_gravity);
-	
+
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
 
@@ -94,10 +92,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up the components
 		std::string fileName = "Cone.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 800, 800);
-<<<<<<< HEAD
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
-=======
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
 
@@ -112,12 +106,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
 		tempDef.position.Set(float32(0.f), float32(30.f));
->>>>>>> AIBranch
-		
+
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		//Sphere body
-		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY) / 2.f), vec2(0.f, 0.f), false, OBJECTS, 0 , 0.f, 0.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY) / 2.f), vec2(0.f, 0.f), false, OBJECTS, 0, 0.f, 0.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(false);
@@ -131,21 +124,17 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		//Creates entity
 		auto entity = ECS::CreateEntity();
-		
+
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
-		
+
 
 		//Set up the components
 		std::string fileName = "layer1.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-<<<<<<< HEAD
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
-=======
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1088, 192, 0.f));
->>>>>>> AIBranch
 	}
 
 	//Setup background2
@@ -161,13 +150,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Set up the components
 		std::string fileName = "M1_L2G.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
-<<<<<<< HEAD
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.75f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 20.f));
-=======
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1088.f, 192.f, 20.f));
->>>>>>> AIBranch
 	}
 	//Setup Overlay
 	{
@@ -219,13 +203,12 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
 	}
-	
+
 	//Player entity
 	{
 		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
 
 		auto entity = ECS::CreateEntity();
-		redterminal = entity;
 		ECS::SetIsMainPlayer(entity, true);
 
 		//Add components
@@ -236,15 +219,10 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<AnimationController>(entity);
 
 		//Sets up the components
-<<<<<<< HEAD
-		std::string fileName = "left.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
-=======
 		std::string fileName = "spritesheets/Player.png";
 		std::string animations = "Player.json";
 		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 32, 32, &ECS::GetComponent<Sprite>(entity),
-			&ECS::GetComponent<AnimationController>(entity), &ECS::GetComponent<Transform>(entity));
->>>>>>> AIBranch
+		&ECS::GetComponent<AnimationController>(entity), &ECS::GetComponent<Transform>(entity));
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
 
@@ -258,26 +236,18 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-<<<<<<< HEAD
-		tempDef.position.Set(float32(0.f), float32(2.f));
-=======
-		tempDef.position.Set(float32(x128(13)), float32(x128(-1)));
->>>>>>> AIBranch
+		tempDef.position.Set(float32(x128(0)), float32(x128(0)));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		//Sphere body
-		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 8.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY) / 2.f), vec2(0.f, 8.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(180.f);
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(0.f);
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> AIBranch
 	}
 
 	//Alien entity
@@ -286,7 +256,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		auto entity = ECS::CreateEntity();
 		alien = entity;
-		
+
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
@@ -308,17 +278,17 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
 		tempDef.position.Set(float32(0.f), float32(70.f));
-		
+
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		//Box body
-		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY) / 2.f), vec2(0.f, 0.f), false, ENEMY, PLAYER | OBJECTS , 0.5f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY) / 2.f), vec2(0.f, 0.f), false, ENEMY, PLAYER | OBJECTS, 0.5f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(0.f);
-		
+
 	}
 	//Setup Corpse 1
 	{
@@ -333,35 +303,303 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up components
 		std::string fileName = "corpse1.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(250.f, -30.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1660.f, 130.f, 2.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
 		float shrinkX = 10.f;
-<<<<<<< HEAD
-		float shrinkY = 14.f;
-=======
 		float shrinkY = 20.f;
->>>>>>> AIBranch
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(250.f), float32(-30.f));
+		tempDef.position.Set(float32(1660.f), float32(130.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-<<<<<<< HEAD
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY);
-		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
-	}
-
-=======
 			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	}
+	//Setup Computer 1
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
 
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "phatterminal.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 36);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1663.f, 156.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(1663.f), float32(156.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Yellow Terminal
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "yellowterminal.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(256.f, 78.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(256.f), float32(78.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Blue Terminal
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "blueterminal.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(256.f, 78.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(2016.f), float32(542.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Red Terminal
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "redterminal.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(256.f, 78.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(897.f), float32(825.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Green Terminal
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "greenterminal.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(256.f, 78.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(1022.f), float32(260.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Yellow Keycard
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "keycards_yellow.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 16, 16);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(292.f, -124.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(292.f), float32(-124.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Blue Keycard
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "keycards_blue.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 16, 16);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(380.f, 400.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(380.f), float32(400.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Red Keycard
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "keycards_red.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 16, 16);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(292.f, -124.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(1787.f), float32(598.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Green Keycard
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "keycards_green.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 16, 16);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(292.f, -124.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(1620.f), float32(-763.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
 	//largeOctogonRoom(0, 0, true, true, true, true);
 	//smallOctogonRoom(0, 0);
 
@@ -369,9 +607,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	PlaySound(TEXT("assets/sounds/09_Alone.wav"), NULL, SND_FILENAME | SND_ASYNC);
 
 
-	
+
 	// This is just a list of the tiles
->>>>>>> AIBranch
 	//largeOctogonRoom(0, 0, true, true, true, true);
 	//smallOctogonRoom(0, 0);
 	//thickCorner(0, 0, 0);
@@ -419,7 +656,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	corridoorThinOpening(x128(3), -x128(2), 90);
 	//Octogon room above Spawn
 	Gap(x128(3) + 35, x128(2) - 20, 0);
-	curvedCorner(x128(2),x128(2),0);
+	curvedCorner(x128(2), x128(2), 0);
 	wall(x128(2), x128(3), 0);
 	curvedCorner(x128(2), x128(4), 270);
 	curvedCorner(x128(4), x128(2), 90);
@@ -433,7 +670,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thickDoor(x128(3), x128(6), 0);
 	thickWall(x128(2), x128(6), 90);
 	thickWall(x128(4), x128(6), 90);
-	thickDiagonalOctogon(x128(1),x128(6),0);
+	thickDiagonalOctogon(x128(1), x128(6), 0);
 	thickDiagonalOctogon(x128(1), x128(8), 270);
 	thickWall(x128(1), x128(7), 0);
 	thickWall(x128(2), x128(8), 270);
@@ -457,9 +694,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thickishWall(x128(13), x128(8), 90);
 	thickishWall(x128(13), x128(8), 270);
 	thickCorner(x128(14), x128(8), 180);
-	thinThickCorridor1(x128(14)-32, x128(8) - 32, 90);
+	thinThickCorridor1(x128(14) - 32, x128(8) - 32, 90);
 	thickCorner(x128(14), x128(7), 0);
-	thinThickCorridor1(x128(15)-96, x128(7)+32, 270);
+	thinThickCorridor1(x128(15) - 96, x128(7) + 32, 270);
 	thickishWall(x128(15), x128(7), 90);
 	thickishWall(x128(15), x128(7), 270);
 	// Room under spawn
@@ -481,7 +718,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thickWall(x128(7), -x128(4), 180);
 	thickWall(x128(7), -x128(3), 180);
 	thickCorner(x128(6), -x128(2), 270);
-	thinThickCorridor1(x128(6) + 32, -x128(2)-32, 180);
+	thinThickCorridor1(x128(6) + 32, -x128(2) - 32, 180);
 	thickishWall(x128(7), -x128(2), 90);
 	thickishWall(x128(7), -x128(2), 270);
 	thickishWall(x128(8), -x128(2), 90);
@@ -528,7 +765,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thickWall(x128(9), -x128(1), 0);
 	thickDoor(x128(11), -x128(1), 90);
 	thickWall(x128(9), 0, 0);
-	thickDoor(x128(9),  x128(1), 270);
+	thickDoor(x128(9), x128(1), 270);
 	thickWall(x128(9), x128(2), 0);
 	thickWall(x128(11), x128(1), 180);
 	thickWall(x128(11), x128(2), 180);
@@ -580,7 +817,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thinThickCorridor(x128(12), -x128(1), 0);
 	corridoor(x128(14), -x128(1), 90);
 	corridoorThinOpening(x128(15), -x128(1), 180);
-
 	thickCorner(x128(12), x128(1), 270);
 	thickCorner(x128(12), 0, 0);
 	thickCorner(x128(14), x128(1), 180);
@@ -601,11 +837,62 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	makeBox(128, x128(3), x128(19), -x128(1), 0);
 	thickDoor(x128(17), -x128(4), 0);
 	corridoor(x128(18), -x128(4), 0);
-	locker(x128(18), -x128(3), 270);
-	thickishWall(x128(16), x128(3), 0);
+	locker(x128(18), -x128(3), 180);
+	thickishWall(x128(16), -x128(3), 180);
 	makeBox(128, 128, x128(18), -x128(5), 0);
 	makeBox(128, 128, x128(16), -x128(5), 0);
-
+	// Room below the right bullet room
+	locker(x128(17), x128(1), 180);
+	thickishDoor(x128(17), x128(2), 0);
+	thickishWall(x128(16), x128(2), 90);
+	thickishWall(x128(18), x128(2), 90);
+	thickishWall(x128(16), x128(4), 270);
+	thickishWall(x128(18), x128(4), 270);
+	thickishWall(x128(19), x128(3), 180);
+	thickCorner(x128(19), x128(2), 90);
+	thickCorner(x128(19), x128(4), 180);
+	makeBox(128, 128, x128(15), x128(2), 0);
+	makeBox(128, 128, x128(15), x128(4), 0);
+	lockerDX(x128(15), x128(3), 0);
+	thickishDoor(x128(17), x128(4), 180);
+	thickishWall(x128(17), x128(5), 0);
+	thickishWall(x128(17), x128(5), 180);
+	// Right Bullet Room
+	thickDoor(x128(17), x128(6), 0);
+	thickWall(x128(16), x128(6), 90);
+	thickWall(x128(18), x128(6), 90);
+	thickWall(x128(19), x128(7), 180);
+	thickDiagonalOctogon(x128(19), x128(6), 90);
+	thickDiagonalOctogon(x128(19), x128(8), 180);
+	thickWall(x128(16), x128(8), 270);
+	thickWall(x128(17), x128(8), 270);
+	thickWall(x128(18), x128(8), 270);
+	makeBox(128, 128, x128(15), x128(6), 0);
+	// Room to the right of the bottom main shaft
+	thickishWall(x128(17), -x128(5), 0);
+	thickishWall(x128(17), -x128(5), 180);
+	thickishWall(x128(17), -x128(6), 0);
+	thickishWall(x128(17), -x128(6), 180);
+	thickCorner(x128(17), -x128(7), 90);
+	thinThickCorridor1(x128(17) - 32, -x128(7) + 32, 0);
+	thickDoor(x128(16), -x128(7), 90);
+	thickWall(x128(16), -x128(6), 180);
+	thickDiagonalOctogon(x128(16), -x128(8), 90);
+	thickishWall(x128(15), -x128(8), 90);
+	thickWall(x128(14), -x128(8), 90);
+	locker(x128(15), -x128(6), 270);
+	thickDoor(x128(13), -x128(6), 270);
+	thickDoor(x128(13), -x128(7), 270);
+	thickishWall(x128(12), -x128(7), 90);
+	thickishWall(x128(12), -x128(7), 270);
+	makeBox(128, 128, x128(12), -x128(6), 0);
+	thickDiagonalOctogon(x128(13), -x128(8), 0);
+	makeBox(128, 128, x128(13), -x128(5), 0);
+	wall(x128(14), -x128(5), 270);
+	corridoor(x128(15), -x128(5), 90);
+	Gap(x128(14) + 35, -x128(5) - 20, 0);
+	// End Room
+	largeOctogonRoom(x128(10), x128(11), true, true, false, true);
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
@@ -656,7 +943,7 @@ void PhysicsPlayground::smallOctogonCorner(int xPos, int yPos, float rotation) {
 	std::string fileName = "Isolation 2D/thick junction corner.png";
 	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(xPos, yPos, 2.f));
-	ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+
 	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
@@ -681,11 +968,10 @@ void PhysicsPlayground::smallOctogonCorner(int xPos, int yPos, float rotation) {
 	tempPhsBody.SetRotationAngleDeg(rotation);
 }
 void PhysicsPlayground::smallOctogonRoom(int xPos, int yPos) {
-	int ohfuck = 18;
-	smallOctogonCorner(xPos + ohfuck, yPos + ohfuck, 0);
-	smallOctogonCorner(xPos + ohfuck, yPos + -ohfuck, 270);
-	smallOctogonCorner(xPos + -ohfuck, yPos + ohfuck, 90);
-	smallOctogonCorner(xPos + -ohfuck, yPos + -ohfuck, 180);
+	smallOctogonCorner(xPos + 32, yPos + 32, 0);
+	smallOctogonCorner(xPos + 32, yPos + -32, 270);
+	smallOctogonCorner(xPos + -32, yPos + 32, 90);
+	smallOctogonCorner(xPos + -32, yPos + -32, 180);
 }
 void PhysicsPlayground::thickCorner1(int xPos, int yPos, float rotation) {
 	//Creates entity
@@ -818,7 +1104,7 @@ void PhysicsPlayground::thickDiagonalOctogon(int xPos, int yPos, float rotation)
 	std::string fileName = "Isolation 2D/thick corner bottom left.png";
 	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 128, 128);
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(xPos, yPos, 2.f));
-	ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+
 	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
@@ -855,9 +1141,9 @@ void PhysicsPlayground::thickStraightOctogon(int xPos, int yPos, float rotation)
 
 	//Sets up components
 	std::string fileName = "Isolation 2D/thick wall left.png";
-	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 128, 180);
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 128, 128);
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(xPos, yPos, 2.f));
-	ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+
 	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
@@ -883,24 +1169,22 @@ void PhysicsPlayground::thickStraightOctogon(int xPos, int yPos, float rotation)
 	tempPhsBody.SetRotationAngleDeg(rotation);
 }
 void PhysicsPlayground::largeOctogonRoom(int xPos, int yPos, bool north, bool east, bool south, bool west) {
-	int help = 128;
 	if (north == true) {
-		thickStraightOctogon(xPos + 0, yPos + help, 270);
+		thickStraightOctogon(xPos + 0, yPos + 128, 270);
 	}
 	if (east == true) {
-		thickStraightOctogon(xPos + help, yPos + 0, 180);
+		thickStraightOctogon(xPos + 128, yPos + 0, 180);
 	}
 	if (south == true) {
-		thickStraightOctogon(xPos + 0, yPos + -help +20, 90);
+		thickStraightOctogon(xPos + 0, yPos + -128, 90);
 	}
 	if (west == true) {
-		thickStraightOctogon(xPos + -help, yPos + 0, 0);
+		thickStraightOctogon(xPos + -128, yPos + 0, 0);
 	}
-	
-	thickDiagonalOctogon(xPos + help, yPos + help, 180);
-	thickDiagonalOctogon(xPos + help, yPos + -help, 90);
-	thickDiagonalOctogon(xPos + -help, yPos + -help, 0);
-	thickDiagonalOctogon(xPos + -help, yPos + help, 270);
+	thickDiagonalOctogon(xPos + 128, yPos + 128, 180);
+	thickDiagonalOctogon(xPos + 128, yPos + -128, 90);
+	thickDiagonalOctogon(xPos + -128, yPos + -128, 0);
+	thickDiagonalOctogon(xPos + -128, yPos + 128, 270);
 }
 void PhysicsPlayground::thickishWall(int xPos, int yPos, float rotation) {
 	//Creates entity
@@ -970,8 +1254,8 @@ void PhysicsPlayground::thickWall(int xPos, int yPos, float rotation) {
 	std::vector<b2Vec2> points = {
 		b2Vec2(-tempSpr.GetWidth() / 2.f,tempSpr.GetHeight() / 2),
 		b2Vec2(-tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 2),
-		b2Vec2( 0,-tempSpr.GetHeight() / 2),
-		b2Vec2( 0, tempSpr.GetHeight() / 2),
+		b2Vec2(0,-tempSpr.GetHeight() / 2),
+		b2Vec2(0, tempSpr.GetHeight() / 2),
 	};
 	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
 
@@ -1141,8 +1425,8 @@ void PhysicsPlayground::narrowCorridor(int xPos, int yPos, float rotation) {
 		makeBox(32, 128, xPos + 48, yPos, 0);
 	}
 	if (rotation == 90) {
-		makeBox(128, 32, xPos , yPos - 48, 0);
-		makeBox(128, 32, xPos , yPos + 48, 0);
+		makeBox(128, 32, xPos, yPos - 48, 0);
+		makeBox(128, 32, xPos, yPos + 48, 0);
 	}
 }
 void PhysicsPlayground::junction(int xPos, int yPos, float rotation) {
@@ -1176,12 +1460,6 @@ void PhysicsPlayground::corner(int xPos, int yPos, float rotation) {
 
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-<<<<<<< HEAD
-	
-	
-	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
-	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
-=======
 	//Custom body
 	// The program detects these points clockwise, so top of the triangle, bottom right, bottom left. box 2d is counter clockwise
 	std::vector<b2Vec2> points = {
@@ -1193,7 +1471,6 @@ void PhysicsPlayground::corner(int xPos, int yPos, float rotation) {
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
->>>>>>> AIBranch
 }
 void PhysicsPlayground::locker(int xPos, int yPos, float rotation) {
 	if (rotation == 0) {
@@ -1765,7 +2042,7 @@ void PhysicsPlayground::Gap(int xPos, int yPos, int rotation) {
 		}
 	}
 }
-float tarX , tarY ;
+float tarX, tarY;
 //IMPORTANT VARIABLES
 const float AlienSpeed = 6000.f;
 const float AlienRetention = 3.f;
@@ -1794,19 +2071,15 @@ void UI(int radar, int alien)
 }
 
 void MoveTo(int alien)
-{	
+{
 	//This function is always called every frame, and moves the alien in the direction of the target set by other functions
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
 	b2Vec2 direction = (b2Vec2(tarX, tarY) - ali.GetBody()->GetPosition());
 	float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
 	direction = b2Vec2(direction.x / distance, direction.y / distance);
 
-<<<<<<< HEAD
-	ali.GetBody()->SetLinearVelocity(b2Vec2(direction.x * Timer::deltaTime * 2, direction.y * Timer::deltaTime * 2));
-=======
-	ali.GetBody()->SetLinearVelocity(b2Vec2(direction.x * Timer::deltaTime *AlienSpeed, direction.y * Timer::deltaTime * AlienSpeed));
->>>>>>> AIBranch
-	
+	ali.GetBody()->SetLinearVelocity(b2Vec2(direction.x * Timer::deltaTime * AlienSpeed, direction.y * Timer::deltaTime * AlienSpeed));
+
 }
 
 
@@ -1816,17 +2089,17 @@ void FindNextPosition(int alien)
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 
-		if ((int)ali.GetBody()->GetPosition().x == (int)tarX && (int)ali.GetBody()->GetPosition().y == (int)tarY)
-		{
-			tarX = player.GetBody()->GetPosition().x;
-			tarY = player.GetBody()->GetPosition().y;
-		}
+	if ((int)ali.GetBody()->GetPosition().x == (int)tarX && (int)ali.GetBody()->GetPosition().y == (int)tarY)
+	{
+		tarX = player.GetBody()->GetPosition().x;
+		tarY = player.GetBody()->GetPosition().y;
+	}
 
-		if ((int)ali.GetBody()->GetLinearVelocity().x == 0 && (int)ali.GetBody()->GetLinearVelocity().y == 0)
-		{
-			tarX = player.GetBody()->GetPosition().x;
-			tarY = player.GetBody()->GetPosition().y;
-		}
+	if ((int)ali.GetBody()->GetLinearVelocity().x == 0 && (int)ali.GetBody()->GetLinearVelocity().y == 0)
+	{
+		tarX = player.GetBody()->GetPosition().x;
+		tarY = player.GetBody()->GetPosition().y;
+	}
 }
 
 int aCounter = 0;
@@ -1835,7 +2108,7 @@ float stuckCounter = 0;
 float alienRetentionTimer = 0;
 int newWay = 0;
 bool found = false;
-bool Search(int alien,int rayMarker, b2World* m_physicsWorld)
+bool Search(int alien, int rayMarker, b2World* m_physicsWorld)
 {
 
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
@@ -1849,7 +2122,7 @@ bool Search(int alien,int rayMarker, b2World* m_physicsWorld)
 	direction = b2Vec2(direction.x / distance, direction.y / distance);
 
 	RayCastCallback vCone, vCone2, vCone3;
-	m_physicsWorld->RayCast(&vCone,b2Vec2(direction.x * 100,direction.y * 100 ), ali.GetBody()->GetWorldPoint(b2Vec2(0, 0))); //Middle
+	m_physicsWorld->RayCast(&vCone, b2Vec2(direction.x * 100, direction.y * 100), ali.GetBody()->GetWorldPoint(b2Vec2(0, 0))); //Middle
 
 
 
@@ -1876,7 +2149,7 @@ bool Search(int alien,int rayMarker, b2World* m_physicsWorld)
 }
 
 
-void Chase(int alien,b2World* m_physicsWorld)
+void Chase(int alien, b2World* m_physicsWorld)
 {
 	//This Function is simply used make the alien move in the direction of the player
 	newWay = rand() % 2;
@@ -1886,16 +2159,16 @@ void Chase(int alien,b2World* m_physicsWorld)
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 
 
-	
+
 	RayCastCallback toPlayer;
 	m_physicsWorld->RayCast(&toPlayer, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
 
 
-	tarX = player.GetBody()->GetPosition().x ;
-	tarY = player.GetBody()->GetPosition().y ;
+	tarX = player.GetBody()->GetPosition().x;
+	tarY = player.GetBody()->GetPosition().y;
 }
 
-void Dodge(int alien,b2World* m_physicsWorld)
+void Dodge(int alien, b2World* m_physicsWorld)
 {
 	//This Function is used to dodge obstacles between the alien and player
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
@@ -1907,90 +2180,90 @@ void Dodge(int alien,b2World* m_physicsWorld)
 
 	float maxDist = -10000;
 
-	b2Vec2 newDirections[16] = {b2Vec2(0,-1),b2Vec2(0,1),b2Vec2(-1,0),b2Vec2(1,0),b2Vec2(1,1),b2Vec2(1,-1),b2Vec2(-1,-1),b2Vec2(-1,1),b2Vec2(0.5f,-1),b2Vec2(0.5f,1),b2Vec2(-1,0.5f),b2Vec2(1,0.5f),b2Vec2(0.5f,0.5f),b2Vec2(0.5f,-0.5f),b2Vec2(-0.5f,-0.5f),b2Vec2(-0.5f,0.5f) };
+	b2Vec2 newDirections[16] = { b2Vec2(0,-1),b2Vec2(0,1),b2Vec2(-1,0),b2Vec2(1,0),b2Vec2(1,1),b2Vec2(1,-1),b2Vec2(-1,-1),b2Vec2(-1,1),b2Vec2(0.5f,-1),b2Vec2(0.5f,1),b2Vec2(-1,0.5f),b2Vec2(1,0.5f),b2Vec2(0.5f,0.5f),b2Vec2(0.5f,-0.5f),b2Vec2(-0.5f,-0.5f),b2Vec2(-0.5f,0.5f) };
 	RayCastCallback targetRay;
 
-		//Shoots Rays in 16 directions away from the alien and finds the longest ray.
-		for (int i = 0; i < 16; i++) 
-		{
-			m_physicsWorld->RayCast(&dodgeRay, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), ali.GetBody()->GetWorldPoint(b2Vec2(newDirections[i].x * 10000, newDirections[i].y * 10000)));
-			b2Vec2 direction = (b2Vec2(dodgeRay.m_point.x, dodgeRay.m_point.y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
-			float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
+	//Shoots Rays in 16 directions away from the alien and finds the longest ray.
+	for (int i = 0; i < 16; i++)
+	{
+		m_physicsWorld->RayCast(&dodgeRay, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), ali.GetBody()->GetWorldPoint(b2Vec2(newDirections[i].x * 10000, newDirections[i].y * 10000)));
+		b2Vec2 direction = (b2Vec2(dodgeRay.m_point.x, dodgeRay.m_point.y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
+		float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
 
-			//b2Vec2 direction2 = (b2Vec2(player.GetBody()->GetPosition().x, player.GetBody()->GetPosition().y) - b2Vec2(dodgeRay.m_point.x, dodgeRay.m_point.y));
-			//float distance2 = sqrt(direction2.x * direction2.x + direction2.y * direction2.y);
-			//float distance3 = distance - distance2;
-			if (distance > maxDist)
+		//b2Vec2 direction2 = (b2Vec2(player.GetBody()->GetPosition().x, player.GetBody()->GetPosition().y) - b2Vec2(dodgeRay.m_point.x, dodgeRay.m_point.y));
+		//float distance2 = sqrt(direction2.x * direction2.x + direction2.y * direction2.y);
+		//float distance3 = distance - distance2;
+		if (distance > maxDist)
+		{
+			maxDist = distance;
+			maxRayIndex = i;
+		}
+
+
+	}
+
+	//This keeps track of how long the alien is stuck in place. (IS CURRENTLY UN-USED)
+	if (ali.GetBody()->GetLinearVelocity().x < 5 && ali.GetBody()->GetLinearVelocity().y < 5)
+	{
+		//cout << "\nSTUCK!!";
+		adjustX = 1;
+		adjustY = 1;
+		stuckCounter += 1 * Timer::deltaTime;
+		if (stuckCounter > 0.5)
+		{
+			//nCounter = 500;
+		}
+	}
+	else
+	{
+
+		//adjustX = 0;
+		//adjustY = 0;
+	}
+
+	//This code gets set off if the alien is stuck in place for too long (CURRENTLY UN-USED)
+	if (nCounter >= 1)
+	{
+		//cout << "Correcting.";
+		Chase(alien, m_physicsWorld);
+		nCounter -= 1 * Timer::deltaTime;
+	}
+
+
+	else
+	{
+		RayCastCallback toPlayer;
+		m_physicsWorld->RayCast(&targetRay, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), ali.GetBody()->GetWorldPoint(b2Vec2(newDirections[maxRayIndex].x * 10000, newDirections[maxRayIndex].y * 10000)));
+		m_physicsWorld->RayCast(&toPlayer, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
+
+		b2Vec2 direction4 = (b2Vec2(toPlayer.m_point.x, toPlayer.m_point.y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
+		float distance4 = sqrt(direction4.x * direction4.x + direction4.y * direction4.y);
+
+		if (distance4 < 25)
+		{
+			if (newWay == 0)
 			{
-				maxDist = distance;
-				maxRayIndex = i;
-			}
-
-
-		}
-
-		//This keeps track of how long the alien is stuck in place. (IS CURRENTLY UN-USED)
-		if (ali.GetBody()->GetLinearVelocity().x < 5 && ali.GetBody()->GetLinearVelocity().y < 5)
-		{
-			//cout << "\nSTUCK!!";
-			adjustX = 1;
-			adjustY = 1;
-			stuckCounter += 1 * Timer::deltaTime;
-			if (stuckCounter > 0.5)
-			{
-				//nCounter = 500;
-			}
-		}
-		else
-		{
-
-			//adjustX = 0;
-			//adjustY = 0;
-		}
-		
-		//This code gets set off if the alien is stuck in place for too long (CURRENTLY UN-USED)
-		if (nCounter >= 1)
-		{
-			//cout << "Correcting.";
-			Chase(alien, m_physicsWorld);
-			nCounter -= 1 * Timer::deltaTime;
-		}
-
-
-		else
-		{
-			RayCastCallback toPlayer;
-			m_physicsWorld->RayCast(&targetRay, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), ali.GetBody()->GetWorldPoint(b2Vec2(newDirections[maxRayIndex].x * 10000, newDirections[maxRayIndex].y * 10000)));
-			m_physicsWorld->RayCast(&toPlayer, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
-
-			b2Vec2 direction4 = (b2Vec2(toPlayer.m_point.x, toPlayer.m_point.y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
-			float distance4 = sqrt(direction4.x * direction4.x + direction4.y * direction4.y);
-
-			if (distance4 < 25)
-			{
-				if (newWay == 0)
-				{
-					//Clockwise Dodging
-					ali.GetBody()->SetAngularVelocity(-200.f * Timer::deltaTime * adjustX);
-					tarX = player.GetBody()->GetPosition().x + targetRay.m_point.x + (toPlayer.m_normal.y * 5000);
-					tarY = player.GetBody()->GetPosition().y + targetRay.m_point.y + (toPlayer.m_normal.x * -5000);
-				}
-				else
-				{
-					//Counter Clockwise Dodging
-					ali.GetBody()->SetAngularVelocity(200.f * Timer::deltaTime * adjustY);
-					tarX = player.GetBody()->GetPosition().x + targetRay.m_point.x + (toPlayer.m_normal.y * -5000);
-					tarY = player.GetBody()->GetPosition().y + targetRay.m_point.y + (toPlayer.m_normal.x * 5000);
-
-				}
+				//Clockwise Dodging
+				ali.GetBody()->SetAngularVelocity(-200.f * Timer::deltaTime * adjustX);
+				tarX = player.GetBody()->GetPosition().x + targetRay.m_point.x + (toPlayer.m_normal.y * 5000);
+				tarY = player.GetBody()->GetPosition().y + targetRay.m_point.y + (toPlayer.m_normal.x * -5000);
 			}
 			else
 			{
-				tarX = player.GetBody()->GetPosition().x;
-				tarY = player.GetBody()->GetPosition().y;
+				//Counter Clockwise Dodging
+				ali.GetBody()->SetAngularVelocity(200.f * Timer::deltaTime * adjustY);
+				tarX = player.GetBody()->GetPosition().x + targetRay.m_point.x + (toPlayer.m_normal.y * -5000);
+				tarY = player.GetBody()->GetPosition().y + targetRay.m_point.y + (toPlayer.m_normal.x * 5000);
 
 			}
 		}
+		else
+		{
+			tarX = player.GetBody()->GetPosition().x;
+			tarY = player.GetBody()->GetPosition().y;
+
+		}
+	}
 }
 
 
@@ -2003,13 +2276,13 @@ void ConeMovement(int visionCone)
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 	auto& vCone = ECS::GetComponent<Transform>(visionCone);
 	auto& vConeB = ECS::GetComponent<PhysicsBody>(visionCone);
-	
 
-	b2Vec2 direction = (b2Vec2(mousePosX ,mousePosY ));
+
+	b2Vec2 direction = (b2Vec2(mousePosX, mousePosY));
 	float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
 	direction = b2Vec2(direction.x / distance, direction.y / distance);
 
-	vConeB.SetRotationAngleDeg((atan2(direction.y , direction.x ) * 180 / 3.14f) + 90);
+	vConeB.SetRotationAngleDeg((atan2(direction.y, direction.x) * 180 / 3.14f) + 90);
 	vCone.SetPosition(player.GetPosition().x, player.GetPosition().y, 99.f);
 
 
@@ -2032,20 +2305,18 @@ void PhysicsPlayground::Update()
 	auto& rad = ECS::GetComponent<Transform>(radar);
 	auto& radSpr = ECS::GetComponent<Sprite>(radar);
 	auto& vCone = ECS::GetComponent<Transform>(visionCone);
-<<<<<<< HEAD
-=======
 	auto& vConeB = ECS::GetComponent<PhysicsBody>(visionCone);
->>>>>>> AIBranch
-	auto& playerObject = ECS::GetComponent<PhysicsBody>(redterminal);
-
-
+	//auto& playerObject = ECS::GetComponent<PhysicsBody>(redterminal);
+	if (GetKeyState(Key::V)) {
+		std::cout << "X: " << player.GetPosition().x << " Y: " << player.GetPosition().y << std::endl;
+	}
 
 	ConeMovement(visionCone);
 
 	//Raycast Pointing Towards Player
 	RayCastCallback cb;
-	m_physicsWorld->RayCast(&cb, ali.GetBody()->GetWorldPoint(b2Vec2(0,0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
-	
+	m_physicsWorld->RayCast(&cb, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
+
 
 	//Raycast Visualization
 	//rayM.SetPosition(cb.m_point.x, cb.m_point.y, 5);
@@ -2053,8 +2324,8 @@ void PhysicsPlayground::Update()
 	//UI Function
 	UI(radar, alien);
 
-	
-//If player and alien are on the same tile:
+
+	//If player and alien are on the same tile:
 	if (found == false)
 	{
 		if (Search(alien, rayMarker, m_physicsWorld) == true)
@@ -2062,7 +2333,7 @@ void PhysicsPlayground::Update()
 			found = true;
 		}
 
-		
+
 		//Patrol()
 	}
 	if (found == true)
@@ -2108,7 +2379,7 @@ void PhysicsPlayground::Update()
 		{
 			alienRetentionTimer = 0;
 			found = false;
-			
+
 		}
 	}
 	MoveTo(alien);
@@ -2123,13 +2394,13 @@ void PhysicsPlayground::KeyboardHold()
 	auto& aliSpr = ECS::GetComponent<Transform>(alienSpr);
 	float speed = 200.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
-	
+
 	//aliSpr.SetPosition(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y, 2.f);
 
 	//if ((vel.x > 1 || vel.x < -1) && (vel.y > 1 || vel.y < -1)) {
 	//	//isMoving = true;
 	//} else { isMoving = false; }
-	
+
 	if (Input::GetKey(Key::Shift))
 	{
 		speed *= 2.f;
@@ -2149,25 +2420,15 @@ void PhysicsPlayground::KeyboardHold()
 	if (Input::GetKey(Key::A))
 	{
 		vel.x += -Timer::deltaTime;
-<<<<<<< HEAD
-		std::string fileName = "left.png";
-		playerSpr.LoadSprite(fileName, 32, 32);
-=======
 		//std::string fileName = "left.png";
 		//playerSpr.LoadSprite(fileName, 32, 32);
->>>>>>> AIBranch
 		//vel += b2Vec2(-8.f * Timer::deltaTime, 0.f);
 	}
 	if (Input::GetKey(Key::D))
 	{
 		vel.x += Timer::deltaTime;
-<<<<<<< HEAD
-		std::string fileName = "right.png";
-		playerSpr.LoadSprite(fileName, 32, 32);
-=======
 		//std::string fileName = "right.png";
 		//playerSpr.LoadSprite(fileName, 32, 32);
->>>>>>> AIBranch
 		//vel += b2Vec2(8.f * Timer::deltaTime, 0.f);
 	}
 	if (Input::GetKeyDown(Key::E))
@@ -2209,35 +2470,35 @@ void PhysicsPlayground::KeyboardDown()
 			canJump.m_canJump = false;
 		}
 	}*/
-	
 
 
-		if (Input::GetKeyDown(Key::Y))
-		{
-			if (viewAlien == false)
-			{
-				viewAlien = true;
-			}
-			else
-			{
-				viewAlien = false;
 
-			}
-
-		}
-
+	if (Input::GetKeyDown(Key::Y))
+	{
 		if (viewAlien == false)
 		{
-			ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&playerT);
-			ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&playerT);
+			viewAlien = true;
 		}
 		else
 		{
-			ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&aliT);
-			ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&aliT);
+			viewAlien = false;
 
 		}
-	
+
+	}
+
+	if (viewAlien == false)
+	{
+		ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&playerT);
+		ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&playerT);
+	}
+	else
+	{
+		ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&aliT);
+		ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&aliT);
+
+	}
+
 }
 
 void PhysicsPlayground::KeyboardUp()
@@ -2248,12 +2509,12 @@ void PhysicsPlayground::KeyboardUp()
 
 void PhysicsPlayground::MouseMotion(SDL_MouseMotionEvent evnt)
 {
-	
+
 	//cout << "\n" << evnt.x << " "<< evnt.y;
 
-	
-	mousePosX = evnt.x -(ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetWindowSize().x/2);
-	mousePosY = (ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetWindowSize().y -evnt.y) - (ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetWindowSize().y /2);
+
+	mousePosX = evnt.x - (ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetWindowSize().x / 2);
+	mousePosY = (ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetWindowSize().y - evnt.y) - (ECS::GetComponent<Camera>(MainEntities::MainCamera()).GetWindowSize().y / 2);
 
 
 
