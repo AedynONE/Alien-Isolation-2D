@@ -130,12 +130,12 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(x128(18)), float32(x128(-3)));
+		tempDef.position.Set(float32(x128(13)), float32(x128(-3)));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		//Sphere body
-		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | TRIGGER, 0.5f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
@@ -184,7 +184,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetGravityScale(0.f);
 	}
 
-	/*
+	
 	//Setup trigger
 	{
 		//Creates entity
@@ -200,9 +200,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "boxSprite.jpg";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 40);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-30.f, -20.f, 80.f));
-		ECS::GetComponent<Trigger*>(entity) = new DestroyTrigger();
-		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
-		ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(ball);
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -212,14 +209,14 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(-100.f), float32(10.f));
+		tempDef.position.Set(float32(0.f), float32(0.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER | OBJECTS);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, TRIGGER, PLAYER);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
-	*/
+	
 
 	// This is just a list of the tiles
 	//largeOctogonRoom(0, 0, true, true, true, true);
@@ -434,6 +431,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thickCorner(x128(12), 0, 0);
 	thickCorner(x128(14), x128(1), 180);
 	thickCorner(x128(14), 0, 90);
+	thickishWall(x128(13),x128(1),270);
+	thickishWall(x128(13), -x128(3), 90);
 	thickishDoor(x128(13), x128(0), 0);
 	thickCorner(x128(12), -x128(2), 270);
 	thickCorner(x128(12), -x128(3), 0);
@@ -507,7 +506,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	Gap(x128(14) + 35, -x128(5) - 20, 0);
 	// End Room
 	largeOctogonRoom(x128(10), x128(11), true, true, false, true);
-	corridoor(x128(10), x128(10), 0);
+	corridoor(x128(10), x128(9), 0);
+
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
