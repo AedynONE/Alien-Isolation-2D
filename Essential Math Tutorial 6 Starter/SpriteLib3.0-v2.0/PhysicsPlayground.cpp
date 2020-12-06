@@ -2,6 +2,7 @@
 #include "Utilities.h"
 #include "RayCastCallback.h"
 #include <Box2d/Dynamics/b2Fixture.h>
+#pragma comment(lib, "winmm.lib")
 using namespace std;
 #include <random>
 
@@ -171,7 +172,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	}
 
 
-
 	//Setup Radar
 	{
 
@@ -327,6 +327,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	//largeOctogonRoom(0, 0, true, true, true, true);
 	//smallOctogonRoom(0, 0);
+
+	//Sounds
+	PlaySound(TEXT("assets/sounds/09_Alone.wav"), NULL, SND_FILENAME | SND_ASYNC);
 
 
 	
@@ -629,6 +632,7 @@ void Chase(int alien,b2World* m_physicsWorld)
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 
 
+	
 	RayCastCallback toPlayer;
 	m_physicsWorld->RayCast(&toPlayer, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
 
@@ -759,6 +763,7 @@ void ConeMovement(int visionCone)
 
 
 }
+
 
 void PhysicsPlayground::Update()
 {
