@@ -507,6 +507,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	Gap(x128(14) + 35, -x128(5) - 20, 0);
 	// End Room
 	largeOctogonRoom(x128(10), x128(11), true, true, false, true);
+	corridoor(x128(10), x128(10), 0);
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
