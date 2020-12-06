@@ -222,7 +222,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "spritesheets/Player.png";
 		std::string animations = "Player.json";
 		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 32, 32, &ECS::GetComponent<Sprite>(entity),
-		&ECS::GetComponent<AnimationController>(entity), &ECS::GetComponent<Transform>(entity));
+			&ECS::GetComponent<AnimationController>(entity), &ECS::GetComponent<Transform>(entity));
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
 
@@ -821,6 +821,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thickCorner(x128(12), 0, 0);
 	thickCorner(x128(14), x128(1), 180);
 	thickCorner(x128(14), 0, 90);
+	thickishWall(x128(13),x128(1),270);
+	thickishWall(x128(13), -x128(3), 90);
 	thickishDoor(x128(13), x128(0), 0);
 	thickCorner(x128(12), -x128(2), 270);
 	thickCorner(x128(12), -x128(3), 0);
@@ -837,6 +839,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	makeBox(128, x128(3), x128(19), -x128(1), 0);
 	thickDoor(x128(17), -x128(4), 0);
 	corridoor(x128(18), -x128(4), 0);
+	Gap(x128(18) + 35, -x128(2) - 20, 0);
 	locker(x128(18), -x128(3), 180);
 	thickishWall(x128(16), -x128(3), 180);
 	makeBox(128, 128, x128(18), -x128(5), 0);
@@ -893,6 +896,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	Gap(x128(14) + 35, -x128(5) - 20, 0);
 	// End Room
 	largeOctogonRoom(x128(10), x128(11), true, true, false, true);
+	corridoor(x128(10), x128(9), 0);
+
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
