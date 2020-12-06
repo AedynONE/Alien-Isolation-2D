@@ -5,6 +5,7 @@
 using namespace std;
 #include <random>
 
+int triggerPlacer = 2;
 
 PhysicsPlayground::PhysicsPlayground(std::string name)
 	: Scene(name)
@@ -194,6 +195,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
 
 		auto entity = ECS::CreateEntity();
+		redterminal = entity;
 		ECS::SetIsMainPlayer(entity, true);
 
 		//Add components
@@ -218,7 +220,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(0.f), float32(30.f));
+		tempDef.position.Set(float32(0.f), float32(2.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -231,8 +233,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetGravityScale(0.f);
 		
 	}
-
-
 
 	//Alien entity
 	{
@@ -274,10 +274,40 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetGravityScale(0.f);
 		
 	}
-	
+	//Setup Corpse 1
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "corpse1.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(250.f, -30.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 10.f;
+		float shrinkY = 14.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(250.f), float32(-30.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+
 	//largeOctogonRoom(0, 0, true, true, true, true);
 	//smallOctogonRoom(0, 0);
-
 
 
 	
@@ -723,6 +753,7 @@ void PhysicsPlayground::Update()
 	auto& radSpr = ECS::GetComponent<Sprite>(radar);
 	auto& vCone = ECS::GetComponent<Transform>(visionCone);
 	auto& vConeB = ECS::GetComponent<PhysicsBody>(visionCone);
+	auto& playerObject = ECS::GetComponent<PhysicsBody>(redterminal);
 
 
 
