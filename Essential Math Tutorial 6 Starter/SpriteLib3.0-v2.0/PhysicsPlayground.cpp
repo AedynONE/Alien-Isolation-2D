@@ -114,7 +114,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(false);
-		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+		tempPhsBody.SetColor(vec4(0.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(0.f);
 	}
 
@@ -152,6 +152,22 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 20.f));
+	}
+	//Setup Overlay
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "FullMap.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0.05f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
 	}
 
 
@@ -739,7 +755,7 @@ void ConeMovement(int visionCone)
 	direction = b2Vec2(direction.x / distance, direction.y / distance);
 
 	vConeB.SetRotationAngleDeg((atan2(direction.y , direction.x ) * 180 / 3.14f) + 90);
-	vCone.SetPosition(player.GetPosition().x, player.GetPosition().y, 100.f);
+	vCone.SetPosition(player.GetPosition().x, player.GetPosition().y, 99.f);
 
 
 }
@@ -924,7 +940,7 @@ void PhysicsPlayground::KeyboardDown()
 			canJump.m_canJump = false;
 		}
 	}*/
-	}
+	
 
 
 		if (Input::GetKeyDown(Key::Y))
