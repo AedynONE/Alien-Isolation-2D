@@ -130,7 +130,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(x128(10)), float32(x128(11)));
+		tempDef.position.Set(float32(x128(18)), float32(x128(-3)));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -220,7 +220,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
 	*/
-	
+
 	// This is just a list of the tiles
 	//largeOctogonRoom(0, 0, true, true, true, true);
 	//smallOctogonRoom(0, 0);
@@ -269,7 +269,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	corridoorThinOpening(x128(3), -x128(2), 90);
 	//Octogon room above Spawn
 	Gap(x128(3) + 35, x128(2) - 20, 0);
-	curvedCorner(x128(2),x128(2),0);
+	curvedCorner(x128(2), x128(2), 0);
 	wall(x128(2), x128(3), 0);
 	curvedCorner(x128(2), x128(4), 270);
 	curvedCorner(x128(4), x128(2), 90);
@@ -283,7 +283,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thickDoor(x128(3), x128(6), 0);
 	thickWall(x128(2), x128(6), 90);
 	thickWall(x128(4), x128(6), 90);
-	thickDiagonalOctogon(x128(1),x128(6),0);
+	thickDiagonalOctogon(x128(1), x128(6), 0);
 	thickDiagonalOctogon(x128(1), x128(8), 270);
 	thickWall(x128(1), x128(7), 0);
 	thickWall(x128(2), x128(8), 270);
@@ -307,9 +307,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thickishWall(x128(13), x128(8), 90);
 	thickishWall(x128(13), x128(8), 270);
 	thickCorner(x128(14), x128(8), 180);
-	thinThickCorridor1(x128(14)-32, x128(8) - 32, 90);
+	thinThickCorridor1(x128(14) - 32, x128(8) - 32, 90);
 	thickCorner(x128(14), x128(7), 0);
-	thinThickCorridor1(x128(15)-96, x128(7)+32, 270);
+	thinThickCorridor1(x128(15) - 96, x128(7) + 32, 270);
 	thickishWall(x128(15), x128(7), 90);
 	thickishWall(x128(15), x128(7), 270);
 	// Room under spawn
@@ -331,7 +331,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thickWall(x128(7), -x128(4), 180);
 	thickWall(x128(7), -x128(3), 180);
 	thickCorner(x128(6), -x128(2), 270);
-	thinThickCorridor1(x128(6) + 32, -x128(2)-32, 180);
+	thinThickCorridor1(x128(6) + 32, -x128(2) - 32, 180);
 	thickishWall(x128(7), -x128(2), 90);
 	thickishWall(x128(7), -x128(2), 270);
 	thickishWall(x128(8), -x128(2), 90);
@@ -378,7 +378,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thickWall(x128(9), -x128(1), 0);
 	thickDoor(x128(11), -x128(1), 90);
 	thickWall(x128(9), 0, 0);
-	thickDoor(x128(9),  x128(1), 270);
+	thickDoor(x128(9), x128(1), 270);
 	thickWall(x128(9), x128(2), 0);
 	thickWall(x128(11), x128(1), 180);
 	thickWall(x128(11), x128(2), 180);
@@ -450,6 +450,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	makeBox(128, x128(3), x128(19), -x128(1), 0);
 	thickDoor(x128(17), -x128(4), 0);
 	corridoor(x128(18), -x128(4), 0);
+	Gap(x128(18) + 35, -x128(2) - 20, 0);
 	locker(x128(18), -x128(3), 180);
 	thickishWall(x128(16), -x128(3), 180);
 	makeBox(128, 128, x128(18), -x128(5), 0);
@@ -487,7 +488,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thickishWall(x128(17), -x128(6), 0);
 	thickishWall(x128(17), -x128(6), 180);
 	thickCorner(x128(17), -x128(7), 90);
-	thinThickCorridor1(x128(17)-32, -x128(7)+32, 0);
+	thinThickCorridor1(x128(17) - 32, -x128(7) + 32, 0);
 	thickDoor(x128(16), -x128(7), 90);
 	thickWall(x128(16), -x128(6), 180);
 	thickDiagonalOctogon(x128(16), -x128(8), 90);
@@ -503,7 +504,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	makeBox(128, 128, x128(13), -x128(5), 0);
 	wall(x128(14), -x128(5), 270);
 	corridoor(x128(15), -x128(5), 90);
-	Gap(x128(14)+35, -x128(5)-20, 0);
+	Gap(x128(14) + 35, -x128(5) - 20, 0);
 	// End Room
 	largeOctogonRoom(x128(10), x128(11), true, true, false, true);
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
@@ -867,8 +868,8 @@ void PhysicsPlayground::thickWall(int xPos, int yPos, float rotation) {
 	std::vector<b2Vec2> points = {
 		b2Vec2(-tempSpr.GetWidth() / 2.f,tempSpr.GetHeight() / 2),
 		b2Vec2(-tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 2),
-		b2Vec2( 0,-tempSpr.GetHeight() / 2),
-		b2Vec2( 0, tempSpr.GetHeight() / 2),
+		b2Vec2(0,-tempSpr.GetHeight() / 2),
+		b2Vec2(0, tempSpr.GetHeight() / 2),
 	};
 	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
 
@@ -1038,8 +1039,8 @@ void PhysicsPlayground::narrowCorridor(int xPos, int yPos, float rotation) {
 		makeBox(32, 128, xPos + 48, yPos, 0);
 	}
 	if (rotation == 90) {
-		makeBox(128, 32, xPos , yPos - 48, 0);
-		makeBox(128, 32, xPos , yPos + 48, 0);
+		makeBox(128, 32, xPos, yPos - 48, 0);
+		makeBox(128, 32, xPos, yPos + 48, 0);
 	}
 }
 void PhysicsPlayground::junction(int xPos, int yPos, float rotation) {
