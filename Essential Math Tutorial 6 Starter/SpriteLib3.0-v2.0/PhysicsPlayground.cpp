@@ -94,6 +94,10 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up the components
 		std::string fileName = "Cone.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 800, 800);
+<<<<<<< HEAD
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+=======
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
 
@@ -108,6 +112,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
 		tempDef.position.Set(float32(0.f), float32(30.f));
+>>>>>>> AIBranch
 		
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -136,7 +141,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "layer1.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+<<<<<<< HEAD
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
+=======
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1088, 192, 0.f));
+>>>>>>> AIBranch
 	}
 
 	//Setup background2
@@ -152,8 +161,13 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Set up the components
 		std::string fileName = "M1_L2G.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
+<<<<<<< HEAD
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0.75f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 20.f));
+=======
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1088.f, 192.f, 20.f));
+>>>>>>> AIBranch
 	}
 	//Setup Overlay
 	{
@@ -222,10 +236,15 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<AnimationController>(entity);
 
 		//Sets up the components
+<<<<<<< HEAD
+		std::string fileName = "left.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
+=======
 		std::string fileName = "spritesheets/Player.png";
 		std::string animations = "Player.json";
 		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 32, 32, &ECS::GetComponent<Sprite>(entity),
 			&ECS::GetComponent<AnimationController>(entity), &ECS::GetComponent<Transform>(entity));
+>>>>>>> AIBranch
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
 
@@ -239,7 +258,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
+<<<<<<< HEAD
+		tempDef.position.Set(float32(0.f), float32(2.f));
+=======
 		tempDef.position.Set(float32(x128(13)), float32(x128(-1)));
+>>>>>>> AIBranch
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -250,7 +273,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(0.f);
+<<<<<<< HEAD
+		
+=======
 
+>>>>>>> AIBranch
 	}
 
 	//Alien entity
@@ -312,7 +339,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
 		float shrinkX = 10.f;
+<<<<<<< HEAD
+		float shrinkY = 14.f;
+=======
 		float shrinkY = 20.f;
+>>>>>>> AIBranch
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
@@ -321,6 +352,12 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+<<<<<<< HEAD
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+
+=======
 			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	}
@@ -334,6 +371,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	
 	// This is just a list of the tiles
+>>>>>>> AIBranch
 	//largeOctogonRoom(0, 0, true, true, true, true);
 	//smallOctogonRoom(0, 0);
 	//thickCorner(0, 0, 0);
@@ -1138,6 +1176,12 @@ void PhysicsPlayground::corner(int xPos, int yPos, float rotation) {
 
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 
+<<<<<<< HEAD
+	
+	
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
+=======
 	//Custom body
 	// The program detects these points clockwise, so top of the triangle, bottom right, bottom left. box 2d is counter clockwise
 	std::vector<b2Vec2> points = {
@@ -1149,6 +1193,7 @@ void PhysicsPlayground::corner(int xPos, int yPos, float rotation) {
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
+>>>>>>> AIBranch
 }
 void PhysicsPlayground::locker(int xPos, int yPos, float rotation) {
 	if (rotation == 0) {
@@ -1756,7 +1801,11 @@ void MoveTo(int alien)
 	float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
 	direction = b2Vec2(direction.x / distance, direction.y / distance);
 
+<<<<<<< HEAD
+	ali.GetBody()->SetLinearVelocity(b2Vec2(direction.x * Timer::deltaTime * 2, direction.y * Timer::deltaTime * 2));
+=======
 	ali.GetBody()->SetLinearVelocity(b2Vec2(direction.x * Timer::deltaTime *AlienSpeed, direction.y * Timer::deltaTime * AlienSpeed));
+>>>>>>> AIBranch
 	
 }
 
@@ -1983,7 +2032,10 @@ void PhysicsPlayground::Update()
 	auto& rad = ECS::GetComponent<Transform>(radar);
 	auto& radSpr = ECS::GetComponent<Sprite>(radar);
 	auto& vCone = ECS::GetComponent<Transform>(visionCone);
+<<<<<<< HEAD
+=======
 	auto& vConeB = ECS::GetComponent<PhysicsBody>(visionCone);
+>>>>>>> AIBranch
 	auto& playerObject = ECS::GetComponent<PhysicsBody>(redterminal);
 
 
@@ -2097,15 +2149,25 @@ void PhysicsPlayground::KeyboardHold()
 	if (Input::GetKey(Key::A))
 	{
 		vel.x += -Timer::deltaTime;
+<<<<<<< HEAD
+		std::string fileName = "left.png";
+		playerSpr.LoadSprite(fileName, 32, 32);
+=======
 		//std::string fileName = "left.png";
 		//playerSpr.LoadSprite(fileName, 32, 32);
+>>>>>>> AIBranch
 		//vel += b2Vec2(-8.f * Timer::deltaTime, 0.f);
 	}
 	if (Input::GetKey(Key::D))
 	{
 		vel.x += Timer::deltaTime;
+<<<<<<< HEAD
+		std::string fileName = "right.png";
+		playerSpr.LoadSprite(fileName, 32, 32);
+=======
 		//std::string fileName = "right.png";
 		//playerSpr.LoadSprite(fileName, 32, 32);
+>>>>>>> AIBranch
 		//vel += b2Vec2(8.f * Timer::deltaTime, 0.f);
 	}
 	if (Input::GetKeyDown(Key::E))
