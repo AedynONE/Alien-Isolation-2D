@@ -130,7 +130,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(x128(13)), float32(x128(-1)));
+		tempDef.position.Set(float32(x128(10)), float32(x128(11)));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -430,7 +430,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thinThickCorridor(x128(12), -x128(1), 0);
 	corridoor(x128(14), -x128(1), 90);
 	corridoorThinOpening(x128(15), -x128(1), 180);
-
 	thickCorner(x128(12), x128(1), 270);
 	thickCorner(x128(12), 0, 0);
 	thickCorner(x128(14), x128(1), 180);
@@ -451,11 +450,62 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	makeBox(128, x128(3), x128(19), -x128(1), 0);
 	thickDoor(x128(17), -x128(4), 0);
 	corridoor(x128(18), -x128(4), 0);
-	locker(x128(18), -x128(3), 270);
-	thickishWall(x128(16), x128(3), 0);
+	locker(x128(18), -x128(3), 180);
+	thickishWall(x128(16), -x128(3), 180);
 	makeBox(128, 128, x128(18), -x128(5), 0);
 	makeBox(128, 128, x128(16), -x128(5), 0);
-
+	// Room below the right bullet room
+	locker(x128(17), x128(1), 180);
+	thickishDoor(x128(17), x128(2), 0);
+	thickishWall(x128(16), x128(2), 90);
+	thickishWall(x128(18), x128(2), 90);
+	thickishWall(x128(16), x128(4), 270);
+	thickishWall(x128(18), x128(4), 270);
+	thickishWall(x128(19), x128(3), 180);
+	thickCorner(x128(19), x128(2), 90);
+	thickCorner(x128(19), x128(4), 180);
+	makeBox(128, 128, x128(15), x128(2), 0);
+	makeBox(128, 128, x128(15), x128(4), 0);
+	lockerDX(x128(15), x128(3), 0);
+	thickishDoor(x128(17), x128(4), 180);
+	thickishWall(x128(17), x128(5), 0);
+	thickishWall(x128(17), x128(5), 180);
+	// Right Bullet Room
+	thickDoor(x128(17), x128(6), 0);
+	thickWall(x128(16), x128(6), 90);
+	thickWall(x128(18), x128(6), 90);
+	thickWall(x128(19), x128(7), 180);
+	thickDiagonalOctogon(x128(19), x128(6), 90);
+	thickDiagonalOctogon(x128(19), x128(8), 180);
+	thickWall(x128(16), x128(8), 270);
+	thickWall(x128(17), x128(8), 270);
+	thickWall(x128(18), x128(8), 270);
+	makeBox(128, 128, x128(15), x128(6), 0);
+	// Room to the right of the bottom main shaft
+	thickishWall(x128(17), -x128(5), 0);
+	thickishWall(x128(17), -x128(5), 180);
+	thickishWall(x128(17), -x128(6), 0);
+	thickishWall(x128(17), -x128(6), 180);
+	thickCorner(x128(17), -x128(7), 90);
+	thinThickCorridor1(x128(17)-32, -x128(7)+32, 0);
+	thickDoor(x128(16), -x128(7), 90);
+	thickWall(x128(16), -x128(6), 180);
+	thickDiagonalOctogon(x128(16), -x128(8), 90);
+	thickishWall(x128(15), -x128(8), 90);
+	thickWall(x128(14), -x128(8), 90);
+	locker(x128(15), -x128(6), 270);
+	thickDoor(x128(13), -x128(6), 270);
+	thickDoor(x128(13), -x128(7), 270);
+	thickishWall(x128(12), -x128(7), 90);
+	thickishWall(x128(12), -x128(7), 270);
+	makeBox(128, 128, x128(12), -x128(6), 0);
+	thickDiagonalOctogon(x128(13), -x128(8), 0);
+	makeBox(128, 128, x128(13), -x128(5), 0);
+	wall(x128(14), -x128(5), 270);
+	corridoor(x128(15), -x128(5), 90);
+	Gap(x128(14)+35, -x128(5)-20, 0);
+	// End Room
+	largeOctogonRoom(x128(10), x128(11), true, true, false, true);
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
