@@ -25,6 +25,8 @@ public:
 	void KeyboardDown() override;
 	void KeyboardUp() override;
 	void MouseMotion(SDL_MouseMotionEvent evnt) override;
+	
+	bool isMoving = false;
 protected:
 	PhysicsPlaygroundListener listener;
 

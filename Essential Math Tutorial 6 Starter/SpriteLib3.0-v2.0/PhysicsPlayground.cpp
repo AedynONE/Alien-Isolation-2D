@@ -42,7 +42,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<HorizontalScroll>(entity);
 		ECS::AttachComponent<VerticalScroll>(entity);
 
-		vec4 temp = vec4(-75.f, 75.f, -75.f, 75.f);
+		vec4 temp = vec4(-90.f, 90.f, -90.f, 90.f);
 		ECS::GetComponent<Camera>(entity).SetOrthoSize(temp);
 		ECS::GetComponent<Camera>(entity).SetWindowSize(vec2(float(windowWidth), float(windowHeight)));
 		ECS::GetComponent<Camera>(entity).Orthographic(aspectRatio, temp.x, temp.y, temp.z, temp.w, -100.f, 100.f);
@@ -121,9 +121,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-		std::string fileName = "Map_Mask.png";
+		std::string fileName = "M1_L2G.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(0.75f);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 20.f));
 	}
 
@@ -187,14 +187,17 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::SetIsMainPlayer(entity, true);
 
 		//Add components
+		ECS::AttachComponent<Player>(entity);
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
-		ECS::AttachComponent<CanJump>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
 
 		//Sets up the components
-		std::string fileName = "left.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
+		std::string fileName = "spritesheets/Player.png";
+		std::string animations = "Player.json";
+		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 32, 32, &ECS::GetComponent<Sprite>(entity),
+			&ECS::GetComponent<AnimationController>(entity), &ECS::GetComponent<Transform>(entity));
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
 
@@ -202,7 +205,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
 		float shrinkX = 0.f;
-		float shrinkY = 5.f;
+		float shrinkY = 12.f;
 
 		b2Body* tempBody;
 		b2BodyDef tempDef;
@@ -212,9 +215,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		//Sphere body
-		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 8.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
 
-		tempPhsBody.SetRotationAngleDeg(0.f);
+		tempPhsBody.SetRotationAngleDeg(180.f);
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(0.f);
@@ -280,7 +283,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
 		float shrinkX = 10.f;
-		float shrinkY = 14.f;
+		float shrinkY = 20.f;
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
@@ -289,7 +292,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	}
 
@@ -707,6 +710,11 @@ int mousePosY = 0;
 
 void PhysicsPlayground::Update()
 {
+	{
+		auto& player = ECS::GetComponent<Player>(MainEntities::MainPlayer());
+		Scene::AdjustScrollOffset();
+		player.Update();
+	}
 	//cout << "\n"<<alienRetentionTimer;
 	auto& rayM = ECS::GetComponent<Transform>(rayMarker);
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
@@ -807,11 +815,15 @@ void PhysicsPlayground::KeyboardHold()
 	auto& playerSpr = ECS::GetComponent<Sprite>(MainEntities::MainPlayer());
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
 	auto& aliSpr = ECS::GetComponent<Transform>(alienSpr);
-	float speed = 75.f;
+	float speed = 350.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
 	
 	aliSpr.SetPosition(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y, 2.f);
 
+	//if ((vel.x > 1 || vel.x < -1) && (vel.y > 1 || vel.y < -1)) {
+	//	//isMoving = true;
+	//} else { isMoving = false; }
+	
 	if (Input::GetKey(Key::Shift))
 	{
 		speed *= 2.f;
@@ -831,15 +843,15 @@ void PhysicsPlayground::KeyboardHold()
 	if (Input::GetKey(Key::A))
 	{
 		vel.x += -Timer::deltaTime;
-		std::string fileName = "left.png";
-		playerSpr.LoadSprite(fileName, 32, 32);
+		//std::string fileName = "left.png";
+		//playerSpr.LoadSprite(fileName, 32, 32);
 		//vel += b2Vec2(-8.f * Timer::deltaTime, 0.f);
 	}
 	if (Input::GetKey(Key::D))
 	{
 		vel.x += Timer::deltaTime;
-		std::string fileName = "right.png";
-		playerSpr.LoadSprite(fileName, 32, 32);
+		//std::string fileName = "right.png";
+		//playerSpr.LoadSprite(fileName, 32, 32);
 		//vel += b2Vec2(8.f * Timer::deltaTime, 0.f);
 	}
 	if (Input::GetKeyDown(Key::E))
@@ -847,7 +859,7 @@ void PhysicsPlayground::KeyboardHold()
 		player.SetPosition(b2Vec2(0.f, 30.f));
 
 	}
-	player.GetBody()->SetLinearVelocity(speed * vel + b2Vec2(player.GetBody()->GetLinearVelocity().x * 0.98f, player.GetBody()->GetLinearVelocity().y * 0.98f));
+	player.GetBody()->SetLinearVelocity(speed * vel + b2Vec2(player.GetBody()->GetLinearVelocity().x * 0.9f, player.GetBody()->GetLinearVelocity().y * 0.9f));
 	//player.GetBody()->SetLinearVelocity(speed * vel);
 
 	//Change physics body size for circle
@@ -865,20 +877,20 @@ void PhysicsPlayground::KeyboardHold()
 void PhysicsPlayground::KeyboardDown()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
-	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
+	//auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
 
 	if (Input::GetKeyDown(Key::T))
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
 	}
-	if (canJump.m_canJump)
+	/*if (canJump.m_canJump)
 	{
 		if (Input::GetKeyDown(Key::Space))
 		{
 			player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 160000.f), true);
 			canJump.m_canJump = false;
 		}
-	}
+	}*/
 }
 
 void PhysicsPlayground::KeyboardUp()
