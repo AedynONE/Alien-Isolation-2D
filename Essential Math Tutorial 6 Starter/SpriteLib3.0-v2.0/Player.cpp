@@ -66,7 +66,7 @@ void Player::MovementUpdate()
 {
 	
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
-	if ((player.GetBody()->GetLinearVelocity().x > 1 || player.GetBody()->GetLinearVelocity().x < -1) || (player.GetBody()->GetLinearVelocity().y > 1 || player.GetBody()->GetLinearVelocity().y < -1))  {
+	if ((player.GetBody()->GetLinearVelocity().x > 2 || player.GetBody()->GetLinearVelocity().x < -2) || (player.GetBody()->GetLinearVelocity().y > 2 || player.GetBody()->GetLinearVelocity().y < -2))  {
 		m_moving = true;
 	}
 	else { m_moving = false; }

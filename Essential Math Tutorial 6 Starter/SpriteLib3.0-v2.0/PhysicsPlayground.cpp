@@ -45,7 +45,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<HorizontalScroll>(entity);
 		ECS::AttachComponent<VerticalScroll>(entity);
 
-		vec4 temp = vec4(-90.f, 90.f, -90.f, 90.f);
+		//vec4 temp = vec4(-(aspectRatio *100), (aspectRatio *100), -(aspectRatio *100), (aspectRatio *100));
+		vec4 temp = vec4(-(150), (150), -(150), (150));
 		ECS::GetComponent<Camera>(entity).SetOrthoSize(temp);
 		ECS::GetComponent<Camera>(entity).SetWindowSize(vec2(float(windowWidth), float(windowHeight)));
 		ECS::GetComponent<Camera>(entity).Orthographic(aspectRatio, temp.x, temp.y, temp.z, temp.w, -100.f, 100.f);
@@ -135,7 +136,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "layer1.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0, 0, 0.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1088, 192, 0.f));
 	}
 
 	//Setup background2
@@ -152,7 +153,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "M1_L2G.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 20.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1088.f, 192.f, 20.f));
 	}
 	//Setup Overlay
 	{
@@ -168,9 +169,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "FullMap.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(0.05f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 100.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1088.f, 192.f, 100.f));
 	}
-
 
 	//Setup Radar
 	{
@@ -1748,10 +1748,6 @@ void UI(int radar, int alien)
 
 }
 
-
-
-float tarX , tarY ;
-
 void MoveTo(int alien)
 {	
 	//This function is always called every frame, and moves the alien in the direction of the target set by other functions
@@ -2073,10 +2069,10 @@ void PhysicsPlayground::KeyboardHold()
 	auto& playerSpr = ECS::GetComponent<Sprite>(MainEntities::MainPlayer());
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
 	auto& aliSpr = ECS::GetComponent<Transform>(alienSpr);
-	float speed = 350.f;
+	float speed = 200.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
 	
-	aliSpr.SetPosition(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y, 2.f);
+	//aliSpr.SetPosition(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y, 2.f);
 
 	//if ((vel.x > 1 || vel.x < -1) && (vel.y > 1 || vel.y < -1)) {
 	//	//isMoving = true;
@@ -2120,15 +2116,15 @@ void PhysicsPlayground::KeyboardHold()
 	player.GetBody()->SetLinearVelocity(speed * vel + b2Vec2(player.GetBody()->GetLinearVelocity().x * 0.9f, player.GetBody()->GetLinearVelocity().y * 0.9f));
 	//player.GetBody()->SetLinearVelocity(speed * vel);
 
-	//Change physics body size for circle
-	if (Input::GetKey(Key::O))
-	{
-		ali.ScaleBody(1.3f * Timer::deltaTime, 0);
-	}
-	else if (Input::GetKey(Key::I))
-	{
-		ali.ScaleBody(-1.3f * Timer::deltaTime, 0);
-	}
+	////Change physics body size for circle
+	//if (Input::GetKey(Key::O))
+	//{
+	//	ali.ScaleBody(1.3f * Timer::deltaTime, 0);
+	//}
+	//else if (Input::GetKey(Key::I))
+	//{
+	//	ali.ScaleBody(-1.3f * Timer::deltaTime, 0);
+	//}
 }
 bool viewAlien = false;
 

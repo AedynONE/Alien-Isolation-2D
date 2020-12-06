@@ -87,26 +87,26 @@ void FirstCreation::Update()
 
 void FirstCreation::KeyboardHold()
 {
-	auto& player = ECS::GetComponent<Transform>(MainEntities::MainPlayer());
-	float speed = 15.f;
+	//auto& player = ECS::GetComponent<Transform>(MainEntities::MainPlayer());
+	//float speed = 15.f;
 
-	if (Input::GetKey(Key::W))
-	{
-		player.SetPositionY(player.GetPositionY() + (speed * Timer::deltaTime));
-	}
-	if (Input::GetKey(Key::S))
-	{
-		player.SetPositionY(player.GetPositionY() - (speed * Timer::deltaTime));
-	}
+	//if (Input::GetKey(Key::W))
+	//{
+	//	player.SetPositionY(player.GetPositionY() + (speed * Timer::deltaTime));
+	//}
+	//if (Input::GetKey(Key::S))
+	//{
+	//	player.SetPositionY(player.GetPositionY() - (speed * Timer::deltaTime));
+	//}
 
-	if (Input::GetKey(Key::A))
-	{
-		player.SetPositionX(player.GetPositionX() - (speed * Timer::deltaTime));
-	}
-	if (Input::GetKey(Key::D))
-	{
-		player.SetPositionX(player.GetPositionX() + (speed * Timer::deltaTime));
-	}
+	//if (Input::GetKey(Key::A))
+	//{
+	//	player.SetPositionX(player.GetPositionX() - (speed * Timer::deltaTime));
+	//}
+	//if (Input::GetKey(Key::D))
+	//{
+	//	player.SetPositionX(player.GetPositionX() + (speed * Timer::deltaTime));
+	//}
 }
 
 void FirstCreation::KeyboardDown()
