@@ -3,61 +3,25 @@
 
 #include "BackEnd.h"
 
-#define TOPDOWN
-
 enum AnimEnums
 {
-	IDLELEFT,
-	IDLERIGHT,
-	
-	//Only in Top down
-#ifdef TOPDOWN
-	IDLEUP,
-	IDLEDOWN,
-#endif
-
-	WALKLEFT,
 	WALKRIGHT,
+	WALKLEFT,
 
-	//Only in Top down
-#ifdef TOPDOWN
-	WALKUP,
-	WALKDOWN,
-#endif
-	
-	ATTACKLEFT,
-	ATTACKRIGHT,
-
-	//Only in Top down
-#ifdef TOPDOWN
-	ATTACKUP,
-	ATTACKDOWN
-#endif
+	IDLELEFT,
+	IDLERIGHT
 };
 
 enum AnimTypes
 {
-#ifdef TOPDOWN
-	IDLE = 0,
-	WALK = 4,
-	ATTACK = 8
-#endif
-#ifndef TOPDOWN
-	IDLE = 0,
-	WALK = 2,
-	ATTACK = 4
-#endif
+	WALK = 0,
+	IDLE = 2,
 };
 
 enum AnimDir
 {
 	LEFT,
 	RIGHT,
-	//Only in Top Down
-#ifdef TOPDOWN
-	UP,
-	DOWN
-#endif
 };
 
 class Player
@@ -74,14 +38,13 @@ public:
 	void MovementUpdate();
 	void AnimationUpdate();
 
+
 private:
 	void SetActiveAnimation(int anim);
 
 	//Basically, any animation OTHER than moving will not have a cancel, and we'll be checking whether or not that animation is done
-	bool m_moving = false;
-	//Are you currently attacking?????
-	bool m_attacking = false;
 	//Have we locked the player from moving during this animation?
+	bool m_moving = false;
 	bool m_locked = false;
 
 	//A reference to our sprite
@@ -98,7 +61,7 @@ private:
 	bool m_hasPhysics = false;
 
 	//Default animation direction (feel free to change this to suit your game. If you're making a side-scroller, left or right would be better
-	AnimDir m_facing = LEFT;
+	AnimDir m_facing = RIGHT;
 };
 
 #endif // !__PLAYER_H__
