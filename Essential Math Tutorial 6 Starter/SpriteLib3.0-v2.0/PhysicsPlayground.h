@@ -46,6 +46,7 @@ public:
 	void gapPL(int xPos, int yPos, float rotation);
 	void gapPR(int xPos, int yPos, float rotation);
 	void mask(int xPos, int yPos, std::string FName);
+	void sMask(int xPos, int yPos, std::string FName);
 	void Gap(int xPos, int yPos, int rotation);
 	void Update() override;
 
@@ -59,6 +60,12 @@ public:
 protected:
 	PhysicsPlaygroundListener listener;
 
+	int sScreen;
+	int eScreen;
+
+	bool hideStartScreen = false;
+	bool showEndScreen = false;
+
 	int ball = 0;
 	int alien;
 	int rayMarker;
@@ -67,4 +74,44 @@ protected:
 	int visionCone;
 	int thing;
 	
+	int RCobj;
+	int YCobj;
+	int GCobj;
+	int BCobj;
+
+	bool hasRC = false;
+	bool hasYC = false;
+	bool hasGC = false;
+	bool hasBC = false;
+
+	bool rTA = false;
+	bool yTA = false;
+	bool gTA = false;
+	bool bTA = false;
+
+	bool finalDoorisOpen = false;
+
+	int yd1;
+	int yd1s;
+	int yd2;
+	int yd2s;
+	int yd3;
+
+	int gd1;
+	int gd1s;
+	int gd2;
+	int gd2s;
+
+	int bd1;
+	int bd1s;
+	int bd2;
+	int bd2s;
+	int bd3;
+	int bd3s;
+	int bd4;
+	int bd5;
+
+	int finDoor;
+	int finDoorS;
+
 };
