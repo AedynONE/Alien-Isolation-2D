@@ -36,6 +36,9 @@ public:
 	//*Update timer
 	//*Update the rendering system
 	//*Update the animation system
+
+	//void swapScene(int newScene);
+
 	void Update();
 
 	//Runs the GUI
@@ -63,6 +66,7 @@ public:
 	void MouseMotion(SDL_MouseMotionEvent evnt);
 	void MouseClick(SDL_MouseButtonEvent evnt);
 	void MouseWheel(SDL_MouseWheelEvent evnt);
+
 private:
 	//The window
 	Window *m_window = nullptr;
@@ -72,6 +76,8 @@ private:
 
 	//Scenes
 	Scene* m_activeScene = nullptr;
+
+
 	std::vector<Scene*> m_scenes;
 	
 	//Imgui stuff

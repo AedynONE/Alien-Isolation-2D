@@ -2,7 +2,6 @@
 
 #include <random>
 
-
 Game::~Game()
 {
 	//If window isn't equal to nullptr
@@ -40,6 +39,7 @@ void Game::InitGame()
 	m_scenes.push_back(new AnimationSpritePlayground("Animation TIEM!!!!"));
 	 
 	//Sets active scene reference to our scene
+	//gameMain = m_scenes[1];
 	m_activeScene = m_scenes[1];
 
 	m_activeScene->InitScene(float(BackEnd::GetWindowWidth()), float(BackEnd::GetWindowHeight()));
@@ -51,6 +51,18 @@ void Game::InitGame()
 
 	PhysicsSystem::Init();
 }
+
+/*void Game::swapScene(int newScene) {
+	m_activeScene->Unload();
+
+	m_activeScene = m_scenes[newScene];
+	m_activeScene->InitScene(float(BackEnd::GetWindowWidth()), float(BackEnd::GetWindowHeight()));
+	m_register = m_activeScene->GetScene();
+
+	BackEnd::SetWindowName(m_activeScene->GetName());
+
+	PhysicsSystem::Init();
+}*/
 
 bool Game::Run()
 {

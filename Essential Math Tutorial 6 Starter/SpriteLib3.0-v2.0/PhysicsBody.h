@@ -25,6 +25,7 @@ enum EntityCategories
 	PLAYER		= 0x0004,
 	FRIENDLY	= 0x0005,
 	ENEMY		= 0x0006,
+	SCREEN		= 0x0011,
 	PICKUP		= 0x0007,
 	TRIGGER		= 0x0008
 };
