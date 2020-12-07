@@ -3501,9 +3501,7 @@ void PhysicsPlayground::Update()
 		}
 
 		ECS::GetComponent<Sprite>(alienSpr).LoadSprite(filename, 64, 64);
-		std::cout << "File: " << filename << " Time: " << aniClockDif << std::endl;
-		//t -= 1;
-		//if (t <= 0) t = 4;
+		//std::cout << "File: " << filename << " Time: " << aniClockDif << std::endl;
 	}
 
 	if (distance < 6) {
@@ -3512,8 +3510,7 @@ void PhysicsPlayground::Update()
 	else {
 		std::cout << "Distance: " << distance << std::endl;
 	}
-	*/
-	/*
+
 	if (hideStartScreen) {
 		ECS::GetComponent<Sprite>(sScreen).SetTransparency(0.f);
 	}
@@ -3521,7 +3518,7 @@ void PhysicsPlayground::Update()
 		player.SetPosition(b2Vec2(0,0));
 		ECS::GetComponent<Sprite>(sScreen).SetTransparency(1.f);
 	}
-	*/
+	
 
 	if (showEndScreen) {
 		player.SetPosition(b2Vec2(0, 0));
@@ -3641,7 +3638,7 @@ void PhysicsPlayground::Update()
 	//	ECS::GetComponent<Sprite>(sScreen).SetTransparency(0.f);
 	//}
 
-	if (GetKeyState(Key::Space) != 0 && hideStartScreen == false) {
+	if (Input::GetKey(Key::Space) && hideStartScreen == false) {
 		std::cout << "Space is being pressed" << std::endl;
 		hideStartScreen = true;
 	}
