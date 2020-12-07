@@ -80,6 +80,10 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	decoration("Egg1.png", 40, 40, x128(2) + 35, x128(8), 0);
 	decoration("Egg2.png", 40, 40, x128(1) + 64, x128(6)+35, 0);
 	decoration("Egg3.png", 40, 40, x128(4) + 35, x128(8), 0);
+	decoration("Table.png", 64, 64, x128(10), x128(-6), 0);
+	decoration("Table.png", 64, 64, x128(10), x128(-7), 0);
+	decoration("Table.png", 64, 64, x128(10), x128(-8), 0);
+	decoration("Table.png", 64, 64, x128(10), x128(-9), 0);
 
 	//Doors
 	{
