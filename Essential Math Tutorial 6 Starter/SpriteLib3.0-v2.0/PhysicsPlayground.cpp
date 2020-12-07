@@ -56,6 +56,28 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 	}
 
+	decoration("Back facing bed.png", 64, 64, x128(0), -96, 0);
+	decoration("bed.png", 64, 64, x128(0), 96, 0);
+	decoration("Dead crewmate on a Stacter.png", 60, 60, x128(18), x128(-4) - 32, 0);
+	decoration("Kitchen counter.png", 64, 55, x128(13) + 32, x128(-6) + 64, 0);
+	decoration("Stacher.png", 60, 60, x128(18), x128(0), 0);
+	decoration("Stacher.png", 60, 60, x128(18), x128(0)-30, 0);
+	decoration("Stacher.png", 60, 60, x128(16), x128(0), 0);
+	decoration("Stacher.png", 60, 60, x128(16), x128(0) - 30, 0);
+	decoration("coffeemachine.png", 32, 64, x128(9) - 32, x128(-8) + 32, 0);
+	decoration("Couch.png", 40, 40, x128(4) - 60, x128(4) + 64, 0);
+	decoration("Couch.png", 40, 40, x128(2)+60, x128(4) + 64, 0);
+	decoration("coffeemachine.png", 32, 64, x128(2) - 35, x128(4), 0);
+	decoration("Crate1.png", 40, 40, x128(2) - 35, x128(-5), 0);
+	decoration("Crate1.png", 40, 40, x128(2), x128(-5), 0);
+	decoration("Crate1.png", 40, 40, x128(2) - 35, x128(-5) + 35, 0);
+	decoration("Crate2.png", 40, 40, x128(4) + 15, x128(-3) + 64, 0);
+	decoration("Crate2.png", 40, 40, x128(4) + 35, x128(-3) + 35, 0);
+	decoration("Crate2.png", 40, 40, x128(4), x128(-3) + 35, 0);
+	decoration("Egg1.png", 40, 40, x128(2) + 35, x128(8), 0);
+	decoration("Egg2.png", 40, 40, x128(1) + 64, x128(6)+35, 0);
+	decoration("Egg3.png", 40, 40, x128(4) + 35, x128(8), 0);
+
 	//Doors
 	{
 		//Yellow
@@ -756,7 +778,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(x128(0)), float32(x128(0)));
+		tempDef.position.Set(float32(x128(2)), float32(x128(8)));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -1804,12 +1826,10 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
+
 int PhysicsPlayground::x128(int tileNum) {
 	return tileNum * 128;
 }
-
-
-
 void PhysicsPlayground::makeBox(int xSize, int ySize, float xPos, float yPos, float rotation)
 {
 	//Creates entity
@@ -2789,7 +2809,6 @@ void PhysicsPlayground::mask(int xPos, int yPos, std::string FName) {
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3((xPos), (yPos), 2.f));
 	}
 }
-
 void PhysicsPlayground::sMask(int xPos, int yPos, std::string FName) {
 	{
 		auto entity = ECS::CreateEntity();
@@ -2966,12 +2985,41 @@ void PhysicsPlayground::Gap(int xPos, int yPos, int rotation) {
 		}
 	}
 }
+void PhysicsPlayground::decoration(std::string FName, int xSize, int ySize, int xPos, int yPos, int rotation) {
+	//Creates entity
+	auto entity = ECS::CreateEntity();
+
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+
+	//Sets up components
+	std::string fileName = FName;
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, xSize, ySize);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(xPos, yPos, 4.f));
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.position.Set(float32(xPos), float32(yPos));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS, 1.f, 1.f);
+	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	tempPhsBody.SetRotationAngleDeg(rotation);
+}
+
 float tarX, tarY;
 //IMPORTANT VARIABLES
-const float AlienSpeed = 6000.f;
+const float AlienSpeed = 6.f;
 const float AlienRetention = 3.f;
-
-
 
 void UI(int radar, int alien)
 {
@@ -3242,14 +3290,15 @@ void PhysicsPlayground::Update()
 
 	int distance = (((alix - plx)^2) + ((aliy - ply)^2));
 	distance = sqrt(distance);
-
+	/*
 	if (distance < 4) {
 		showEndScreen = true;
 	}
 	else {
 		std::cout << "Distance: " << distance << std::endl;
 	}
-
+	*/
+	/*
 	if (hideStartScreen) {
 		ECS::GetComponent<Sprite>(sScreen).SetTransparency(0.f);
 	}
@@ -3257,7 +3306,8 @@ void PhysicsPlayground::Update()
 		player.SetPosition(b2Vec2(0,0));
 		ECS::GetComponent<Sprite>(sScreen).SetTransparency(1.f);
 	}
-
+	*/
+	
 	if (showEndScreen) {
 		player.SetPosition(b2Vec2(0, 0));
 		ECS::GetComponent<Sprite>(eScreen).SetTransparency(1.f);

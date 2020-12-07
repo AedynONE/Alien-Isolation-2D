@@ -48,6 +48,7 @@ public:
 	void mask(int xPos, int yPos, std::string FName);
 	void sMask(int xPos, int yPos, std::string FName);
 	void Gap(int xPos, int yPos, int rotation);
+	void decoration(std::string FName, int xSize, int ySize, int xPos, int yPos, int rotation);
 	void Update() override;
 
 	//Input overrides
