@@ -2999,7 +2999,7 @@ void PhysicsPlayground::Update()
 	distance = sqrt(distance);
 
 	if (distance < 4) {
-		showEndScreen = true;
+		showEndScreen = false; //make this true
 	}
 	else {
 		std::cout << "Distance: " << distance << std::endl;
