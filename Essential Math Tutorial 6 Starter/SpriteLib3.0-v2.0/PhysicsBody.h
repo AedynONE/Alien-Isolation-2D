@@ -40,7 +40,7 @@ public:
 	PhysicsBody(int entity, b2Body* body, float width, float height, vec2 centerOffset, bool sensor, EntityCategories category, int collidesWith, float friction=1.f, float density=1.f);
 	//Constructs a polygon collider
 	PhysicsBody(int entity, BodyType bodyType, b2Body* body, std::vector<b2Vec2> points, vec2 centerOffset, bool sensor, EntityCategories category, int collidesWith, float friction=1.f, float density=1.f);
-
+	
 	//Delete the physics body
 	void DeleteBody();
 
@@ -109,7 +109,7 @@ public:
 
 	//Set the mass of the physics body
 	void SetMass(float mass);
-
+	
 	//Set the scaled width
 	void ScaleBody(float scale, int fixture);
 	//Sets the center offset for the body
@@ -129,6 +129,8 @@ public:
 	static void SetDraw(bool drawBodies);
 
 	static std::vector<int> m_bodiesToDelete;
+
+	
 private:
 	//The actual box2D body
 	b2Body* m_body = nullptr;

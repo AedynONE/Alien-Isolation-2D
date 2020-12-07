@@ -65,5 +65,6 @@ protected:
 	int alienSpr;
 	int radar;
 	int visionCone;
+	int thing;
 	
 };
