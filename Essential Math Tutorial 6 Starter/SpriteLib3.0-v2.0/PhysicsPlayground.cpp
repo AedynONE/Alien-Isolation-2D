@@ -937,7 +937,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		//Sets up the components
 		std::string fileName = "XenomorphRoughDraft.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 30);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 40);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 5.f));
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
@@ -954,7 +954,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		//Box body
-		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY) / 2.f), vec2(0.f, 0.f), false, ENEMY, PLAYER | OBJECTS, 0.5f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY) / 2.f), vec2(0.f, -10.f), false, ENEMY, PLAYER | OBJECTS, 0.5f, 3.f);
 
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
@@ -2987,7 +2987,7 @@ void PhysicsPlayground::decoration(std::string FName, int xSize, int ySize, int 
 
 float tarX, tarY;
 //IMPORTANT VARIABLES
-const float AlienSpeed = 6000.f;
+const float AlienSpeed = 3000.f;
 const float AlienRetention = 8.f;
 bool created = false;
 float alienTileTimer = 1.f;
@@ -3265,17 +3265,21 @@ void PhysicsPlayground::Update()
 	auto& vCone = ECS::GetComponent<Transform>(visionCone);
 	auto& vConeB = ECS::GetComponent<PhysicsBody>(visionCone);
 
-	auto& alie = ECS::GetComponent<PhysicsBody>(alien);
+	auto& aliene = ECS::GetComponent<PhysicsBody>(alien);
 
-	int alix = alie.GetPosition().x;
-	int aliy = alie.GetPosition().y;
+	int alienex = aliene.GetPosition().x;
+	int alieney = aliene.GetPosition().y;
 
 	int plx = player.GetPosition().x;
 	int ply = player.GetPosition().y;
-	//auto& playerObject = ECS::GetComponent<PhysicsBody>(redterminal);
 
-	int distance = (((alix - plx)^2) + ((aliy - ply)^2));
-	distance = sqrt(distance);
+	std::cout << "Alien Pos: " << alienex << " " << alieney << std::endl;
+	//auto& playerObject = ECS::GetComponent<PhysicsBody>(redterminal);
+	int xdi = (alienex - plx);
+	int ydi = (alieney - ply);
+	double newDistance = (pow(xdi, 2) + (pow(ydi, 2)));
+	double distance = sqrt(newDistance);
+
 
 	{
 		std::string filename;
@@ -3337,7 +3341,7 @@ void PhysicsPlayground::Update()
 		//std::cout << "File: " << filename << " Time: " << aniClockDif << std::endl;
 	}
 
-	if (distance < 6) {
+	if (distance < 40) {
 		showEndScreen = true;
 	}
 	else {
@@ -3651,6 +3655,7 @@ void PhysicsPlayground::Update()
 		if (alienRetentionTimer <= 0)
 		{
 			alienRetentionTimer = 0;
+			ali.SetPosition(b2Vec2(x128(round(ali.GetBody()->GetPosition().x / 128)), x128(round(ali.GetBody()->GetPosition().y / 128))));
 			found = false;
 
 		}
@@ -4056,25 +4061,25 @@ void PhysicsPlayground::KeyboardHold()
 
 	if (Input::GetKey(Key::W))
 	{
-		vel.y += 10.f * Timer::deltaTime;
+		vel.y += 10.f * speed * Timer::deltaTime;
 		//vel += b2Vec2(0.f, 8.f * Timer::deltaTime);
 	}
 	if (Input::GetKey(Key::S))
 	{
-		vel.y += 10.f * -Timer::deltaTime;
+		vel.y += 10.f * speed * -Timer::deltaTime;
 		//vel += b2Vec2(0.f, -8.f * Timer::deltaTime);
 	}
 
 	if (Input::GetKey(Key::A))
 	{
-		vel.x += 10.f * -Timer::deltaTime;
+		vel.x += 10.f * speed * -Timer::deltaTime;
 		//std::string fileName = "left.png";
 		//playerSpr.LoadSprite(fileName, 32, 32);
 		//vel += b2Vec2(-8.f * Timer::deltaTime, 0.f);
 	}
 	if (Input::GetKey(Key::D))
 	{
-		vel.x += 10.f * Timer::deltaTime;
+		vel.x += 10.f * speed * Timer::deltaTime;
 		//std::string fileName = "right.png";
 		//playerSpr.LoadSprite(fileName, 32, 32);
 		//vel += b2Vec2(8.f * Timer::deltaTime, 0.f);
