@@ -48,6 +48,7 @@ public:
 	void mask(int xPos, int yPos, std::string FName);
 	void sMask(int xPos, int yPos, std::string FName);
 	void Gap(int xPos, int yPos, int rotation);
+	void showDeathAni();
 	void decoration(std::string FName, int xSize, int ySize, int xPos, int yPos, int rotation);
 	void Update() override;
 
@@ -113,5 +114,25 @@ protected:
 
 	int finDoor;
 	int finDoorS;
+
+	int dan1;
+	int dan2;
+	int dan3;
+	int dan4;
+	int dan5;
+	int dan6;
+	int dan7;
+	int dan8;
+	int dan9;
+
+	bool showingDeathAni = false;
+
+	int startTime;
+	double timeDeff = 0;
+
+	int aniClock;
+	double aniClockDif = 0;
+
+	int t = 4;
 
 };
