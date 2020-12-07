@@ -35,7 +35,7 @@ PhysicsBody::PhysicsBody(int entity, b2Body * body, float radius, vec2 centerOff
 
 	m_width = radius * 2.f;
 	m_height = radius * 2.f;
-
+	
 	m_centerOffset = centerOffset;
 }
 
@@ -210,6 +210,7 @@ float PhysicsBody::GetWidth() const
 	return m_width;
 }
 
+
 float PhysicsBody::GetHeight() const
 {
 	//return body height
@@ -340,6 +341,7 @@ void PhysicsBody::ScaleBody(float scale, int fixture)
 	}
 
 }
+
 
 void PhysicsBody::SetRotationAngleDeg(float degrees)
 {

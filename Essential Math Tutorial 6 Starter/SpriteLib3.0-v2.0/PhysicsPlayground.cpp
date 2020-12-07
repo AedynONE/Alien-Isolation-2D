@@ -2,6 +2,8 @@
 #include "Utilities.h"
 #include "RayCastCallback.h"
 #include <Box2d/Dynamics/b2Fixture.h>
+#include "AlienAstar.h";
+
 #pragma comment(lib, "winmm.lib")
 using namespace std;
 #include <random>
@@ -14,11 +16,12 @@ PhysicsPlayground::PhysicsPlayground(std::string name)
 	m_physicsWorld->SetGravity(m_gravity);
 
 	m_physicsWorld->SetContactListener(&listener);
+	
 }
 
 void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 {
-
+	
 
 	//Dynamically allocates the register
 	m_sceneReg = new entt::registry;
@@ -188,8 +191,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	decoration("Stacher.png", 60, 60, x128(16), x128(0), 0);
 	decoration("Stacher.png", 60, 60, x128(16), x128(0) - 30, 0);
 	decoration("coffeemachine.png", 32, 64, x128(9) - 32, x128(-8) + 32, 0);
-	decoration("Couch.png", 40, 40, x128(4) - 60, x128(4) + 64, 0);
-	decoration("Couch.png", 40, 40, x128(2)+60, x128(4) + 64, 0);
+	decoration("Couch.png", 64, 64, x128(4) - 60, x128(4) + 64, 0);
+	decoration("Couch.png", 64, 64, x128(2)+60, x128(4) + 64, 0);
 	decoration("coffeemachine.png", 32, 64, x128(2) - 35, x128(4), 0);
 	//decoration("Crate1.png", 40, 40, x128(2) - 35, x128(-5), 0);
 	//decoration("Crate1.png", 40, 40, x128(2), x128(-5), 0);
@@ -203,6 +206,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	decoration("Table.png", 64, 64, x128(10), x128(-6), 0);
 	decoration("Table.png", 64, 64, x128(10), x128(-7), 0);
 	decoration("Table.png", 64, 64, x128(10), x128(-8), 0);
+	decoration("Table.png", 64, 64, x128(10), x128(-9), 0);
 
 	//Doors
 	{
@@ -237,7 +241,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 				//Sets up components
 				std::string fileName = "Doors/Yellow Door FC.png";
 				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 0, 0);
-				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 2.f));
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 6.f));
 
 				auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 				auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -283,7 +287,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 				//Sets up components
 				std::string fileName = "Doors/Yellow Door FC.png";
 				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 0, 0);
-				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 2.f));
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 6.f));
 
 				auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 				auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -367,7 +371,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 				//Sets up components
 				std::string fileName = "Doors/Yellow Door FC.png";
 				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 0, 0);
-				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 2.f));
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 6.f));
 
 				auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 				auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -413,7 +417,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 				//Sets up components
 				std::string fileName = "Doors/Yellow Door FC.png";
 				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 0, 0);
-				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 2.f));
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 6.f));
 
 				auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 				auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -464,7 +468,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 				//Sets up components
 				std::string fileName = "Doors/Blue Door FC.png";
 				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 0, 0);
-				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 2.f));
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 6.f));
 
 				auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 				auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -510,7 +514,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 				//Sets up components
 				std::string fileName = "Doors/Blue Door FC.png";
 				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 0, 0);
-				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 2.f));
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 6.f));
 
 				auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 				auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -556,7 +560,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 				//Sets up components
 				std::string fileName = "Doors/Blue Door FC.png";
 				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 0, 0);
-				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 2.f));
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 6.f));
 
 				auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 				auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -676,7 +680,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 				//Sets up components
 				std::string fileName = "Doors/Final_Door.png";
 				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 0, 0);
-				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 2.f));
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 6.f));
 
 				auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 				auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -945,7 +949,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(1000.f), float32(70.f));
+		tempDef.position.Set(x128(8),x128(1) );
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -956,6 +960,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(0.f);
+		//tempPhsBody.GetBody()->SetActive(false);
 
 	}
 	//Setup Corpse 1
@@ -1300,7 +1305,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	}
-	//Setup Box 16x16 left of big box (freezer)
+	//Setup Box 32x16 left of big box (freezer)
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
@@ -1331,7 +1336,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	}
-	//Setup Box 16x16 left corner in front of door (freezer)
+	//Setup Box 32x16 left corner in front of door (freezer)
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
@@ -1362,6 +1367,113 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	}
+	//Setup Box 32x32 top right corner (storage)
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "cardboardbox_32x32.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1654.f, 156.f, 4.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 10.f;
+		float shrinkY = 10.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(552.f), float32(-330.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Box 32x16 left of big box (storage)
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "cardboardbox_32x16.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 16);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1663.f, 156.f, 4.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 10.f;
+		float shrinkY = 10.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(530.f), float32(-334.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Box 32x16 top left corner (storage)
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "cardboardbox_32x16.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 16);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1663.f, 156.f, 4.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 10.f;
+		float shrinkY = 10.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(213.f), float32(-332.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Broom (Closet)
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "broom2.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-254.f, 71.f, 6.f));
+	}
 	//Corpse head
 	{
 		auto entity = ECS::CreateEntity();
@@ -1391,7 +1503,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//tempPhsBody = PhysicsBody(tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false);
 		//tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetWidth() - shrinkY) / 2.f), vec2(0.f, 0.f), false, OBJECTS, GROUND | ENVIRONMENT | PLAYER | TRIGGER, 0.3f);
 		std::vector<b2Vec2> points = { b2Vec2(-tempSpr.GetWidth() / 2.f, -tempSpr.GetHeight() / 2.f),b2Vec2(tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 2.f), b2Vec2(tempSpr.GetWidth() / 2.f, tempSpr.GetHeight() / 2.f),b2Vec2(-tempSpr.GetWidth() / 2.f,tempSpr.GetHeight() / 2.f) };
-		tempPhsBody = PhysicsBody(entity, BodyType::CIRCLE, tempBody, points, vec2(0.f, 0.f), false, OBJECTS, ENEMY | PLAYER, 0.5f, 3.f);
+		tempPhsBody = PhysicsBody(entity, BodyType::CIRCLE, tempBody, points, vec2(0.f, 0.f), false, OBJECTS, GROUND | ENEMY | PLAYER, 0.5f, 3.f);
 
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 		tempPhsBody.SetGravityScale(0.f);
@@ -1677,275 +1789,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//corridoorThinOpening(0, 0, 0);
 	//sharpCorner(0, 0, 0);
 
-	// This is the actual map
-	//Player spawn room
-	corridoor(x128(0), x128(0), 90);
-	thickDiagonalOctogon(x128(-1), x128(-1), 0);
-	thickWall(0, x128(-1), 90);
-	thickDiagonalOctogon(x128(1), -x128(1), 90);
-	thickWall(0, x128(1), 270);
-	thickDiagonalOctogon(x128(1), x128(1), 180);
-	thickDiagonalOctogon(-x128(1), x128(1), 270);
-	thickDoor(x128(1), 0, 90);
-	thickDoor(-x128(1), 0, -90);
-	//Alien spawn room
-	smallOctogonRoom(-x128(2), 0);
-	makeBox(128, 128, -x128(3), 0, 0);
-	makeBox(128, 128, -x128(2), -x128(1), 0);
-	makeBox(128, 128, -x128(2), x128(1), 0);
-	//Portion next to the player spawn room
-	smallOctogonRoom(x128(2), 0);
-	corridoorThinOpening(x128(2), -x128(1), 270);
-	makeBox(128, 128, x128(2), -x128(2), 0);
-	makeBox(128, 128, x128(2), x128(1), 0);
-	lockerDX(x128(3), 0, 180);
-	corridoorThinOpening(x128(3), x128(1), 270);
-	Gap(x128(3) + 65, -20, 270);
-	makeBox(11, 128, x128(3) + 58.5, -x128(1), 0);
-	corridoorThinOpening(x128(3), -x128(2), 90);
-	//Octogon room above Spawn
-	Gap(x128(3) + 35, x128(2) - 20, 0);
-	curvedCorner(x128(2), x128(2), 0);
-	wall(x128(2), x128(3), 0);
-	curvedCorner(x128(2), x128(4), 270);
-	curvedCorner(x128(4), x128(2), 90);
-	curvedCorner(x128(4), x128(4), 180);
-	Gap(x128(4) + 65, x128(4) - 20, 90);
-	Gap(x128(3) + 65, x128(5) - 20, 180);
-	corridoorThinOpening(x128(5), x128(3), 0);
-	thickishWall(x128(3), x128(5), 0);
-	thickishWall(x128(3), x128(5), 180);
-	//Bullet shaped room (left) 
-	thickDoor(x128(3), x128(6), 0);
-	thickWall(x128(2), x128(6), 90);
-	thickWall(x128(4), x128(6), 90);
-	thickDiagonalOctogon(x128(1), x128(6), 0);
-	thickDiagonalOctogon(x128(1), x128(8), 270);
-	thickWall(x128(1), x128(7), 0);
-	thickWall(x128(2), x128(8), 270);
-	thickWall(x128(3), x128(8), 270);
-	thickWall(x128(4), x128(8), 270);
-	makeBox(128, 128, x128(5), x128(6), 0);
-	makeBox(128, 128, x128(5), x128(8), 0);
-	thickishWall(x128(5), x128(7), 90);
-	thickishWall(x128(5), x128(7), 270);
-	// Corridor leading to upper main corridor (left)
-	Gap(x128(8) + 65, x128(9) - 20, 270);
-	thickCorner(x128(6), x128(7), 90);
-	thinThickCorridor1(x128(6) - 32, x128(7) + 32, 0);
-	thickCorner(x128(6), x128(8), 270);
-	thinThickCorridor1(x128(6) + 32, x128(8) - 32, 180);
-	thickishWall(x128(7), x128(8), 90);
-	thickishWall(x128(7), x128(8), 270);
-	// Corridor leading to upper main corridor (right)
-	makeBox(128, 128, x128(15), x128(8), 0);
-	Gap(x128(12) + 65, x128(9) - 20, 90);
-	thickishWall(x128(13), x128(8), 90);
-	thickishWall(x128(13), x128(8), 270);
-	thickCorner(x128(14), x128(8), 180);
-	thinThickCorridor1(x128(14) - 32, x128(8) - 32, 90);
-	thickCorner(x128(14), x128(7), 0);
-	thinThickCorridor1(x128(15) - 96, x128(7) + 32, 270);
-	thickishWall(x128(15), x128(7), 90);
-	thickishWall(x128(15), x128(7), 270);
-	// Room under spawn
-	Gap(x128(3) + 65, -x128(2) - 20, 180);
-	sharpCorner(x128(2), -x128(3), 270);
-	sharpCorner(x128(4), -x128(3), 0);
-	locker(x128(2), -x128(4), 180);
-	locker(x128(4), -x128(4), 0);
-	sharpCorner(x128(2), -x128(5), 180);
-	Gap(x128(3) + 35, -x128(5) - 20, 0);
-	Gap(x128(4) + 65, -x128(4) - 20, 90);
-	makeBox(128, 11, x128(4), -x128(5) - 58.5, 0);
-	// Corridor leading to bottom main corridor
-	corridoorThinOpening(x128(5), -x128(5), 0);
-	curvedCorner(x128(6), -x128(5), 90);
-	makeBox(128, 128, x128(7), -x128(5), 0);
-	wall(x128(6), -x128(4), 0);
-	wall(x128(6), -x128(3), 0);
-	thickWall(x128(7), -x128(4), 180);
-	thickWall(x128(7), -x128(3), 180);
-	thickCorner(x128(6), -x128(2), 270);
-	thinThickCorridor1(x128(6) + 32, -x128(2) - 32, 180);
-	thickishWall(x128(7), -x128(2), 90);
-	thickishWall(x128(7), -x128(2), 270);
-	thickishWall(x128(8), -x128(2), 90);
-	thickishWall(x128(8), -x128(2), 270);
-	thickishWall(x128(3), -x128(6), 0);
-	thickishWall(x128(3), -x128(6), 180);
-	thickCorner(x128(3), -x128(7), 0);
-	thinThickCorridor1(x128(3) + 32, -x128(7) + 32, 270);
-	thickishWall(x128(4), -x128(7), 90);
-	thickishWall(x128(4), -x128(7), 270);
-	thickishWall(x128(5), -x128(7), 90);
-	thickishWall(x128(5), -x128(7), 270);
-	thinThickCorridor(x128(6), -x128(7), 0);
-	thinThickCorridor(x128(7), -x128(7), 180);
-	thickishWall(x128(8), -x128(7), 90);
-	thickishWall(x128(8), -x128(7), 270);
-	// Bottom Main Corridor
-	makeBox(128, 128, x128(8), -x128(8), 0);
-	thickishDoor(x128(9), -x128(7), 270);
-	thickishDoor(x128(11), -x128(7), 90);
-	Gap(x128(9) + 65, -x128(7) - 20, 270);
-	Gap(x128(11) + 65, -x128(7) - 20, 90);
-	Gap(x128(10) + 35, -x128(9) - 20, 0);
-	curvedCorner(x128(9), -x128(9), 0);
-	curvedCorner(x128(11), -x128(9), 90);
-	makeBox(128, 128, x128(10), -x128(10), 0);
-	makeBox(128, 128, x128(12), -x128(8), 0);
-	wall(x128(9), -x128(6), 0);
-	wall(x128(11), -x128(6), 180);
-	Gap(x128(10) + 65, -x128(5) - 20, 180);
-	wall(x128(10), -x128(5), 90);
-	curvedCorner(x128(9), -x128(5), 270);
-	curvedCorner(x128(11), -x128(5), 180);
-	Gap(x128(10) + 65, -x128(4) - 20, 180);
-	// Main Corridor
-	thickishDoor(x128(10), -x128(4), 0);
-	thickCorner(x128(9), -x128(4), 0);
-	thickCorner(x128(11), -x128(4), 90);
-	thickWall(x128(9), -x128(3), 0);
-	thickWall(x128(11), -x128(3), 180);
-	thickDoor(x128(9), -x128(2), 270);
-	thickWall(x128(11), -x128(2), 180);
-	thickWall(x128(11), 0, 180);
-	thickWall(x128(9), -x128(1), 0); //bottom left
-	thickDoor(x128(11), -x128(1), 90); //bottom right
-	thickWall(x128(9), 0, 0); //bottom left
-	thickDoor(x128(9), x128(1), 270); //bottom left
-	thickWall(x128(9), x128(2), 0); //top left
-	thickWall(x128(11), x128(1), 180); //bottom right
-	thickWall(x128(11), x128(2), 180); //top right
-	thickWall(x128(11), x128(3), 180); //top right
-	thickWall(x128(11), x128(4), 180); //top right
-	thickDoor(x128(9), x128(3), 270); //top left
-	thickDoor(x128(9), x128(5), 270); //top left
-	thickDoor(x128(11), x128(5), 90); //top right
-	thickWall(x128(9), x128(4), 0); //top left
-	thickWall(x128(9), x128(6), 0); //top left
-	thickWall(x128(11), x128(6), 180); //top right
-	curvedCorner(x128(8), x128(7), 0); //top left
-	curvedCorner(x128(12), x128(7), 90); //top right
-	sharpCorner(x128(12), x128(9), 0); //top right
-	sharpCorner(x128(11), x128(9), 270); //top right
-	sharpCorner(x128(9), x128(9), 0); //top left
-	sharpCorner(x128(8), x128(9), 270); //top left
-	// Small room to the left of the main corridor
-	thickWall(x128(8), 0, 90); //bottom left
-	makeBox(128, 128, x128(7), 0, 0); //bottom left
-	makeBox(128, 128, x128(7), x128(1), 0); //bottom left
-	makeBox(128, 128, x128(7), x128(2), 0); //top left
-	thickWall(x128(8), x128(2), 270); //top left
-	// Small room to the right of the main corridor
-	wall(x128(12), x128(5), 270); //top right
-	sharpCorner(x128(14), x128(5), 0); //top right
-	sharpCorner(x128(14), x128(4), 90); //top right
-	wall(x128(12), x128(4), 90); //top right
-	locker(x128(13), x128(5), 270); //top right
-	locker(x128(13), x128(4), 90); //top right
-	// Corridor connecting the octogon room to the main corridor
-	thinThickCorridor(x128(8), x128(3), 180); //top left
-	Gap(x128(7) + 65, x128(4) - 20, 180); //top left
-	wall(x128(7), x128(3), 90); //top left
-	corridoor(x128(6), x128(3), 90); //top left
-	//Octogon room above connect corridors
-	Gap(x128(7) + 35, x128(4) - 20, 0); //top left
-	curvedCorner(x128(6), x128(4), 0); //top left
-	curvedCorner(x128(8), x128(4), 90); //top left
-	wall(x128(6), x128(5), 0); //top left
-	wall(x128(7), x128(6), 270); //top left
-	curvedCorner(x128(6), x128(6), 270); //top left
-	curvedCorner(x128(8), x128(6), 180); //top left
-	Gap(x128(7) + 35, x128(6) - 20, 0); //top left
-	Gap(x128(6) + 65, x128(6) - 20, 90); //top left
-	Gap(x128(8) + 65, x128(6) - 20, 270); //top left
-	Gap(x128(7) + 65, x128(5) - 20, 180); //top left
-	// Corridor + Rooms at the bottom right of the map
-	thinThickCorridor(x128(12), -x128(1), 0); //bottom right
-	corridoor(x128(14), -x128(1), 90); //bottom right
-	corridoorThinOpening(x128(15), -x128(1), 180); //bottom right
-	thickCorner(x128(12), x128(1), 270); //bottom right
-	thickCorner(x128(12), 0, 0); //bottom right
-	thickCorner(x128(14), x128(1), 180); //bottom right
-	thickCorner(x128(14), 0, 90); //bottom right
-	thickishWall(x128(13),x128(1),270); //bottom right
-	thickishWall(x128(13), -x128(3), 90); //bottom right
-	thickishDoor(x128(13), x128(0), 0); //bottom right
-	thickCorner(x128(12), -x128(2), 270); //bottom right
-	thickCorner(x128(12), -x128(3), 0); //bottom right
-	thickCorner(x128(14), -x128(2), 180); //bottom right
-	thickCorner(x128(14), -x128(3), 90); //bottom right
-	thickishDoor(x128(13), -x128(2), 180); //bottom right
-	// Rightmost room
-	makeBox(128, 128, x128(15), x128(0), 0); //bottom right
-	makeBox(128, x128(3), x128(15), -x128(3), 0); //bottom right
-	thickWall(x128(16), -x128(4), 90); //bottom right
-	corridoorThinOpening(x128(17), 0, 90); //bottom right
-	thickWall(x128(16), x128(0), 270); //bottom right
-	thickWall(x128(18), x128(0), 270); //bottom right
-	makeBox(128, x128(3), x128(19), -x128(1), 0); //bottom right
-	thickDoor(x128(17), -x128(4), 0); //bottom right
-	corridoor(x128(18), -x128(4), 0); //bottom right
-	Gap(x128(18) + 35, -x128(2) - 20, 0); //bottom right
-	locker(x128(18), -x128(3), 180); //bottom right
-	thickishWall(x128(16), -x128(3), 180); //bottom right
-	makeBox(128, 128, x128(18), -x128(5), 0); //bottom right
-	makeBox(128, 128, x128(16), -x128(5), 0); //bottom right
-	// Room below the right bullet room
-	locker(x128(17), x128(1), 180);
-	thickishDoor(x128(17), x128(2), 0);
-	thickishWall(x128(16), x128(2), 90);
-	thickishWall(x128(18), x128(2), 90);
-	thickishWall(x128(16), x128(4), 270);
-	thickishWall(x128(18), x128(4), 270);
-	thickishWall(x128(19), x128(3), 180);
-	thickCorner(x128(19), x128(2), 90);
-	thickCorner(x128(19), x128(4), 180);
-	makeBox(128, 128, x128(15), x128(2), 0);
-	makeBox(128, 128, x128(15), x128(4), 0);
-	lockerDX(x128(15), x128(3), 0);
-	thickishDoor(x128(17), x128(4), 180);
-	thickishWall(x128(17), x128(5), 0);
-	thickishWall(x128(17), x128(5), 180);
-	// Right Bullet Room
-	thickDoor(x128(17), x128(6), 0);
-	thickWall(x128(16), x128(6), 90);
-	thickWall(x128(18), x128(6), 90);
-	thickWall(x128(19), x128(7), 180);
-	thickDiagonalOctogon(x128(19), x128(6), 90);
-	thickDiagonalOctogon(x128(19), x128(8), 180);
-	thickWall(x128(16), x128(8), 270);
-	thickWall(x128(17), x128(8), 270);
-	thickWall(x128(18), x128(8), 270);
-	makeBox(128, 128, x128(15), x128(6), 0);
-	// Room to the right of the bottom main shaft
-	thickishWall(x128(17), -x128(5), 0);
-	thickishWall(x128(17), -x128(5), 180);
-	thickishWall(x128(17), -x128(6), 0);
-	thickishWall(x128(17), -x128(6), 180);
-	thickCorner(x128(17), -x128(7), 90);
-	thinThickCorridor1(x128(17) - 32, -x128(7) + 32, 0);
-	thickDoor(x128(16), -x128(7), 90);
-	thickWall(x128(16), -x128(6), 180);
-	thickDiagonalOctogon(x128(16), -x128(8), 90);
-	thickishWall(x128(15), -x128(8), 90);
-	thickWall(x128(14), -x128(8), 90);
-	locker(x128(15), -x128(6), 270);
-	thickDoor(x128(13), -x128(6), 270);
-	thickDoor(x128(13), -x128(7), 270);
-	thickishWall(x128(12), -x128(7), 90);
-	thickishWall(x128(12), -x128(7), 270);
-	makeBox(128, 128, x128(12), -x128(6), 0);
-	thickDiagonalOctogon(x128(13), -x128(8), 0);
-	makeBox(128, 128, x128(13), -x128(5), 0);
-	wall(x128(14), -x128(5), 270);
-	corridoor(x128(15), -x128(5), 90);
-	Gap(x128(14) + 35, -x128(5) - 20, 0);
-	// End Room
-	largeOctogonRoom(x128(10), x128(11), true, true, false, true);
-	corridoor(x128(10), x128(9), 0);
 
 	*/
 
@@ -1960,7 +1803,6 @@ void PhysicsPlayground::makeBox(int xSize, int ySize, float xPos, float yPos, fl
 {
 	//Creates entity
 	auto entity = ECS::CreateEntity();
-
 	//Add components
 	ECS::AttachComponent<Sprite>(entity);
 	ECS::AttachComponent<Transform>(entity);
@@ -1983,7 +1825,7 @@ void PhysicsPlayground::makeBox(int xSize, int ySize, float xPos, float yPos, fl
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS, 1.f, 1.f);
+		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS, 1.f, 100.f);
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
 }
@@ -2019,7 +1861,7 @@ void PhysicsPlayground::smallOctogonCorner(int xPos, int yPos, float rotation) {
 		b2Vec2(0,tempSpr.GetHeight() / 2),
 		b2Vec2(tempSpr.GetWidth() / 2.f,0)
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2062,7 +1904,7 @@ void PhysicsPlayground::thickCorner1(int xPos, int yPos, float rotation) {
 		b2Vec2(-tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 2),
 		b2Vec2(tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 2),
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2121,7 +1963,7 @@ void PhysicsPlayground::curvedCorner1(int xPos, int yPos, float rotation) {
 		b2Vec2(-tempSpr.GetWidth() / 2.f,-tempSpr.GetHeight() / 2),
 		b2Vec2(tempSpr.GetWidth() / 4.f,-tempSpr.GetHeight() / 2),
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2148,10 +1990,11 @@ void PhysicsPlayground::curvedCorner(int xPos, int yPos, float rotation) {
 		makeBox(50, 11, xPos + 40, yPos + 59, 0);
 	}
 }
+
 void PhysicsPlayground::thickDiagonalOctogon(int xPos, int yPos, float rotation) {
 	//Creates entity
 	auto entity = ECS::CreateEntity();
-
+	thing = entity;
 	//Add components
 	ECS::AttachComponent<Sprite>(entity);
 	ECS::AttachComponent<Transform>(entity);
@@ -2182,7 +2025,7 @@ void PhysicsPlayground::thickDiagonalOctogon(int xPos, int yPos, float rotation)
 		b2Vec2(tempSpr.GetWidth() / 2.f, 0.f),
 		b2Vec2(0.f,tempSpr.GetHeight() / 2)
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2220,7 +2063,7 @@ void PhysicsPlayground::thickStraightOctogon(int xPos, int yPos, float rotation)
 		b2Vec2(0,-tempSpr.GetHeight() / 2),
 		b2Vec2(0,tempSpr.GetHeight() / 2)
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2276,7 +2119,7 @@ void PhysicsPlayground::thickishWall(int xPos, int yPos, float rotation) {
 		b2Vec2(-tempSpr.GetWidth() / 4.f,-tempSpr.GetHeight() / 2),
 		b2Vec2(-tempSpr.GetWidth() / 4.f,tempSpr.GetHeight() / 2),
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2314,7 +2157,7 @@ void PhysicsPlayground::thickWall(int xPos, int yPos, float rotation) {
 		b2Vec2(0,-tempSpr.GetHeight() / 2),
 		b2Vec2(0, tempSpr.GetHeight() / 2),
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2389,7 +2232,7 @@ void PhysicsPlayground::thickishDoorEdge(int xPos, int yPos, float rotation) {
 		b2Vec2(-tempSpr.GetWidth() / 4.f,-tempSpr.GetHeight() / 3),
 		b2Vec2(-tempSpr.GetWidth() / 3.f,-tempSpr.GetHeight() / 4),
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2432,7 +2275,7 @@ void PhysicsPlayground::thickDoorLeft(int xPos, int yPos, float rotation) {
 		b2Vec2(-tempSpr.GetWidth() / 4.f,-tempSpr.GetHeight() / 8),
 		b2Vec2(-tempSpr.GetWidth() / 3.f, 0)
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2471,7 +2314,7 @@ void PhysicsPlayground::thickDoorRight(int xPos, int yPos, float rotation) {
 		b2Vec2(tempSpr.GetWidth() / 4.f,-tempSpr.GetHeight() / 8),
 		b2Vec2(tempSpr.GetWidth() / 3.f, 0)
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2524,7 +2367,7 @@ void PhysicsPlayground::corner(int xPos, int yPos, float rotation) {
 		b2Vec2(-tempSpr.GetWidth() / 2,tempSpr.GetHeight() / 2.5),
 		b2Vec2(-tempSpr.GetWidth() / 2.5,tempSpr.GetHeight() / 2)
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2610,7 +2453,7 @@ void PhysicsPlayground::lockerPolygon1(int xPos, int yPos, float rotation) {
 		b2Vec2(-tempSpr.GetWidth() / 4.f, tempSpr.GetHeight() / 4),
 		b2Vec2(-tempSpr.GetWidth() / 2.5, tempSpr.GetHeight() / 2)
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2648,7 +2491,7 @@ void PhysicsPlayground::lockerPolygon2(int xPos, int yPos, float rotation) {
 		b2Vec2(-tempSpr.GetWidth() / 4.f, -tempSpr.GetHeight() / 4),
 		b2Vec2(-tempSpr.GetWidth() / 2.5, -tempSpr.GetHeight() / 2)
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2711,7 +2554,7 @@ void PhysicsPlayground::thinThickCorridor1(int xPos, int yPos, float rotation) {
 		b2Vec2(-tempSpr.GetWidth() / 2.f,tempSpr.GetHeight() / 4),
 		b2Vec2(-tempSpr.GetWidth() / 4.f,tempSpr.GetHeight() / 2),
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2776,7 +2619,7 @@ void PhysicsPlayground::corridoorThinOpening1(int xPos, int yPos, float rotation
 		b2Vec2(-tempSpr.GetWidth() / 2.5,tempSpr.GetHeight() / 3.5),
 		b2Vec2(-tempSpr.GetWidth() / 2.5,tempSpr.GetHeight() / 2),
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2815,7 +2658,7 @@ void PhysicsPlayground::corridoorThinOpening2(int xPos, int yPos, float rotation
 		b2Vec2(-tempSpr.GetWidth() / 2.5,-tempSpr.GetHeight() / 3.5),
 		b2Vec2(-tempSpr.GetWidth() / 2.5,-tempSpr.GetHeight() / 2),
 	};
-	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+	tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	tempPhsBody.SetRotationAngleDeg(rotation);
@@ -2878,7 +2721,7 @@ void PhysicsPlayground::gapPL(int xPos, int yPos, float rotation) {
 			b2Vec2(20,12)
 		};
 
-		tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+		tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		tempPhsBody.SetRotationAngleDeg(rotation);
 	}
@@ -2918,7 +2761,7 @@ void PhysicsPlayground::gapPR(int xPos, int yPos, float rotation) {
 			b2Vec2(12,12)
 		};
 
-		tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+		tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		tempPhsBody.SetRotationAngleDeg(rotation);
 	}
@@ -2993,7 +2836,7 @@ void PhysicsPlayground::Gap(int xPos, int yPos, int rotation) {
 				b2Vec2(12,0),
 				b2Vec2(12,18)
 			};
-			tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+			tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 			tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		}
 		{
@@ -3029,7 +2872,7 @@ void PhysicsPlayground::Gap(int xPos, int yPos, int rotation) {
 				b2Vec2(12,18),
 				b2Vec2(12,32)
 			};
-			tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+			tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 			tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		}
 	}
@@ -3068,7 +2911,7 @@ void PhysicsPlayground::Gap(int xPos, int yPos, int rotation) {
 				b2Vec2(12,0),
 				b2Vec2(12,18)
 			};
-			tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+			tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 			tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 			tempPhsBody.SetRotationAngleDeg(180);
 		}
@@ -3105,7 +2948,7 @@ void PhysicsPlayground::Gap(int xPos, int yPos, int rotation) {
 				b2Vec2(12,18),
 				b2Vec2(12,32)
 			};
-			tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+			tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 100.f);
 			tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 			tempPhsBody.SetRotationAngleDeg(180);
 		}
@@ -3144,9 +2987,11 @@ void PhysicsPlayground::decoration(std::string FName, int xSize, int ySize, int 
 
 float tarX, tarY;
 //IMPORTANT VARIABLES
-const float AlienSpeed = 6.f;
-const float AlienRetention = 3.f;
-
+const float AlienSpeed = 6000.f;
+const float AlienRetention = 8.f;
+bool created = false;
+float alienTileTimer = 1.f;
+int alienSteps = 0;
 void UI(int radar, int alien)
 {
 	//This function is used to display and position the game's UI.
@@ -3215,24 +3060,16 @@ bool Search(int alien, int rayMarker, b2World* m_physicsWorld)
 
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 
-	b2Vec2 direction = (b2Vec2(tarX, tarY) - ali.GetBody()->GetPosition());
-	float distance = sqrt(direction.x * direction.x + direction.y * direction.y);
-	direction = b2Vec2(direction.x / distance, direction.y / distance);
-
-	RayCastCallback vCone, vCone2, vCone3;
-	m_physicsWorld->RayCast(&vCone, b2Vec2(direction.x * 100, direction.y * 100), ali.GetBody()->GetWorldPoint(b2Vec2(0, 0))); //Middle
+	RayCastCallback fuck;
+	m_physicsWorld->RayCast(&fuck, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
 
 
 
-	rayM.SetPosition(vCone.m_point.x, vCone.m_point.y, 5);
-
-
-
-	if (vCone.m_fixture)
+	if (fuck.m_fixture)
 	{
 
 
-		if (vCone.m_fixture->GetBody() == player.GetBody())
+		if (fuck.m_fixture->GetBody() == player.GetBody())
 		{
 
 			return true;
@@ -3247,30 +3084,30 @@ bool Search(int alien, int rayMarker, b2World* m_physicsWorld)
 }
 
 
-void Chase(int alien, b2World* m_physicsWorld)
+void Chase(int alien, b2World* m_physicsWorld,b2Vec2 tar )
 {
 	//This Function is simply used make the alien move in the direction of the player
 	newWay = rand() % 2;
 	stuckCounter = 0;
 	aCounter = 0;
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
-	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	//auto& player = ECS::GetComponent<PhysicsBody>(tEnt);
 
 
 
 	RayCastCallback toPlayer;
-	m_physicsWorld->RayCast(&toPlayer, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
+	m_physicsWorld->RayCast(&toPlayer, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)),tar);
 
 
-	tarX = player.GetBody()->GetPosition().x;
-	tarY = player.GetBody()->GetPosition().y;
+	tarX = tar.x;
+	tarY = tar.y;
 }
 
-void Dodge(int alien, b2World* m_physicsWorld)
+void Dodge(int alien, b2World* m_physicsWorld,b2Vec2 tar)
 {
 	//This Function is used to dodge obstacles between the alien and player
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
-	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	//auto& player = ECS::GetComponent<PhysicsBody>(tEnt);
 	RayCastCallback dodgeRay;
 	int maxRayIndex = 0;
 	float adjustX = 1;
@@ -3323,7 +3160,7 @@ void Dodge(int alien, b2World* m_physicsWorld)
 	if (nCounter >= 1)
 	{
 		//cout << "Correcting.";
-		Chase(alien, m_physicsWorld);
+		Chase(alien, m_physicsWorld, tar);
 		nCounter -= 1 * Timer::deltaTime;
 	}
 
@@ -3332,7 +3169,7 @@ void Dodge(int alien, b2World* m_physicsWorld)
 	{
 		RayCastCallback toPlayer;
 		m_physicsWorld->RayCast(&targetRay, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), ali.GetBody()->GetWorldPoint(b2Vec2(newDirections[maxRayIndex].x * 10000, newDirections[maxRayIndex].y * 10000)));
-		m_physicsWorld->RayCast(&toPlayer, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), player.GetBody()->GetWorldPoint(b2Vec2(0, 0)));
+		m_physicsWorld->RayCast(&toPlayer, ali.GetBody()->GetWorldPoint(b2Vec2(0, 0)), tar);
 
 		b2Vec2 direction4 = (b2Vec2(toPlayer.m_point.x, toPlayer.m_point.y) - b2Vec2(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y));
 		float distance4 = sqrt(direction4.x * direction4.x + direction4.y * direction4.y);
@@ -3343,22 +3180,22 @@ void Dodge(int alien, b2World* m_physicsWorld)
 			{
 				//Clockwise Dodging
 				ali.GetBody()->SetAngularVelocity(-200.f * Timer::deltaTime * adjustX);
-				tarX = player.GetBody()->GetPosition().x + targetRay.m_point.x + (toPlayer.m_normal.y * 5000);
-				tarY = player.GetBody()->GetPosition().y + targetRay.m_point.y + (toPlayer.m_normal.x * -5000);
+				tarX = tar.x + targetRay.m_point.x + (toPlayer.m_normal.y * 5000);
+				tarY = tar.y + targetRay.m_point.y + (toPlayer.m_normal.x * -5000);
 			}
 			else
 			{
 				//Counter Clockwise Dodging
 				ali.GetBody()->SetAngularVelocity(200.f * Timer::deltaTime * adjustY);
-				tarX = player.GetBody()->GetPosition().x + targetRay.m_point.x + (toPlayer.m_normal.y * -5000);
-				tarY = player.GetBody()->GetPosition().y + targetRay.m_point.y + (toPlayer.m_normal.x * 5000);
+				tarX = tar.x + targetRay.m_point.x + (toPlayer.m_normal.y * -5000);
+				tarY = tar.y + targetRay.m_point.y + (toPlayer.m_normal.x * 5000);
 
 			}
 		}
 		else
 		{
-			tarX = player.GetBody()->GetPosition().x;
-			tarY = player.GetBody()->GetPosition().y;
+			tarX = tar.x;
+			tarY = tar.y;
 
 		}
 	}
@@ -3367,7 +3204,27 @@ void Dodge(int alien, b2World* m_physicsWorld)
 
 float mousePosX = 0;
 float mousePosY = 0;
+void ClearObjects(b2World* m_physicsWorld)
+{
+	b2Body* body = m_physicsWorld->GetBodyList();
+	for (int f = 0; f < m_physicsWorld->GetBodyCount(); f++)
+	{
 
+		if (body->GetFixtureList()->GetDensity() == 100.f)
+		{
+
+			PhysicsBody::m_bodiesToDelete.push_back((int)body->GetUserData());
+			//cout << "\n" << (int)body->GetUserData();
+			//m_physicsWorld->DestroyBody(m_physicsWorld->GetBodyList());
+
+
+		}
+		body = body->GetNext();
+	}
+	cout << "\nObjects Cleared.";
+
+
+}
 void ConeMovement(int visionCone)
 {
 	//FUCK THIS
@@ -3385,44 +3242,17 @@ void ConeMovement(int visionCone)
 
 
 }
-
-void PhysicsPlayground::showDeathAni() {
-	
-	std::cout << "showDeathAni called!";
-//	Sleep(100);
-	ECS::GetComponent<Sprite>(dan1).SetTransparency(1.f);
-	Sleep(200);
-	ECS::GetComponent<Sprite>(dan1).SetTransparency(0.f);
-	ECS::GetComponent<Sprite>(dan2).SetTransparency(1.f);
-	Sleep(200);
-	ECS::GetComponent<Sprite>(dan2).SetTransparency(0.f);
-	ECS::GetComponent<Sprite>(dan3).SetTransparency(1.f);
-	Sleep(200);
-	ECS::GetComponent<Sprite>(dan3).SetTransparency(0.f);
-	ECS::GetComponent<Sprite>(dan4).SetTransparency(1.f);
-	Sleep(200);
-	ECS::GetComponent<Sprite>(dan4).SetTransparency(0.f);
-	ECS::GetComponent<Sprite>(dan5).SetTransparency(1.f);
-	Sleep(200);
-	ECS::GetComponent<Sprite>(dan5).SetTransparency(0.f);
-	ECS::GetComponent<Sprite>(dan6).SetTransparency(1.f);
-	Sleep(200);
-	ECS::GetComponent<Sprite>(dan6).SetTransparency(0.f);
-	ECS::GetComponent<Sprite>(dan7).SetTransparency(1.f);
-	Sleep(200);
-	ECS::GetComponent<Sprite>(dan7).SetTransparency(0.f);
-	ECS::GetComponent<Sprite>(dan8).SetTransparency(1.f);
-	Sleep(200);
-	ECS::GetComponent<Sprite>(dan8).SetTransparency(0.f);
-	ECS::GetComponent<Sprite>(dan9).SetTransparency(1.f);
-}
-
+int pastPosX = 9;
+int pastPosY = 9;
+int quad = 9;
+bool ranonce = false;
 void PhysicsPlayground::Update()
 {
 	{
 		auto& player = ECS::GetComponent<Player>(MainEntities::MainPlayer());
 		Scene::AdjustScrollOffset();
 		player.Update();
+
 	}
 	//cout << "\n"<<alienRetentionTimer;
 	auto& rayM = ECS::GetComponent<Transform>(rayMarker);
@@ -3650,29 +3480,29 @@ void PhysicsPlayground::Update()
 		std::cout << "X: " << player.GetPosition().x << " Y: " << player.GetPosition().y << std::endl;
 	}
 
-	if (Input::GetKey(Key::E) != 0) {
+	if (GetKeyState(Key::E) != 0) {
 		//cards
 		{
-			if (player.GetPosition().x < (1787 + 75) && player.GetPosition().x > (1787 - 75) && player.GetPosition().y < (598 + 75) && player.GetPosition().y > (598 - 75) && hasRC == false) {
-				hasRC = true;
-				ECS::GetComponent<PhysicsBody>(RCobj).SetPosition(b2Vec2(-10000, -1000));
-				ECS::DestroyEntity(RCobj);
-			}
-			else if (player.GetPosition().x < (292 + 75) && player.GetPosition().x >(292 - 75) && player.GetPosition().y < (-124 + 75) && player.GetPosition().y >(-124 - 75) && hasYC == false) {
-				hasYC = true;
-				ECS::GetComponent<PhysicsBody>(YCobj).SetPosition(b2Vec2(-10000, -1000));
-				ECS::DestroyEntity(YCobj);
-			}
-			else if (player.GetPosition().x < (1620 + 75) && player.GetPosition().x >(1620 - 75) && player.GetPosition().y < (-763 + 75) && player.GetPosition().y >(-763 - 75) && hasGC == false) {
-				hasGC = true;
-				ECS::GetComponent<PhysicsBody>(GCobj).SetPosition(b2Vec2(-10000, -1000));
-				ECS::DestroyEntity(GCobj);
-			}
-			else if (player.GetPosition().x < (380 + 75) && player.GetPosition().x >(380 - 75) && player.GetPosition().y < (400 + 75) && player.GetPosition().y >(400 - 75) && hasBC == false) {
-				hasBC = true;
-				ECS::GetComponent<PhysicsBody>(BCobj).SetPosition(b2Vec2(-10000, -1000));
-				ECS::DestroyEntity(BCobj);
-			}
+		if (player.GetPosition().x < (1787 + 75) && player.GetPosition().x >(1787 - 75) && player.GetPosition().y < (598 + 75) && player.GetPosition().y >(598 - 75) && hasRC == false) {
+			hasRC = true;
+			ECS::GetComponent<PhysicsBody>(RCobj).SetPosition(b2Vec2(-10000, -1000));
+			ECS::DestroyEntity(RCobj);
+		}
+		else if (player.GetPosition().x < (292 + 75) && player.GetPosition().x >(292 - 75) && player.GetPosition().y < (-124 + 75) && player.GetPosition().y >(-124 - 75) && hasYC == false) {
+			hasYC = true;
+			ECS::GetComponent<PhysicsBody>(YCobj).SetPosition(b2Vec2(-10000, -1000));
+			ECS::DestroyEntity(YCobj);
+		}
+		else if (player.GetPosition().x < (1620 + 75) && player.GetPosition().x >(1620 - 75) && player.GetPosition().y < (-763 + 75) && player.GetPosition().y >(-763 - 75) && hasGC == false) {
+			hasGC = true;
+			ECS::GetComponent<PhysicsBody>(GCobj).SetPosition(b2Vec2(-10000, -1000));
+			ECS::DestroyEntity(GCobj);
+		}
+		else if (player.GetPosition().x < (380 + 75) && player.GetPosition().x >(380 - 75) && player.GetPosition().y < (400 + 75) && player.GetPosition().y >(400 - 75) && hasBC == false) {
+			hasBC = true;
+			ECS::GetComponent<PhysicsBody>(BCobj).SetPosition(b2Vec2(-10000, -1000));
+			ECS::DestroyEntity(BCobj);
+		}
 		}
 
 		//terminals
@@ -3680,7 +3510,7 @@ void PhysicsPlayground::Update()
 			if (player.GetPosition().x < (897 + 75) && player.GetPosition().x >(897 - 75) && player.GetPosition().y < (825 + 75) && player.GetPosition().y >(825 - 75) && hasRC && rTA == false) {
 				rTA = true;;
 			}
-			else if (player.GetPosition().x < (256 + 75) && player.GetPosition().x > (256 - 75) && player.GetPosition().y < (78 + 75) && player.GetPosition().y >(78 - 75) && hasYC && yTA == false) {
+			else if (player.GetPosition().x < (256 + 75) && player.GetPosition().x >(256 - 75) && player.GetPosition().y < (78 + 75) && player.GetPosition().y >(78 - 75) && hasYC && yTA == false) {
 				yTA = true;
 				ECS::GetComponent<PhysicsBody>(yd1).SetPosition(b2Vec2(-10000, -1000));
 				ECS::DestroyEntity(yd1);
@@ -3691,14 +3521,14 @@ void PhysicsPlayground::Update()
 				ECS::GetComponent<PhysicsBody>(yd3).SetPosition(b2Vec2(-10000, -1000));
 				ECS::DestroyEntity(yd3);
 			}
-			else if (player.GetPosition().x < (1022 + 75) && player.GetPosition().x > (1022 - 75) && player.GetPosition().y < (260 + 75) && player.GetPosition().y >(260 - 75) && hasGC && gTA == false) {
+			else if (player.GetPosition().x < (1022 + 75) && player.GetPosition().x >(1022 - 75) && player.GetPosition().y < (260 + 75) && player.GetPosition().y >(260 - 75) && hasGC && gTA == false) {
 				gTA = true;
 				ECS::GetComponent<PhysicsBody>(gd1).SetPosition(b2Vec2(-10000, -1000));
 				ECS::DestroyEntity(gd1);
 				ECS::GetComponent<PhysicsBody>(gd2).SetPosition(b2Vec2(-10000, -1000));
 				ECS::DestroyEntity(gd2);
 			}
-			else if (player.GetPosition().x < (2016 + 75) && player.GetPosition().x > (2016 - 75) && player.GetPosition().y < (542 + 75) && player.GetPosition().y >(542 - 75) && hasBC && bTA == false) {
+			else if (player.GetPosition().x < (2016 + 75) && player.GetPosition().x >(2016 - 75) && player.GetPosition().y < (542 + 75) && player.GetPosition().y >(542 - 75) && hasBC && bTA == false) {
 				bTA = true;
 				ECS::GetComponent<PhysicsBody>(bd1).SetPosition(b2Vec2(-10000, -1000));
 				ECS::DestroyEntity(bd1);
@@ -3742,59 +3572,459 @@ void PhysicsPlayground::Update()
 	//If player and alien are on the same tile:
 	if (found == false)
 	{
-		if (Search(alien, rayMarker, m_physicsWorld) == true)
+		if (ranonce == true)
 		{
-			found = true;
+			if (Search(alien, rayMarker, m_physicsWorld) == true)
+			{
+				found = true;
+			}
 		}
+		if (created == true)
+		{
+			cout << "\n\nALIEN STEPS:" << alienSteps;
+			//cout << "IM HERE!";
+			Chase(alien, m_physicsWorld, b2Vec2(x128(getPathCol(alienSteps) - 3), x128(24 -getPathRow(alienSteps) - 11)));
+			if (round(((ali.GetBody()->GetPosition().x) / 256) + 3) == getPathCol(alienSteps) && round(24 - ((ali.GetBody()->GetPosition().y / 256) + 11)) == getPathRow(alienSteps))
+			{
+				//alienTileTimer -= 1.f * Timer::deltaTime;
+				//if (alienTileTimer <= 0.f)
+				//{
+				if (alienSteps > 0)
+				{
+					alienSteps--;
+					//alienTileTimer = 1.f;
+					cout << "\nStep Found";
+				}
+				//}
+			}
 
+
+			cout << "\n" << round(((ali.GetBody()->GetPosition().x) / 128) + 3) << " " << round(24 - ((ali.GetBody()->GetPosition().y / 128) + 11));
+			cout << "\nTAREGET" << getPathCol(alienSteps) << " " << getPathRow(alienSteps);
+
+		}
+		
 
 		//Patrol()
 	}
 	if (found == true)
 	{
-		if (cb.m_fixture->GetBody() == player.GetBody())
+		if (cb.m_fixture)
 		{
-			//Changes Radar Colour
-			std::string fileName = "CircleMask.png";
-			radSpr.LoadSprite(fileName, 5, 5);
-
-			alienRetentionTimer = AlienRetention;
-
-			//aCounter ensures that the alien stays in dodge mode for a little bit longer after the alien sees the player again
-			if (aCounter >= 1)
+			if (cb.m_fixture->GetBody() == player.GetBody())
 			{
-				Dodge(alien, m_physicsWorld);
-				aCounter -= 1 * Timer::deltaTime;
+				//Changes Radar Colour
+				std::string fileName = "CircleMask.png";
+				radSpr.LoadSprite(fileName, 5, 5);
+
+				alienRetentionTimer = AlienRetention;
+
+				//aCounter ensures that the alien stays in dodge mode for a little bit longer after the alien sees the player again
+				if (aCounter >= 1)
+				{
+					Dodge(alien, m_physicsWorld, player.GetPosition());
+					aCounter -= 1 * Timer::deltaTime;
+				}
+				else
+				{
+					Chase(alien, m_physicsWorld, player.GetPosition());
+					//cout << "\nAlien Sees Player";
+
+				}
+
 			}
+
 			else
 			{
-				Chase(alien, m_physicsWorld);
-				//cout << "\nAlien Sees Player";
+				//Changes the colour of the radar
+				std::string fileName = "radar.png";
+				radSpr.LoadSprite(fileName, 5, 5);
+				alienRetentionTimer -= 1 * Timer::deltaTime;
+
+				cout << "\n";
+				aCounter = 150;
+
+				Dodge(alien, m_physicsWorld, player.GetPosition());
 
 			}
-
 		}
-
-		else
-		{
-			//Changes the colour of the radar
-			std::string fileName = "radar.png";
-			radSpr.LoadSprite(fileName, 5, 5);
-			alienRetentionTimer -= 1 * Timer::deltaTime;
-
-			cout << "\n";
-			aCounter = 150;
-
-			Dodge(alien, m_physicsWorld);
-
-		}
-
 		if (alienRetentionTimer <= 0)
 		{
 			alienRetentionTimer = 0;
 			found = false;
 
 		}
+	}
+	MoveTo(alien);
+
+
+
+	int pX = (player.GetBody()->GetPosition().x);
+	int pY = (player.GetBody()->GetPosition().y);
+
+	int aX = (ali.GetBody()->GetPosition().x);
+	int aY = (ali.GetBody()->GetPosition().y);
+	int cX = x128(10);
+	int cY = x128(1);
+
+
+	if (round(player.GetBody()->GetPosition().x / 128) != pastPosX || round(player.GetBody()->GetPosition().y / 128) != pastPosY)
+	{
+		
+		int col = round(((player.GetBody()->GetPosition().x) / 128) + 3);
+		int row = round(24 - ((player.GetBody()->GetPosition().y / 128) + 11)); //should be 12, is offset to 11 for now
+		int Acol = round(((ali.GetBody()->GetPosition().x) / 128) + 3);
+		int Arow = round(24 - ((ali.GetBody()->GetPosition().y / 128) + 11)); //should be 12, is offset to 11 for now
+		if (round(player.GetBody()->GetPosition().x / 128) != round(ali.GetBody()->GetPosition().x / 128) || round(player.GetBody()->GetPosition().y / 128) != round(ali.GetBody()->GetPosition().y / 128))
+		{
+			makeGrid(col, row, Acol, Arow);
+			created = true;
+			////cout << "\n" << col << " " << row;
+
+			////updateGrid(col, row);
+
+			CalculatePath();
+			alienSteps = getPathcount() - 1;
+			resetPathcount();
+		}
+		pastPosX = round(player.GetBody()->GetPosition().x / 128);
+		pastPosY = round(player.GetBody()->GetPosition().y / 128);
+		cout << "\nBODY COUNT!: " << m_physicsWorld->GetBodyCount();
+
+		if (quad != 0)
+		{
+			if (pX < cX && pY < cY )
+			{
+
+				ClearObjects(m_physicsWorld);
+				cout << "\nBOT LEFT";
+				//Player spawn room
+				corridoor(x128(0), x128(0), 90); //BL
+				thickDiagonalOctogon(x128(-1), x128(-1), 0); //BL
+				thickWall(0, x128(-1), 90); //BL
+				thickDiagonalOctogon(x128(1), -x128(1), 90);//BL
+				thickWall(0, x128(1), 270);//BL
+				thickDiagonalOctogon(x128(1), x128(1), 180);//BL
+				thickDiagonalOctogon(-x128(1), x128(1), 270);//BL
+				thickDoor(x128(1), 0, 90);//BL
+				thickDoor(-x128(1), 0, -90); //BL
+				//Alien spawn room
+				smallOctogonRoom(-x128(2), 0);//BL
+				makeBox(128, 128, -x128(3), 0, 0);//BL
+				makeBox(128, 128, -x128(2), -x128(1), 0);//BL
+				makeBox(128, 128, -x128(2), x128(1), 0);//BL
+				//Portion next to the player spawn room
+				smallOctogonRoom(x128(2), 0);//BL
+				corridoorThinOpening(x128(2), -x128(1), 270);//BL
+				makeBox(128, 128, x128(2), -x128(2), 0);//BL
+				makeBox(128, 128, x128(2), x128(1), 0);//BL
+				lockerDX(x128(3), 0, 180);//BL
+				corridoorThinOpening(x128(3), x128(1), 270);//BL
+				Gap(x128(3) + 65, -20, 270);//BL
+				makeBox(11, 128, x128(3) + 58.5, -x128(1), 0);//BL
+				corridoorThinOpening(x128(3), -x128(2), 90);//BL
+					// Small room to the left of the main corridor
+				thickWall(x128(8), 0, 90); //bottom left
+				makeBox(128, 128, x128(7), 0, 0); //bottom left
+				makeBox(128, 128, x128(7), x128(1), 0); //bottom left
+				thickWall(x128(9), 0, 0); //bottom left
+				thickDoor(x128(9), x128(1), 270); //bottom left
+				thickWall(x128(9), -x128(1), 0); //bottom left
+
+				// Room under spawn
+				Gap(x128(3) + 65, -x128(2) - 20, 180);				//Bottom Left
+				sharpCorner(x128(2), -x128(3), 270);				//bottom left 
+				sharpCorner(x128(4), -x128(3), 0);				//bottom left
+				locker(x128(2), -x128(4), 180);					//bottom left 
+				locker(x128(4), -x128(4), 0);					//bottom left
+				sharpCorner(x128(2), -x128(5), 180);				//bottom left
+				Gap(x128(3) + 35, -x128(5) - 20, 0);				//bottom left
+				Gap(x128(4) + 65, -x128(4) - 20, 90);				//bottom left
+				makeBox(128, 11, x128(4), -x128(5) - 58.5, 0);			//bottom left
+				// Corridor leading to bottom main corridor			
+				corridoorThinOpening(x128(5), -x128(5), 0);			//bottom left
+				curvedCorner(x128(6), -x128(5), 90);				//bottom left
+				makeBox(128, 128, x128(7), -x128(5), 0);			//bottom left
+				wall(x128(6), -x128(4), 0);					//bottom left
+				wall(x128(6), -x128(3), 0);					//bottom left
+				thickWall(x128(7), -x128(4), 180);				//bottom left
+				thickWall(x128(7), -x128(3), 180);				//bottom left
+				thickCorner(x128(6), -x128(2), 270);				//bottom left
+				thinThickCorridor1(x128(6) + 32, -x128(2) - 32, 180);		//bottom left
+				thickishWall(x128(7), -x128(2), 90);				//bottom left
+				thickishWall(x128(7), -x128(2), 270);				//bottom left
+				thickishWall(x128(8), -x128(2), 90);				//bottom left
+				thickishWall(x128(8), -x128(2), 270);				//bottom left
+				thickishWall(x128(3), -x128(6), 0);				//bottom left
+				thickishWall(x128(3), -x128(6), 180);				//bottom left
+				thickCorner(x128(3), -x128(7), 0);				//bottom left
+				thinThickCorridor1(x128(3) + 32, -x128(7) + 32, 270);		//bottom left
+				thickishWall(x128(4), -x128(7), 90);				//bottom left
+				thickishWall(x128(4), -x128(7), 270);				//bottom left
+				thickishWall(x128(5), -x128(7), 90);				//bottom left
+				thickishWall(x128(5), -x128(7), 270);				//bottom left
+				thinThickCorridor(x128(6), -x128(7), 0);			//bottom left
+				thinThickCorridor(x128(7), -x128(7), 180);			//bottom left
+				thickishWall(x128(8), -x128(7), 90);				//bottom left
+				thickishWall(x128(8), -x128(7), 270);				//bottom left
+				// Bottom Main Corridor
+				makeBox(128, 128, x128(8), -x128(8), 0);			//bottom left
+				thickishDoor(x128(9), -x128(7), 270);				//bottom left
+
+
+				Gap(x128(9) + 65, -x128(7) - 20, 270);				//bottom left
+
+				Gap(x128(10) + 35, -x128(9) - 20, 0);				//bottom left
+				curvedCorner(x128(9), -x128(9), 0);				//bottom left
+
+				makeBox(128, 128, x128(10), -x128(10), 0);			//bottom left
+
+				wall(x128(9), -x128(6), 0);					//bottom left
+
+				Gap(x128(10) + 65, -x128(5) - 20, 180);				//bottom left
+
+				curvedCorner(x128(9), -x128(5), 270);				//bottom left
+
+				Gap(x128(10) + 65, -x128(4) - 20, 180);				//bottom left
+				// Main Corridor
+				thickishDoor(x128(10), -x128(4), 0);				//bottom left
+				thickCorner(x128(9), -x128(4), 0);				//bottom left
+
+				thickWall(x128(9), -x128(3), 0);				//bottom left
+
+				thickDoor(x128(9), -x128(2), 270);				//bottom left
+
+				quad = 0;
+
+			}
+		}
+
+		if (quad != 1)
+		{
+			if (pX < cX && pY > cY)
+			{
+				ClearObjects(m_physicsWorld);
+				cout << "\nTOP LEFT";
+				//Octogon room above Spawn
+				Gap(x128(3) + 35, x128(2) - 20, 0);//TL
+				curvedCorner(x128(2), x128(2), 0);//TL
+				wall(x128(2), x128(3), 0);//TL
+				curvedCorner(x128(2), x128(4), 270);//TL
+				curvedCorner(x128(4), x128(2), 90);//TL
+				curvedCorner(x128(4), x128(4), 180);//TL
+				Gap(x128(4) + 65, x128(4) - 20, 90);//TL
+				Gap(x128(3) + 65, x128(5) - 20, 180);//TL
+				corridoorThinOpening(x128(5), x128(3), 0);//TL
+				thickishWall(x128(3), x128(5), 0);//TL
+				thickishWall(x128(3), x128(5), 180);//TL
+				//Bullet shaped room (left) 
+				thickDoor(x128(3), x128(6), 0);//TL
+				thickWall(x128(2), x128(6), 90);//TL
+				thickWall(x128(4), x128(6), 90);//TL
+				thickDiagonalOctogon(x128(1), x128(6), 0);//TL
+				thickDiagonalOctogon(x128(1), x128(8), 270);//TL
+				thickWall(x128(1), x128(7), 0);//TL
+				thickWall(x128(2), x128(8), 270);//TL
+				thickWall(x128(3), x128(8), 270);//TL
+				thickWall(x128(4), x128(8), 270);//TL
+				makeBox(128, 128, x128(5), x128(6), 0);//TL
+				makeBox(128, 128, x128(5), x128(8), 0);//TL
+				thickishWall(x128(5), x128(7), 90);//TL
+				thickishWall(x128(5), x128(7), 270);//TL
+				// Corridor leading to upper main corridor (left)
+				Gap(x128(8) + 65, x128(9) - 20, 270);//TL
+				thickCorner(x128(6), x128(7), 90);//TL
+				thinThickCorridor1(x128(6) - 32, x128(7) + 32, 0);//TL
+				thickCorner(x128(6), x128(8), 270);//TL
+				thinThickCorridor1(x128(6) + 32, x128(8) - 32, 180);//TL
+				thickishWall(x128(7), x128(8), 90);//TL
+				thickishWall(x128(7), x128(8), 270);//TL
+					// Corridor connecting the octogon room to the main corridor
+				thinThickCorridor(x128(8), x128(3), 180); //top left
+				Gap(x128(7) + 65, x128(4) - 20, 180); //top left
+				wall(x128(7), x128(3), 90); //top left
+				corridoor(x128(6), x128(3), 90); //top left
+				//Octogon room above connect corridors
+				Gap(x128(7) + 35, x128(4) - 20, 0); //top left
+				curvedCorner(x128(6), x128(4), 0); //top left
+				curvedCorner(x128(8), x128(4), 90); //top left
+				wall(x128(6), x128(5), 0); //top left
+				wall(x128(7), x128(6), 270); //top left
+				curvedCorner(x128(6), x128(6), 270); //top left
+				curvedCorner(x128(8), x128(6), 180); //top left
+				Gap(x128(7) + 35, x128(6) - 20, 0); //top left
+				Gap(x128(6) + 65, x128(6) - 20, 90); //top left
+				Gap(x128(8) + 65, x128(6) - 20, 270); //top left
+				Gap(x128(7) + 65, x128(5) - 20, 180); //top left
+				makeBox(128, 128, x128(7), x128(2), 0); //top left
+				thickWall(x128(8), x128(2), 270); //top left
+				sharpCorner(x128(9), x128(9), 0); //top left
+				sharpCorner(x128(8), x128(9), 270); //top left
+				thickWall(x128(9), x128(4), 0); //top left
+				thickWall(x128(9), x128(6), 0); //top left
+				thickDoor(x128(9), x128(3), 270); //top left
+				thickDoor(x128(9), x128(5), 270); //top left
+				thickWall(x128(9), x128(2), 0); //top left
+				quad = 1;
+			}
+		}
+
+		if (quad != 2)
+		{
+			if (pX > cX && pY > cY)
+			{
+				ClearObjects(m_physicsWorld);
+				cout << "\nTOP RIGHT";
+				// Corridor leading to upper main corridor (right)
+				makeBox(128, 128, x128(15), x128(8), 0);//TR
+				Gap(x128(12) + 65, x128(9) - 20, 90);//TR
+				thickishWall(x128(13), x128(8), 90);//TR
+				thickishWall(x128(13), x128(8), 270);//TR
+				thickCorner(x128(14), x128(8), 180);//TR
+				thinThickCorridor1(x128(14) - 32, x128(8) - 32, 90);//TR
+				thickCorner(x128(14), x128(7), 0);//TR
+					// Small room to the right of the main corridor
+				wall(x128(12), x128(5), 270); //top right
+				sharpCorner(x128(14), x128(5), 0); //top right
+				sharpCorner(x128(14), x128(4), 90); //top right
+				wall(x128(12), x128(4), 90); //top right
+				locker(x128(13), x128(5), 270); //top right
+				locker(x128(13), x128(4), 90); //top right
+				thickWall(x128(11), x128(6), 180); //top right
+				curvedCorner(x128(8), x128(7), 0); //top left
+				curvedCorner(x128(12), x128(7), 90); //top right
+				sharpCorner(x128(12), x128(9), 0); //top right
+				sharpCorner(x128(11), x128(9), 270); //top right
+				thickDoor(x128(11), x128(5), 90); //top right
+				thickWall(x128(11), x128(2), 180); //top right
+				thickWall(x128(11), x128(3), 180); //top right
+				thickWall(x128(11), x128(4), 180); //top right
+				thickishDoor(x128(17), x128(2), 0);//TR
+				thickishWall(x128(16), x128(2), 90);//TR
+				thickishWall(x128(18), x128(2), 90);//TR
+				thickishWall(x128(16), x128(4), 270);//TR
+				thickishWall(x128(18), x128(4), 270);//TR
+				thickishWall(x128(19), x128(3), 180);//TR
+				thickCorner(x128(19), x128(2), 90);//TR
+				thickCorner(x128(19), x128(4), 180);//TR
+				makeBox(128, 128, x128(15), x128(2), 0);//TR
+				makeBox(128, 128, x128(15), x128(4), 0);//TR
+				lockerDX(x128(15), x128(3), 0);//TR
+				thickishDoor(x128(17), x128(4), 180);//TR
+				thickishWall(x128(17), x128(5), 0);//TR
+				thickishWall(x128(17), x128(5), 180);//TR
+				// Right Bullet Room
+				thickDoor(x128(17), x128(6), 0);//TR
+				thickWall(x128(16), x128(6), 90);//TR
+				thickWall(x128(18), x128(6), 90);//TR
+				thickWall(x128(19), x128(7), 180);//TR
+				thickDiagonalOctogon(x128(19), x128(6), 90);//TR
+				thickDiagonalOctogon(x128(19), x128(8), 180);//TR
+				thickWall(x128(16), x128(8), 270);//TR
+				thickWall(x128(17), x128(8), 270);//TR
+				thickWall(x128(18), x128(8), 270);//TR
+				makeBox(128, 128, x128(15), x128(6), 0);//TR
+					// End Room
+				largeOctogonRoom(x128(10), x128(11), true, true, false, true);//TR
+				corridoor(x128(10), x128(9), 0);//TR
+
+				thinThickCorridor1(x128(15) - 96, x128(7) + 32, 270); //Aedyn	//Top Right
+				thickishWall(x128(15), x128(7), 90);				//Top Right
+				thickishWall(x128(15), x128(7), 270);				//Top Right
+				quad = 2;
+
+			}
+		}
+		if (quad != 3)
+		{
+			if (pX > cX && pY < cY)
+			{
+				ClearObjects(m_physicsWorld);
+				cout << "\nBOT RIGHT";
+				//Corridor + Rooms at the bottom right of the map
+				thinThickCorridor(x128(12), -x128(1), 0); //bottom right
+				corridoor(x128(14), -x128(1), 90); //bottom right
+				corridoorThinOpening(x128(15), -x128(1), 180); //bottom right
+				thickCorner(x128(12), x128(1), 270); //bottom right
+				thickCorner(x128(12), 0, 0); //bottom right
+				thickCorner(x128(14), x128(1), 180); //bottom right
+				thickCorner(x128(14), 0, 90); //bottom right
+				thickishWall(x128(13), x128(1), 270); //bottom right
+				thickishWall(x128(13), -x128(3), 90); //bottom right
+				thickishDoor(x128(13), x128(0), 0); //bottom right
+				thickCorner(x128(12), -x128(2), 270); //bottom right
+				thickCorner(x128(12), -x128(3), 0); //bottom right
+				thickCorner(x128(14), -x128(2), 180); //bottom right
+				thickCorner(x128(14), -x128(3), 90); //bottom right
+				thickWall(x128(11), x128(1), 180); //bottom right
+				thickDoor(x128(11), -x128(1), 90); //bottom right
+					//STEPHEN
+				thickishDoor(x128(13), -x128(2), 180); //BR
+				// Rightmost room
+				makeBox(128, 128, x128(15), x128(0), 0);//BR
+				makeBox(128, x128(3), x128(15), -x128(3), 0);//BR
+				thickWall(x128(16), -x128(4), 90);//BR
+				corridoorThinOpening(x128(17), 0, 90);//BR
+				thickWall(x128(16), x128(0), 270);//BR
+				thickWall(x128(18), x128(0), 270);//BR
+				makeBox(128, x128(3), x128(19), -x128(1), 0);//BR
+				thickDoor(x128(17), -x128(4), 0);//BR
+				corridoor(x128(18), -x128(4), 0);//BR
+				Gap(x128(18) + 35, -x128(2) - 20, 0);//BR
+				locker(x128(18), -x128(3), 180);//BR
+				thickishWall(x128(16), -x128(3), 180);//BR
+				makeBox(128, 128, x128(18), -x128(5), 0);//BR
+				makeBox(128, 128, x128(16), -x128(5), 0);//BR
+				// Room below the right bullet room
+				locker(x128(17), x128(1), 180);//BR
+					// Room to the right of the bottom main shaft
+				thickishWall(x128(17), -x128(5), 0);//BR
+				thickishWall(x128(17), -x128(5), 180);//BR
+				thickishWall(x128(17), -x128(6), 0);//BR
+				thickishWall(x128(17), -x128(6), 180);//BR
+				thickCorner(x128(17), -x128(7), 90);//BR
+				thinThickCorridor1(x128(17) - 32, -x128(7) + 32, 0);//BR
+				thickDoor(x128(16), -x128(7), 90);//BR
+				thickWall(x128(16), -x128(6), 180);//BR
+				thickDiagonalOctogon(x128(16), -x128(8), 90);//BR
+				thickishWall(x128(15), -x128(8), 90);//BR
+				thickWall(x128(14), -x128(8), 90);//BR
+				locker(x128(15), -x128(6), 270);//BR
+				thickDoor(x128(13), -x128(6), 270);//BR
+				thickDoor(x128(13), -x128(7), 270);//BR
+				thickishWall(x128(12), -x128(7), 90);//BR
+				thickishWall(x128(12), -x128(7), 270);//BR
+				makeBox(128, 128, x128(12), -x128(6), 0);//BR
+				thickDiagonalOctogon(x128(13), -x128(8), 0);//BR
+				makeBox(128, 128, x128(13), -x128(5), 0);//BR
+				wall(x128(14), -x128(5), 270);//BR
+				corridoor(x128(15), -x128(5), 90);//BR
+				Gap(x128(14) + 35, -x128(5) - 20, 0);//BR
+				thickishDoor(x128(11), -x128(7), 90);				//bottom right
+				Gap(x128(11) + 65, -x128(7) - 20, 90);				//bottom right
+				curvedCorner(x128(11), -x128(9), 90);				//bottom right
+				makeBox(128, 128, x128(12), -x128(8), 0);			//bottom right
+				wall(x128(11), -x128(6), 180);					//bottom right
+				wall(x128(10), -x128(5), 90);					//bottom right
+				curvedCorner(x128(11), -x128(5), 180);				//bottom right
+				thickCorner(x128(11), -x128(4), 90);				//bottom right
+				thickWall(x128(11), -x128(3), 180);				//bottom right
+				thickWall(x128(11), -x128(2), 180);				//bottom right
+				thickWall(x128(11), 0, 180);					//bottom right
+
+				quad = 3;
+
+			}
+		}
+		else
+		{
+
+			cout << "\nHey";
+
+		}
+
+		ranonce = true;
+
 	}
 	if (showEndScreen == false && hideStartScreen == true) {
 		MoveTo(alien);
@@ -3809,6 +4039,7 @@ void PhysicsPlayground::KeyboardHold()
 	auto& playerSpr = ECS::GetComponent<Sprite>(MainEntities::MainPlayer());
 	auto& ali = ECS::GetComponent<PhysicsBody>(alien);
 	auto& aliSpr = ECS::GetComponent<Transform>(alienSpr);
+	//auto& Thing = ECS::GetComponent<PhysicsBody>(thing);
 	float speed = 200.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
 
@@ -3825,34 +4056,34 @@ void PhysicsPlayground::KeyboardHold()
 
 	if (Input::GetKey(Key::W))
 	{
-		vel.y += Timer::deltaTime;
+		vel.y += 10.f * Timer::deltaTime;
 		//vel += b2Vec2(0.f, 8.f * Timer::deltaTime);
 	}
 	if (Input::GetKey(Key::S))
 	{
-		vel.y += -Timer::deltaTime;
+		vel.y += 10.f * -Timer::deltaTime;
 		//vel += b2Vec2(0.f, -8.f * Timer::deltaTime);
 	}
 
 	if (Input::GetKey(Key::A))
 	{
-		vel.x += -Timer::deltaTime;
+		vel.x += 10.f * -Timer::deltaTime;
 		//std::string fileName = "left.png";
 		//playerSpr.LoadSprite(fileName, 32, 32);
 		//vel += b2Vec2(-8.f * Timer::deltaTime, 0.f);
 	}
 	if (Input::GetKey(Key::D))
 	{
-		vel.x += Timer::deltaTime;
+		vel.x += 10.f * Timer::deltaTime;
 		//std::string fileName = "right.png";
 		//playerSpr.LoadSprite(fileName, 32, 32);
 		//vel += b2Vec2(8.f * Timer::deltaTime, 0.f);
 	}
-	//if (Input::GetKeyDown(Key::E))
-	//{
-	//	player.SetPosition(b2Vec2(0.f, 30.f));
+	if (Input::GetKeyDown(Key::Q))
+	{
+		ali.SetPosition(b2Vec2(x128(8), x128(1)));
 
-	//}
+	}
 	player.GetBody()->SetLinearVelocity(speed * vel + b2Vec2(player.GetBody()->GetLinearVelocity().x * 0.9f, player.GetBody()->GetLinearVelocity().y * 0.9f));
 	//player.GetBody()->SetLinearVelocity(speed * vel);
 
@@ -3892,6 +4123,7 @@ void PhysicsPlayground::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::Y))
 	{
+		
 		if (viewAlien == false)
 		{
 			viewAlien = true;
