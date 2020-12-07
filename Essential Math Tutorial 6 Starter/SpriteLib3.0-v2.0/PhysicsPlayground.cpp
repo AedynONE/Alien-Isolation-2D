@@ -131,7 +131,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 
 		//Set up the components
-		std::string fileName = "layer1.png";
+		std::string fileName = "M1_L1A.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1088, 192, 0.f));
@@ -236,7 +236,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(x128(13)), float32(x128(0)));
+		tempDef.position.Set(float32(x128(15)), float32(x128(-6)));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -321,6 +321,256 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	}
+	//Setup Corpse 2
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "corpse2.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1660.f, 130.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 10.f;
+		float shrinkY = 20.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(858.f), float32(701.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Corpse 3
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "corpse3.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1660.f, 130.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 10.f;
+		float shrinkY = 20.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(2281.f), float32(-479.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Corpse 4
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "corpse4.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1660.f, 130.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 10.f;
+		float shrinkY = 20.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(868.f), float32(-340.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Corpse 5
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+
+		//Sets up components
+		std::string fileName = "corpse5.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1660.f, 130.f, 2.f));
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 10.f;
+		float shrinkY = 20.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(1185.f), float32(1200.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, -5.f), false, GROUND, PLAYER | ENEMY);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	}
+	//Setup Locker (Shower)
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "lockerfrontfacing.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 128);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1664.f, 735.f, 6.f));
+	}
+	//Setup Locker (Lounge to Storage Hallway)
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "lockersidefacing.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 128);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(427.f, 38.f, 6.f));
+	}
+	//Setup Locker (Storage Left)
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "lockersidefacing.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 128);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(299.f, -476.f, 6.f));
+	}
+	//Setup Locker (Storage Right)
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "lockersidefacing.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 128);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(470.f, -478.f, 6.f));
+	}
+	//Setup Locker (Green room top)
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "lockerfrontfacing.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 128);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1920.f, 480.f, 6.f));
+	}
+	//Setup Locker (Green room side)
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "lockersidefacing.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 128);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1878.f, 417.f, 6.f));
+	}
+	//Setup Locker (Green Room to Medbay Hallway)
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "lockersidefacing.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 128);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(2219.f, 162.f, 6.f));
+	}
+	//Setup Locker (Isolation)
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "lockersidefacing.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 128);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(2347.f, -351.f, 6.f));
+	}
+	//Setup Locker (Kitchen)
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "lockerfrontfacing.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 128);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1920.f, -672.f, 6.f));
+	}
 	//Setup Computer 1
 	{
 		//Creates entity
@@ -344,7 +594,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(1663.f), float32(156.f));
+		tempDef.position.Set(float32(1661.f), float32(156.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -797,88 +1047,88 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	thickDoor(x128(9), -x128(2), 270);
 	thickWall(x128(11), -x128(2), 180);
 	thickWall(x128(11), 0, 180);
-	thickWall(x128(9), -x128(1), 0);
-	thickDoor(x128(11), -x128(1), 90);
-	thickWall(x128(9), 0, 0);
-	thickDoor(x128(9), x128(1), 270);
-	thickWall(x128(9), x128(2), 0);
-	thickWall(x128(11), x128(1), 180);
-	thickWall(x128(11), x128(2), 180);
-	thickWall(x128(11), x128(3), 180);
-	thickWall(x128(11), x128(4), 180);
-	thickDoor(x128(9), x128(3), 270);
-	thickDoor(x128(9), x128(5), 270);
-	thickDoor(x128(11), x128(5), 90);
-	thickWall(x128(9), x128(4), 0);
-	thickWall(x128(9), x128(6), 0);
-	thickWall(x128(11), x128(6), 180);
-	curvedCorner(x128(8), x128(7), 0);
-	curvedCorner(x128(12), x128(7), 90);
-	sharpCorner(x128(12), x128(9), 0);
-	sharpCorner(x128(11), x128(9), 270);
-	sharpCorner(x128(9), x128(9), 0);
-	sharpCorner(x128(8), x128(9), 270);
+	thickWall(x128(9), -x128(1), 0); //bottom left
+	thickDoor(x128(11), -x128(1), 90); //bottom right
+	thickWall(x128(9), 0, 0); //bottom left
+	thickDoor(x128(9), x128(1), 270); //bottom left
+	thickWall(x128(9), x128(2), 0); //top left
+	thickWall(x128(11), x128(1), 180); //bottom right
+	thickWall(x128(11), x128(2), 180); //top right
+	thickWall(x128(11), x128(3), 180); //top right
+	thickWall(x128(11), x128(4), 180); //top right
+	thickDoor(x128(9), x128(3), 270); //top left
+	thickDoor(x128(9), x128(5), 270); //top left
+	thickDoor(x128(11), x128(5), 90); //top right
+	thickWall(x128(9), x128(4), 0); //top left
+	thickWall(x128(9), x128(6), 0); //top left
+	thickWall(x128(11), x128(6), 180); //top right
+	curvedCorner(x128(8), x128(7), 0); //top left
+	curvedCorner(x128(12), x128(7), 90); //top right
+	sharpCorner(x128(12), x128(9), 0); //top right
+	sharpCorner(x128(11), x128(9), 270); //top right
+	sharpCorner(x128(9), x128(9), 0); //top left
+	sharpCorner(x128(8), x128(9), 270); //top left
 	// Small room to the left of the main corridor
-	thickWall(x128(8), 0, 90);
-	makeBox(128, 128, x128(7), 0, 0);
-	makeBox(128, 128, x128(7), x128(1), 0);
-	makeBox(128, 128, x128(7), x128(2), 0);
-	thickWall(x128(8), x128(2), 270);
+	thickWall(x128(8), 0, 90); //bottom left
+	makeBox(128, 128, x128(7), 0, 0); //bottom left
+	makeBox(128, 128, x128(7), x128(1), 0); //bottom left
+	makeBox(128, 128, x128(7), x128(2), 0); //top left
+	thickWall(x128(8), x128(2), 270); //top left
 	// Small room to the right of the main corridor
-	wall(x128(12), x128(5), 270);
-	sharpCorner(x128(14), x128(5), 0);
-	sharpCorner(x128(14), x128(4), 90);
-	wall(x128(12), x128(4), 90);
-	locker(x128(13), x128(5), 270);
-	locker(x128(13), x128(4), 90);
+	wall(x128(12), x128(5), 270); //top right
+	sharpCorner(x128(14), x128(5), 0); //top right
+	sharpCorner(x128(14), x128(4), 90); //top right
+	wall(x128(12), x128(4), 90); //top right
+	locker(x128(13), x128(5), 270); //top right
+	locker(x128(13), x128(4), 90); //top right
 	// Corridor connecting the octogon room to the main corridor
-	thinThickCorridor(x128(8), x128(3), 180);
-	Gap(x128(7) + 65, x128(4) - 20, 180);
-	wall(x128(7), x128(3), 90);
-	corridoor(x128(6), x128(3), 90);
+	thinThickCorridor(x128(8), x128(3), 180); //top left
+	Gap(x128(7) + 65, x128(4) - 20, 180); //top left
+	wall(x128(7), x128(3), 90); //top left
+	corridoor(x128(6), x128(3), 90); //top left
 	//Octogon room above connect corridors
-	Gap(x128(7) + 35, x128(4) - 20, 0);
-	curvedCorner(x128(6), x128(4), 0);
-	curvedCorner(x128(8), x128(4), 90);
-	wall(x128(6), x128(5), 0);
-	wall(x128(7), x128(6), 270);
-	curvedCorner(x128(6), x128(6), 270);
-	curvedCorner(x128(8), x128(6), 180);
-	Gap(x128(7) + 35, x128(6) - 20, 0);
-	Gap(x128(6) + 65, x128(6) - 20, 90);
-	Gap(x128(8) + 65, x128(6) - 20, 270);
-	Gap(x128(7) + 65, x128(5) - 20, 180);
+	Gap(x128(7) + 35, x128(4) - 20, 0); //top left
+	curvedCorner(x128(6), x128(4), 0); //top left
+	curvedCorner(x128(8), x128(4), 90); //top left
+	wall(x128(6), x128(5), 0); //top left
+	wall(x128(7), x128(6), 270); //top left
+	curvedCorner(x128(6), x128(6), 270); //top left
+	curvedCorner(x128(8), x128(6), 180); //top left
+	Gap(x128(7) + 35, x128(6) - 20, 0); //top left
+	Gap(x128(6) + 65, x128(6) - 20, 90); //top left
+	Gap(x128(8) + 65, x128(6) - 20, 270); //top left
+	Gap(x128(7) + 65, x128(5) - 20, 180); //top left
 	// Corridor + Rooms at the bottom right of the map
-	thinThickCorridor(x128(12), -x128(1), 0);
-	corridoor(x128(14), -x128(1), 90);
-	corridoorThinOpening(x128(15), -x128(1), 180);
-	thickCorner(x128(12), x128(1), 270);
-	thickCorner(x128(12), 0, 0);
-	thickCorner(x128(14), x128(1), 180);
-	thickCorner(x128(14), 0, 90);
-	thickishWall(x128(13),x128(1),270);
-	thickishWall(x128(13), -x128(3), 90);
-	thickishDoor(x128(13), x128(0), 0);
-	thickCorner(x128(12), -x128(2), 270);
-	thickCorner(x128(12), -x128(3), 0);
-	thickCorner(x128(14), -x128(2), 180);
-	thickCorner(x128(14), -x128(3), 90);
-	thickishDoor(x128(13), -x128(2), 180);
+	thinThickCorridor(x128(12), -x128(1), 0); //bottom right
+	corridoor(x128(14), -x128(1), 90); //bottom right
+	corridoorThinOpening(x128(15), -x128(1), 180); //bottom right
+	thickCorner(x128(12), x128(1), 270); //bottom right
+	thickCorner(x128(12), 0, 0); //bottom right
+	thickCorner(x128(14), x128(1), 180); //bottom right
+	thickCorner(x128(14), 0, 90); //bottom right
+	thickishWall(x128(13),x128(1),270); //bottom right
+	thickishWall(x128(13), -x128(3), 90); //bottom right
+	thickishDoor(x128(13), x128(0), 0); //bottom right
+	thickCorner(x128(12), -x128(2), 270); //bottom right
+	thickCorner(x128(12), -x128(3), 0); //bottom right
+	thickCorner(x128(14), -x128(2), 180); //bottom right
+	thickCorner(x128(14), -x128(3), 90); //bottom right
+	thickishDoor(x128(13), -x128(2), 180); //bottom right
 	// Rightmost room
-	makeBox(128, 128, x128(15), x128(0), 0);
-	makeBox(128, x128(3), x128(15), -x128(3), 0);
-	thickWall(x128(16), -x128(4), 90);
-	corridoorThinOpening(x128(17), 0, 90);
-	thickWall(x128(16), x128(0), 270);
-	thickWall(x128(18), x128(0), 270);
-	makeBox(128, x128(3), x128(19), -x128(1), 0);
-	thickDoor(x128(17), -x128(4), 0);
-	corridoor(x128(18), -x128(4), 0);
-	Gap(x128(18) + 35, -x128(2) - 20, 0);
-	locker(x128(18), -x128(3), 180);
-	thickishWall(x128(16), -x128(3), 180);
-	makeBox(128, 128, x128(18), -x128(5), 0);
-	makeBox(128, 128, x128(16), -x128(5), 0);
+	makeBox(128, 128, x128(15), x128(0), 0); //bottom right
+	makeBox(128, x128(3), x128(15), -x128(3), 0); //bottom right
+	thickWall(x128(16), -x128(4), 90); //bottom right
+	corridoorThinOpening(x128(17), 0, 90); //bottom right
+	thickWall(x128(16), x128(0), 270); //bottom right
+	thickWall(x128(18), x128(0), 270); //bottom right
+	makeBox(128, x128(3), x128(19), -x128(1), 0); //bottom right
+	thickDoor(x128(17), -x128(4), 0); //bottom right
+	corridoor(x128(18), -x128(4), 0); //bottom right
+	Gap(x128(18) + 35, -x128(2) - 20, 0); //bottom right
+	locker(x128(18), -x128(3), 180); //bottom right
+	thickishWall(x128(16), -x128(3), 180); //bottom right
+	makeBox(128, 128, x128(18), -x128(5), 0); //bottom right
+	makeBox(128, 128, x128(16), -x128(5), 0); //bottom right
 	// Room below the right bullet room
 	locker(x128(17), x128(1), 180);
 	thickishDoor(x128(17), x128(2), 0);
