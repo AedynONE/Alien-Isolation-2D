@@ -275,7 +275,7 @@ int f(node p1)
 }
 
 //Generates the AI grid
-void makeGrid()
+void makeGrid(int playerX, int playerY)
 {
 	for (int i = 0; i < gWidth; i++)
 	{
@@ -287,9 +287,15 @@ void makeGrid()
 			
 			Node.tRows = gWidth;
 			grid[i][j] = Node;
-
+			grid[i][j].type = mapEditor[i][j];
 		}
 	}
+
+	grid[playerY][playerX].makeStart();
+	closedSet[closedCount] = grid[playerY][playerX];
+	startRow = playerY;
+	startCol = playerX;
+
 }
 
 //Draws grid to screen
@@ -434,7 +440,7 @@ void CalculatePath()
 			
 			
 		}
-		drawGrid();
+		//drawGrid();
 		closedCount = 0;
 		openCount = 0;
 		pathCount = 0;

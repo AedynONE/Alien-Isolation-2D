@@ -2,5 +2,5 @@
 
 
 void CalculatePath();
-void makeGrid();
+void makeGrid(int playerX, int playerY);
 void updateGrid(int playerX, int playerY);

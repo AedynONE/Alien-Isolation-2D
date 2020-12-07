@@ -2009,7 +2009,27 @@ void Dodge(int alien, b2World* m_physicsWorld)
 
 float mousePosX = 0;
 float mousePosY = 0;
+void ClearObjects(b2World* m_physicsWorld)
+{
+	b2Body* body = m_physicsWorld->GetBodyList();
+	for (int f = 0; f < m_physicsWorld->GetBodyCount(); f++)
+	{
 
+		if (body->GetFixtureList()->GetDensity() == 100.f)
+		{
+
+			PhysicsBody::m_bodiesToDelete.push_back((int)body->GetUserData());
+			//cout << "\n" << (int)body->GetUserData();
+			//m_physicsWorld->DestroyBody(m_physicsWorld->GetBodyList());
+
+
+		}
+		body = body->GetNext();
+	}
+	cout << "\nObjects Cleared.";
+
+
+}
 void ConeMovement(int visionCone)
 {
 	//FUCK THIS
@@ -2053,11 +2073,6 @@ void PhysicsPlayground::Update()
 		std::cout << "X: " << player.GetPosition().x << " Y: " << player.GetPosition().y << std::endl;
 	}
 
-
-	
-
-
-	
 
 	ConeMovement(visionCone);
 
@@ -2137,21 +2152,22 @@ void PhysicsPlayground::Update()
 
 
 
-	int pX = round((player.GetBody()->GetPosition().x));
-	int pY = round((player.GetBody()->GetPosition().y));
+	int pX = (player.GetBody()->GetPosition().x);
+	int pY = (player.GetBody()->GetPosition().y);
 
-
+	int cX = x128(10);
+	int cY = x128(1);
 
 
 	if (round(player.GetBody()->GetPosition().x / 128) != pastPosX || round(player.GetBody()->GetPosition().y / 128) != pastPosY)
 	{
-		makeGrid();
+		
 		int col = round(((player.GetBody()->GetPosition().x) / 128) + 3);
 		int row = round(24 - ((player.GetBody()->GetPosition().y / 128) + 11)); //should be 12, is offset to 11 for now
+		makeGrid(col, row);
+		//cout << "\n" << col << " " << row;
 
-		cout << "\n" << col << " " << row;
-
-		updateGrid(col, row);
+		//updateGrid(col, row);
 
 		CalculatePath();
 		pastPosX = round(player.GetBody()->GetPosition().x / 128);
@@ -2160,19 +2176,10 @@ void PhysicsPlayground::Update()
 
 		if (quad != 0)
 		{
-			if (pX <= x128(10) && pY <= x128(1))
+			if (pX < cX && pY < cY)
 			{
-				for (int f = 0; f < m_physicsWorld->GetBodyCount(); f++)
-				{
-					if (m_physicsWorld->GetBodyList()->GetFixtureList()->GetDensity() == 100.f)
-					{
-						//PhysicsBody::m_bodiesToDelete[f] = m_physicsWorld->GetBodyList()->GetFixtureList().;
-						m_physicsWorld->DestroyBody(m_physicsWorld->GetBodyList());
-						m_physicsWorld->GetBodyList()->GetNext();
-						
-					}
-				}
 
+				ClearObjects(m_physicsWorld);
 				cout << "\nBOT LEFT";
 				//Player spawn room
 				corridoor(x128(0), x128(0), 90); //BL
@@ -2275,11 +2282,11 @@ void PhysicsPlayground::Update()
 			}
 		}
 
-		else if (quad != 1)
+		if (quad != 1)
 		{
-			if (pX < x128(10) && pY > x128(1))
+			if (pX < cX && pY > cY)
 			{
-
+				ClearObjects(m_physicsWorld);
 				cout << "\nTOP LEFT";
 				//Octogon room above Spawn
 				Gap(x128(3) + 35, x128(2) - 20, 0);//TL
@@ -2347,9 +2354,9 @@ void PhysicsPlayground::Update()
 
 		if (quad != 2)
 		{
-			if (pX >= x128(10) && pY > x128(1))
+			if (pX > cX && pY > cY)
 			{
-
+				ClearObjects(m_physicsWorld);
 				cout << "\nTOP RIGHT";
 				// Corridor leading to upper main corridor (right)
 				makeBox(128, 128, x128(15), x128(8), 0);//TR
@@ -2413,9 +2420,9 @@ void PhysicsPlayground::Update()
 		}
 		if (quad != 3)
 		{
-			if (pX > x128(10) && pY <= x128(1))
+			if (pX > cX && pY < cY)
 			{
-
+				ClearObjects(m_physicsWorld);
 				cout << "\nBOT RIGHT";
 				//Corridor + Rooms at the bottom right of the map
 				thinThickCorridor(x128(12), -x128(1), 0); //bottom right
