@@ -746,7 +746,22 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 4.f));
 	}
 
+	//Setup WIN
+	{
 
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "Win.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 400, 200);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(x128(10.f), x128(11.f), 100.f));
+	}
 	//Setup Vcone
 	{
 
@@ -3273,7 +3288,7 @@ void PhysicsPlayground::Update()
 	int plx = player.GetPosition().x;
 	int ply = player.GetPosition().y;
 
-	std::cout << "Alien Pos: " << alienex << " " << alieney << std::endl;
+	//std::cout << "Alien Pos: " << alienex << " " << alieney << std::endl;
 	//auto& playerObject = ECS::GetComponent<PhysicsBody>(redterminal);
 	int xdi = (alienex - plx);
 	int ydi = (alieney - ply);
@@ -3345,7 +3360,7 @@ void PhysicsPlayground::Update()
 		showEndScreen = true;
 	}
 	else {
-		std::cout << "Distance: " << distance << std::endl;
+		//std::cout << "Distance: " << distance << std::endl;
 	}
 
 	if (hideStartScreen) {
@@ -3585,7 +3600,7 @@ void PhysicsPlayground::Update()
 		}
 		if (created == true)
 		{
-			cout << "\n\nALIEN STEPS:" << alienSteps;
+			//cout << "\n\nALIEN STEPS:" << alienSteps;
 			//cout << "IM HERE!";
 			Chase(alien, m_physicsWorld, b2Vec2(x128(getPathCol(alienSteps) - 3), x128(24 -getPathRow(alienSteps) - 11)));
 			if (round(((ali.GetBody()->GetPosition().x) / 256) + 3) == getPathCol(alienSteps) && round(24 - ((ali.GetBody()->GetPosition().y / 256) + 11)) == getPathRow(alienSteps))
@@ -3597,14 +3612,14 @@ void PhysicsPlayground::Update()
 				{
 					alienSteps--;
 					//alienTileTimer = 1.f;
-					cout << "\nStep Found";
+					//cout << "\nStep Found";
 				}
 				//}
 			}
 
 
-			cout << "\n" << round(((ali.GetBody()->GetPosition().x) / 128) + 3) << " " << round(24 - ((ali.GetBody()->GetPosition().y / 128) + 11));
-			cout << "\nTAREGET" << getPathCol(alienSteps) << " " << getPathRow(alienSteps);
+			//cout << "\n" << round(((ali.GetBody()->GetPosition().x) / 128) + 3) << " " << round(24 - ((ali.GetBody()->GetPosition().y / 128) + 11));
+			//cout << "\nTAREGET" << getPathCol(alienSteps) << " " << getPathRow(alienSteps);
 
 		}
 		
@@ -3645,7 +3660,7 @@ void PhysicsPlayground::Update()
 				radSpr.LoadSprite(fileName, 5, 5);
 				alienRetentionTimer -= 1 * Timer::deltaTime;
 
-				cout << "\n";
+				//cout << "\n";
 				aCounter = 150;
 
 				Dodge(alien, m_physicsWorld, player.GetPosition());
@@ -4024,7 +4039,7 @@ void PhysicsPlayground::Update()
 		else
 		{
 
-			cout << "\nHey";
+			//cout << "\nHey";
 
 		}
 
