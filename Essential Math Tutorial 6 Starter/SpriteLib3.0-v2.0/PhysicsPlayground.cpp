@@ -56,8 +56,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 	}
 
-	decoration("Back facing bed.png", 64, 64, x128(0), -96, 0);
-	decoration("bed.png", 64, 64, x128(0), 96, 0);
+	decoration("Back facing bed.png", 64, 64, x128(0), -128, 0);
+	decoration("bed.png", 64, 64, x128(0), 128, 0);
 	decoration("Dead crewmate on a Stacter.png", 60, 60, x128(18), x128(-4) - 32, 0);
 	decoration("Kitchen counter.png", 64, 55, x128(13) + 32, x128(-6) + 64, 0);
 	decoration("Stacher.png", 60, 60, x128(18), x128(0), 0);
@@ -68,12 +68,12 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	decoration("Couch.png", 40, 40, x128(4) - 60, x128(4) + 64, 0);
 	decoration("Couch.png", 40, 40, x128(2)+60, x128(4) + 64, 0);
 	decoration("coffeemachine.png", 32, 64, x128(2) - 35, x128(4), 0);
-	decoration("Crate1.png", 40, 40, x128(2) - 35, x128(-5), 0);
-	decoration("Crate1.png", 40, 40, x128(2), x128(-5), 0);
-	decoration("Crate1.png", 40, 40, x128(2) - 35, x128(-5) + 35, 0);
-	decoration("Crate2.png", 40, 40, x128(4) + 15, x128(-3) + 64, 0);
-	decoration("Crate2.png", 40, 40, x128(4) + 35, x128(-3) + 35, 0);
-	decoration("Crate2.png", 40, 40, x128(4), x128(-3) + 35, 0);
+	//decoration("Crate1.png", 40, 40, x128(2) - 35, x128(-5), 0);
+	//decoration("Crate1.png", 40, 40, x128(2), x128(-5), 0);
+	//decoration("Crate1.png", 40, 40, x128(2) - 35, x128(-5) + 35, 0);
+	//decoration("Crate2.png", 40, 40, x128(4) + 15, x128(-3) + 64, 0);
+	//decoration("Crate2.png", 40, 40, x128(4) + 35, x128(-3) + 35, 0);
+	//decoration("Crate2.png", 40, 40, x128(4), x128(-3) + 35, 0);
 	decoration("Egg1.png", 40, 40, x128(2) + 35, x128(8), 0);
 	decoration("Egg2.png", 40, 40, x128(1) + 64, x128(6)+35, 0);
 	decoration("Egg3.png", 40, 40, x128(4) + 35, x128(8), 0);
@@ -778,7 +778,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(x128(2)), float32(x128(8)));
+		tempDef.position.Set(float32(x128(0)), float32(x128(0)));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -3307,7 +3307,7 @@ void PhysicsPlayground::Update()
 		ECS::GetComponent<Sprite>(sScreen).SetTransparency(1.f);
 	}
 	*/
-	
+
 	if (showEndScreen) {
 		player.SetPosition(b2Vec2(0, 0));
 		ECS::GetComponent<Sprite>(eScreen).SetTransparency(1.f);
