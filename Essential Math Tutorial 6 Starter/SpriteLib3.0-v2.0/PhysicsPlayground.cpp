@@ -44,7 +44,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		std::string fileName = "startScreen.jpg";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 520, 298);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 535, 300);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 100.f));
 	}
 
@@ -4061,25 +4061,25 @@ void PhysicsPlayground::KeyboardHold()
 
 	if (Input::GetKey(Key::W))
 	{
-		vel.y += 10.f * speed * Timer::deltaTime;
+		vel.y += 10.f * Timer::deltaTime;
 		//vel += b2Vec2(0.f, 8.f * Timer::deltaTime);
 	}
 	if (Input::GetKey(Key::S))
 	{
-		vel.y += 10.f * speed * -Timer::deltaTime;
+		vel.y += 10.f * -Timer::deltaTime;
 		//vel += b2Vec2(0.f, -8.f * Timer::deltaTime);
 	}
 
 	if (Input::GetKey(Key::A))
 	{
-		vel.x += 10.f * speed * -Timer::deltaTime;
+		vel.x += 10.f * -Timer::deltaTime;
 		//std::string fileName = "left.png";
 		//playerSpr.LoadSprite(fileName, 32, 32);
 		//vel += b2Vec2(-8.f * Timer::deltaTime, 0.f);
 	}
 	if (Input::GetKey(Key::D))
 	{
-		vel.x += 10.f * speed * Timer::deltaTime;
+		vel.x += 10.f * Timer::deltaTime;
 		//std::string fileName = "right.png";
 		//playerSpr.LoadSprite(fileName, 32, 32);
 		//vel += b2Vec2(8.f * Timer::deltaTime, 0.f);

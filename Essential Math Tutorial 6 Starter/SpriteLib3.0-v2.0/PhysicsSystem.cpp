@@ -148,8 +148,8 @@ void PhysicsSystem::Run(b2World & world)
 	//this simulates the physics algorithms at discrete points in time
 	//we need to give it iterations for the velocity and position, along with
 	//our timestep
-	int32 velocityIterations = 2;//8
-	int32 positionIterations = 1;//3
+	int32 velocityIterations = 8;//8
+	int32 positionIterations = 3;//3
 
 	//steps through the world
 	world.Step(timeStep, velocityIterations, positionIterations);
