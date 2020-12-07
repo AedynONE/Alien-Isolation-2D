@@ -77,6 +77,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	decoration("Egg1.png", 40, 40, x128(2) + 35, x128(8), 0);
 	decoration("Egg2.png", 40, 40, x128(1) + 64, x128(6)+35, 0);
 	decoration("Egg3.png", 40, 40, x128(4) + 35, x128(8), 0);
+	decoration("Table.png", 64, 64, x128(10), x128(-6), 0);
+	decoration("Table.png", 64, 64, x128(10), x128(-7), 0);
+	decoration("Table.png", 64, 64, x128(10), x128(-8), 0);
 
 	//Doors
 	{
@@ -778,7 +781,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(x128(0)), float32(x128(0)));
+		tempDef.position.Set(float32(x128(10)), float32(x128(-7)));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
