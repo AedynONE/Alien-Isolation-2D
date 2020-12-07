@@ -21,9 +21,9 @@ char mapEditor[24][24] = {
 {'#', '#', '#', '#', '#', '#', '.', '#', '#', '.', '.', '.', '.', '.', '.', '.', '.', '.', '#', '#', '.', '#', '#', '#'},
 {'#', '#', '#', '#', '#', '.', '.', '.', '#', '.', '.', '.', '.', '.', '.', '.', '.', '.', '#', '.', '.', '.', '#', '#'},
 {'#', '#', '#', '#', '#', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '#', '#', '#', '.', '.', '.', '.', '.', '#'},
-{'#', '#', '#', '#', '#', '.', '.', '.', '#', '#', '#', '.', '.', '.', '.', '#', '#', '#', '#', '.', '.', '.', '#', '#'},
+{'#', '#', '#', '#', '#', '.', '.', '.', '#', '#', '#', '#', '.', '.', '.', '#', '#', '#', '#', '.', '.', '.', '#', '#'},
 {'#', '#', '#', '.', '#', '#', '.', '#', '#', '#', '#', '.', '.', '.', '.', '#', '.', '#', '#', '#', '.', '#', '#', '#'},
-{'#', '.', '.', '.', '.', '.', '.', '#', '#', '#', '#', '.', '.', '.', '.', '#', '.', '#', '#', '.', '.', '.', '#', '#'},
+{'#', '.', '.', '.', '.', '.', '.', '#', '#', '#', '#', '.', '#', '.', '.', '#', '.', '#', '#', '.', '.', '.', '#', '#'},
 {'#', '#', '#', '.', '#', '.', '#', '#', '#', '#', '#', '#', '.', '.', '.', '.', '.', '.', '.', '.', '.', '.', '#', '#'},
 {'#', '#', '#', '#', '#', '#', '.', '#', '#', '.', '.', '.', '.', '.', '.', '#', '.', '#', '#', '.', '.', '.', '#', '#'},
 {'#', '#', '#', '#', '#', '.', '.', '.', '#', '.', '.', '#', '.', '.', '.', '#', '.', '#', '#', '.', '.', '.', '#', '#'},
@@ -142,7 +142,9 @@ public:
 	//Setters
 	void makeClosed()
 	{
-		type = 'X';
+
+			type = 'X';
+		
 	}
 
 	void makeOpen()
@@ -275,7 +277,7 @@ int f(node p1)
 }
 
 //Generates the AI grid
-void makeGrid(int playerX, int playerY)
+void makeGrid(int playerX, int playerY, int alienX, int alienY)
 {
 	for (int i = 0; i < gWidth; i++)
 	{
@@ -291,10 +293,17 @@ void makeGrid(int playerX, int playerY)
 		}
 	}
 
-	grid[playerY][playerX].makeStart();
-	closedSet[closedCount] = grid[playerY][playerX];
-	startRow = playerY;
-	startCol = playerX;
+	grid[alienY][alienX].makeStart();
+	closedSet[closedCount] = grid[alienY][alienX];
+	startRow = alienY;
+	startCol = alienX;
+
+
+	closedSet[closedCount].makeClosed();
+	closedCount++;
+	grid[playerY][playerX].makeEnd();
+	endRow = playerY;
+	endCol = playerX;
 
 }
 
@@ -312,6 +321,30 @@ void drawGrid()
 
 
 
+}
+
+int getPathRow(int count)
+{
+
+	return pathSet[count].row;
+
+}
+
+int getPathCol(int count)
+{
+
+	return pathSet[count].col;
+
+}
+
+int getPathcount()
+{
+	return pathCount;
+}
+
+void resetPathcount()
+{
+	pathCount = 0;
 }
 
 //Compares nodes in the open set, returns the one with the lowest f cost.
@@ -401,9 +434,7 @@ void CalculatePath()
 
 	//Basic Setup
 
-	closedSet[closedCount].makeClosed();
-	closedCount++;
-	grid[endRow][endCol].makeEnd();
+
 	
 		//Algorithm implimentation
 		for (int p = 0; p < closedCount; p++)
@@ -431,9 +462,12 @@ void CalculatePath()
 
 			}
 			//Add to closed set
-			closedSet[closedCount] = compareOpen(); 
-			grid[closedSet[closedCount].row][closedSet[closedCount].col].makeClosed();
-			
+			cout << "\nCC:" << closedCount;
+			if (closedCount > 0)
+			{
+				closedSet[closedCount] = compareOpen();
+				grid[closedSet[closedCount].row][closedSet[closedCount].col].makeClosed();
+			}
 
 			closedCount++;
 			cout << "\n";
@@ -443,7 +477,7 @@ void CalculatePath()
 		//drawGrid();
 		closedCount = 0;
 		openCount = 0;
-		pathCount = 0;
+		//pathCount = 0;
 
 		//fill_n(closedSet, 576, 0);
 		//fill_n(openSet, 576, 0);
