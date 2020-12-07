@@ -27,6 +27,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
 
+	aniClock = clock();
+
 	//Sets up aspect ratio for the camera
 	float aspectRatio = windowWidth / windowHeight;
 
@@ -40,7 +42,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		std::string fileName = "startScreen.jpg";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 520, 298);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 101.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 100.f));
 	}
 
 	{
@@ -50,10 +52,131 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 
-		std::string fileName = "endScreen.jpg";
+		std::string fileName = "";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 520, 298);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 101.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 100.f));
 		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+	}
+
+
+	//Death Animation
+	{
+		{
+			auto entity = ECS::CreateEntity();
+			dan1 = entity;
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "Death/da1.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 520, 298);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 100.f));
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		}
+
+		{
+			auto entity = ECS::CreateEntity();
+			dan2 = entity;
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "Death/da2.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 520, 298);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 100.f));
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		}
+
+		{
+			auto entity = ECS::CreateEntity();
+			dan3 = entity;
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "Death/da3.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 520, 298);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 100.f));
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		}
+
+		{
+			auto entity = ECS::CreateEntity();
+			dan4 = entity;
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "Death/da4.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 520, 298);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 100.f));
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		}
+
+		{
+			auto entity = ECS::CreateEntity();
+			dan5 = entity;
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "Death/da5.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 520, 298);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 100.f));
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		}
+
+		{
+			auto entity = ECS::CreateEntity();
+			dan6 = entity;
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "Death/da6.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 520, 298);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 100.f));
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		}
+
+		{
+			auto entity = ECS::CreateEntity();
+			dan7 = entity;
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "Death/da7.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 520, 298);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 100.f));
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		}
+
+		{
+			auto entity = ECS::CreateEntity();
+			dan8 = entity;
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "Death/da8.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 520, 298);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 100.f));
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		}
+
+		{
+			auto entity = ECS::CreateEntity();
+			dan9 = entity;
+
+			ECS::AttachComponent<Sprite>(entity);
+			ECS::AttachComponent<Transform>(entity);
+
+			std::string fileName = "Death/da9.png";
+			ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 520, 298);
+			ECS::GetComponent<Transform>(entity).SetPosition(vec3((0), (0), 100.f));
+			ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		}
 	}
 
 	decoration("Back facing bed.png", 64, 64, x128(0), -128, 0);
@@ -96,7 +219,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 					std::string fileName = "Doors/Yellow Door FC.png";
 					ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
-					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 2.f));
+					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 6.f));
 				}
 
 				//Creates entity
@@ -142,7 +265,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 					std::string fileName = "Doors/Yellow Door FC.png";
 					ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
-					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 2.f));
+					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 6.f));
 				}
 
 				//Creates entity
@@ -191,7 +314,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 				//Sets up components
 				std::string fileName = "Doors/Yellow Door S.png";
 				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 7, 64);
-				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 2.f));
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 6.f));
 
 				auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 				auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -226,7 +349,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 					std::string fileName = "Doors/Green Door FC.png";
 					ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
-					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 2.f));
+					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 6.f));
 				}
 
 				//Creates entity
@@ -272,7 +395,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 					std::string fileName = "Doors/Green Door FC.png";
 					ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
-					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 2.f));
+					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 6.f));
 				}
 
 				//Creates entity
@@ -323,7 +446,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 					std::string fileName = "Doors/Blue Door FC.png";
 					ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
-					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 2.f));
+					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 6.f));
 				}
 
 				//Creates entity
@@ -369,7 +492,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 					std::string fileName = "Doors/Blue Door FC.png";
 					ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
-					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 2.f));
+					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 6.f));
 				}
 
 				//Creates entity
@@ -415,7 +538,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 					std::string fileName = "Doors/Blue Door FC.png";
 					ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
-					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 2.f));
+					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 6.f));
 				}
 
 				//Creates entity
@@ -464,7 +587,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 				//Sets up components
 				std::string fileName = "Doors/Blue Door S.png";
 				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 7, 64);
-				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 2.f));
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 6.f));
 
 				auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 				auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -499,7 +622,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 				//Sets up components
 				std::string fileName = "Doors/Blue Door S.png";
 				ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 7, 64);
-				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 2.f));
+				ECS::GetComponent<Transform>(entity).SetPosition(vec3(posx, posy, 6.f));
 
 				auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 				auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -535,7 +658,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 					std::string fileName = "Doors/Final_Door.png";
 					ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 128, 96);
-					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 2.f));
+					ECS::GetComponent<Transform>(entity).SetPosition(vec3((posx), (posy + 13), 6.f));
 				}
 
 				//Creates entity
@@ -563,7 +686,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 				tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-				tempPhsBody = PhysicsBody(entity, tempBody, float(64), float(7), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS, 1.f, 1.f);
+				tempPhsBody = PhysicsBody(entity, tempBody, float(128), float(7), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS, 1.f, 1.f);
 				tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 				tempPhsBody.SetRotationAngleDeg(0);
 			}
@@ -3260,6 +3383,36 @@ void ConeMovement(int visionCone)
 
 }
 
+void PhysicsPlayground::showDeathAni() {
+	
+	std::cout << "showDeathAni called!";
+//	Sleep(100);
+	ECS::GetComponent<Sprite>(dan1).SetTransparency(1.f);
+	Sleep(200);
+	ECS::GetComponent<Sprite>(dan1).SetTransparency(0.f);
+	ECS::GetComponent<Sprite>(dan2).SetTransparency(1.f);
+	Sleep(200);
+	ECS::GetComponent<Sprite>(dan2).SetTransparency(0.f);
+	ECS::GetComponent<Sprite>(dan3).SetTransparency(1.f);
+	Sleep(200);
+	ECS::GetComponent<Sprite>(dan3).SetTransparency(0.f);
+	ECS::GetComponent<Sprite>(dan4).SetTransparency(1.f);
+	Sleep(200);
+	ECS::GetComponent<Sprite>(dan4).SetTransparency(0.f);
+	ECS::GetComponent<Sprite>(dan5).SetTransparency(1.f);
+	Sleep(200);
+	ECS::GetComponent<Sprite>(dan5).SetTransparency(0.f);
+	ECS::GetComponent<Sprite>(dan6).SetTransparency(1.f);
+	Sleep(200);
+	ECS::GetComponent<Sprite>(dan6).SetTransparency(0.f);
+	ECS::GetComponent<Sprite>(dan7).SetTransparency(1.f);
+	Sleep(200);
+	ECS::GetComponent<Sprite>(dan7).SetTransparency(0.f);
+	ECS::GetComponent<Sprite>(dan8).SetTransparency(1.f);
+	Sleep(200);
+	ECS::GetComponent<Sprite>(dan8).SetTransparency(0.f);
+	ECS::GetComponent<Sprite>(dan9).SetTransparency(1.f);
+}
 
 void PhysicsPlayground::Update()
 {
@@ -3290,8 +3443,70 @@ void PhysicsPlayground::Update()
 
 	int distance = (((alix - plx)^2) + ((aliy - ply)^2));
 	distance = sqrt(distance);
-	/*
-	if (distance < 4) {
+
+	{
+		std::string filename;
+
+		aniClockDif = ((clock() - aniClock) / (double)(CLOCKS_PER_SEC));
+
+		double aniSpeed = 0.2;
+
+		if (aniClockDif < aniSpeed && aniClock > 0) {
+			if (ali.GetVelocity().x >= 1 || ali.GetVelocity().y >= 1) {
+				filename = "E/alienrunanimframe4.png";
+			}
+			else if (ali.GetVelocity().x <= -1 || ali.GetVelocity().y <= -1) {
+				filename = "E/alienrunanimframe4l.png";
+			}
+			else {
+				filename = "AlienIdle.png";
+			}
+		}
+		else if (aniClockDif < (2 * aniSpeed) && aniClock > (2 * aniSpeed) - aniSpeed) {
+			if (ali.GetVelocity().x >= 1 || ali.GetVelocity().y >= 1) {
+				filename = "E/alienrunanimframe3.png";
+			}
+			else if (ali.GetVelocity().x <= -1 || ali.GetVelocity().y <= -1) {
+				filename = "E/alienrunanimframe3l.png";
+			}
+			else {
+				filename = "AlienIdle.png";
+			}
+		}
+		else if (aniClockDif < (3 * aniSpeed) && aniClock > (3 * aniSpeed) - aniSpeed) {
+			if (ali.GetVelocity().x >= 1 || ali.GetVelocity().y >= 1) {
+				filename = "E/alienrunanimframe2.png";
+			}
+			else if (ali.GetVelocity().x <= -1 || ali.GetVelocity().y <= -1) {
+				filename = "E/alienrunanimframe2l.png";
+			}
+			else {
+				filename = "AlienIdle.png";
+			}
+		}
+		else if (aniClockDif < (4 * aniSpeed) && aniClock > (4 * aniSpeed) - aniSpeed) {
+			if (ali.GetVelocity().x >= 1 || ali.GetVelocity().y >= 1) {
+				filename = "E/alienrunanimframe1.png";
+			}
+			else if (ali.GetVelocity().x <= -1 || ali.GetVelocity().y <= -1) {
+				filename = "E/alienrunanimframe1l.png";
+			}
+			else {
+				filename = "AlienIdle.png";
+			}
+		}
+
+		if (aniClockDif > (3.8* aniSpeed)) {
+			aniClock = clock();
+		}
+
+		ECS::GetComponent<Sprite>(alienSpr).LoadSprite(filename, 64, 64);
+		std::cout << "File: " << filename << " Time: " << aniClockDif << std::endl;
+		//t -= 1;
+		//if (t <= 0) t = 4;
+	}
+
+	if (distance < 6) {
 		showEndScreen = true;
 	}
 	else {
@@ -3310,8 +3525,117 @@ void PhysicsPlayground::Update()
 
 	if (showEndScreen) {
 		player.SetPosition(b2Vec2(0, 0));
-		ECS::GetComponent<Sprite>(eScreen).SetTransparency(1.f);
+		timeDeff = (clock() - startTime) / (double)(CLOCKS_PER_SEC);
+		//ECS::GetComponent<Sprite>(eScreen).SetTransparency(1.f);
 		std::cout << "GAME OVER" << std::endl << "INSERT 1 TOKEN TO PLAY AGAIN" << std::endl;
+		if (showingDeathAni == false) {
+			showingDeathAni = true;
+			startTime = clock();
+		}
+
+		if (showingDeathAni == true) {
+			if (timeDeff < 0.4 && timeDeff > 0.2) {
+				ECS::GetComponent<Sprite>(dan1).SetTransparency(1.f);
+				ECS::GetComponent<Sprite>(dan2).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan3).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan4).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan5).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan6).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan7).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan8).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan9).SetTransparency(0.f);
+			}
+			else if (timeDeff < 0.6 && timeDeff > 0.4) {
+				ECS::GetComponent<Sprite>(dan1).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan2).SetTransparency(1.f);
+				ECS::GetComponent<Sprite>(dan3).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan4).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan5).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan6).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan7).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan8).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan9).SetTransparency(0.f);
+
+			}
+			else if (timeDeff < 0.8 && timeDeff > 0.6) {
+				ECS::GetComponent<Sprite>(dan1).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan2).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan3).SetTransparency(1.f);
+				ECS::GetComponent<Sprite>(dan4).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan5).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan6).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan7).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan8).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan9).SetTransparency(0.f);
+			}
+			else if (timeDeff < 1.0 && timeDeff > 0.8) {
+				ECS::GetComponent<Sprite>(dan1).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan2).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan3).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan4).SetTransparency(1.f);
+				ECS::GetComponent<Sprite>(dan5).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan6).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan7).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan8).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan9).SetTransparency(0.f);
+			}
+			else if (timeDeff < 1.2 && timeDeff > 1.0) {
+				ECS::GetComponent<Sprite>(dan1).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan2).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan3).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan4).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan5).SetTransparency(1.f);
+				ECS::GetComponent<Sprite>(dan6).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan7).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan8).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan9).SetTransparency(0.f);
+			}
+			else if (timeDeff < 1.4 && timeDeff > 1.2) {
+				ECS::GetComponent<Sprite>(dan1).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan2).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan3).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan4).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan5).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan6).SetTransparency(1.f);
+				ECS::GetComponent<Sprite>(dan7).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan8).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan9).SetTransparency(0.f);
+			}
+			else if (timeDeff < 1.6 && timeDeff > 1.4) {
+				ECS::GetComponent<Sprite>(dan1).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan2).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan3).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan4).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan5).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan6).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan7).SetTransparency(1.f);
+				ECS::GetComponent<Sprite>(dan8).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan9).SetTransparency(0.f);
+			}
+			else if (timeDeff < 1.8 && timeDeff > 1.6) {
+				ECS::GetComponent<Sprite>(dan1).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan2).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan3).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan4).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan5).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan6).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan7).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan8).SetTransparency(1.f);
+				ECS::GetComponent<Sprite>(dan9).SetTransparency(0.f);
+			}
+			else if (timeDeff < 2.0 && timeDeff > 1.8) {
+				ECS::GetComponent<Sprite>(dan1).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan2).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan3).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan4).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan5).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan6).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan7).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan8).SetTransparency(0.f);
+				ECS::GetComponent<Sprite>(dan9).SetTransparency(1.f);
+			}
+		}
+
 	}
 	//else {
 	//	ECS::GetComponent<Sprite>(sScreen).SetTransparency(0.f);
@@ -3326,7 +3650,7 @@ void PhysicsPlayground::Update()
 		std::cout << "X: " << player.GetPosition().x << " Y: " << player.GetPosition().y << std::endl;
 	}
 
-	if (GetKeyState(Key::E) != 0) {
+	if (Input::GetKey(Key::E) != 0) {
 		//cards
 		{
 			if (player.GetPosition().x < (1787 + 75) && player.GetPosition().x > (1787 - 75) && player.GetPosition().y < (598 + 75) && player.GetPosition().y > (598 - 75) && hasRC == false) {
@@ -3472,7 +3796,10 @@ void PhysicsPlayground::Update()
 
 		}
 	}
-	MoveTo(alien);
+	if (showEndScreen == false && hideStartScreen == true) {
+		MoveTo(alien);
+	}
+	
 }
 
 void PhysicsPlayground::KeyboardHold()
