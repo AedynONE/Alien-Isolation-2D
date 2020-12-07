@@ -71,7 +71,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "BeachBall.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 5, 5);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 4.f));
 	}
 
 
@@ -93,7 +93,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "Cone.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 800, 800);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
 
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
@@ -131,10 +131,10 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 
 		//Set up the components
-		std::string fileName = "layer1.png";
+		std::string fileName = "M1_L1A.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1088, 192, 0.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1088, 192, 3.f));
 	}
 
 	//Setup background2
@@ -150,7 +150,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Set up the components
 		std::string fileName = "M1_L2G.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 4096.f, 4096.f);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0.8f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1088.f, 192.f, 20.f));
 	}
 	//Setup Overlay
@@ -224,7 +224,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 32, 32, &ECS::GetComponent<Sprite>(entity),
 			&ECS::GetComponent<AnimationController>(entity), &ECS::GetComponent<Transform>(entity));
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 5.f));
 
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
@@ -303,7 +303,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up components
 		std::string fileName = "corpse1.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 32);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1660.f, 130.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1660.f, 130.f, 4.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -334,7 +334,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up components
 		std::string fileName = "phatterminal.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 36);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1663.f, 156.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1663.f, 156.f, 4.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -363,7 +363,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up the components
 		std::string fileName = "corpse1head.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 18, 16);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1600.f, 120.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(1600.f, 120.f, 4.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -400,7 +400,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up components
 		std::string fileName = "yellowterminal.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(256.f, 78.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(256.f, 78.f, 4.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -431,7 +431,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up components
 		std::string fileName = "blueterminal.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(256.f, 78.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(256.f, 78.f, 4.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -462,7 +462,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up components
 		std::string fileName = "redterminal.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(256.f, 78.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(256.f, 78.f, 4.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -493,7 +493,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up components
 		std::string fileName = "greenterminal.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 64);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(256.f, 78.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(256.f, 78.f, 4.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -524,7 +524,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up components
 		std::string fileName = "keycards_yellow.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 16, 16);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(292.f, -124.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(292.f, -124.f, 4.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -555,7 +555,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up components
 		std::string fileName = "keycards_blue.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 16, 16);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(380.f, 400.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(380.f, 400.f, 4.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -586,7 +586,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up components
 		std::string fileName = "keycards_red.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 16, 16);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(292.f, -124.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(292.f, -124.f, 4.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -617,7 +617,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Sets up components
 		std::string fileName = "keycards_green.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 16, 16);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(292.f, -124.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(292.f, -124.f, 4.f));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
@@ -2435,7 +2435,7 @@ void PhysicsPlayground::KeyboardHold()
 	float speed = 200.f;
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
 
-	//aliSpr.SetPosition(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y, 2.f);
+	aliSpr.SetPosition(ali.GetBody()->GetPosition().x, ali.GetBody()->GetPosition().y, 4.f);
 
 	//if ((vel.x > 1 || vel.x < -1) && (vel.y > 1 || vel.y < -1)) {
 	//	//isMoving = true;
