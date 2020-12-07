@@ -68,8 +68,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	decoration("Stacher.png", 60, 60, x128(16), x128(0), 0);
 	decoration("Stacher.png", 60, 60, x128(16), x128(0) - 30, 0);
 	decoration("coffeemachine.png", 32, 64, x128(9) - 32, x128(-8) + 32, 0);
-	decoration("Couch.png", 40, 40, x128(4) - 60, x128(4) + 64, 0);
-	decoration("Couch.png", 40, 40, x128(2)+60, x128(4) + 64, 0);
+	decoration("Couch.png", 64, 64, x128(4) - 60, x128(4) + 64, 0);
+	decoration("Couch.png", 64, 64, x128(2)+60, x128(4) + 64, 0);
 	decoration("coffeemachine.png", 32, 64, x128(2) - 35, x128(4), 0);
 	//decoration("Crate1.png", 40, 40, x128(2) - 35, x128(-5), 0);
 	//decoration("Crate1.png", 40, 40, x128(2), x128(-5), 0);
